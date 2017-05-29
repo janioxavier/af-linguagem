@@ -1,0 +1,10 @@
+State 56
+
+   23 var: data_type .
+   63 fact: data_type .
+
+    ENDLINE   reduce using rule 23 (var)
+    ENDLINE   [reduce using rule 63 (fact)]
+    CONTSTMT  reduce using rule 23 (var)
+    CONTSTMT  [reduce using rule 63 (fact)]
+    $default  reduce using rule 63 (fact)

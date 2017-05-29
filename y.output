@@ -1,0 +1,1393 @@
+Terminals unused in grammar
+
+   SEMICOLON
+   DOT
+   ELIF
+   IF
+   ELSE
+   WHILE
+   FOR
+   SKIP
+   IN
+   TRUE
+   FALSE
+   BREAK
+   SET
+   ADDPERC
+   SUBPERC
+   ADDEQ
+   SUBEQ
+   DIVERQ
+   MULTEQ
+   DIVMEQ
+   MAIN
+
+
+State 56 conflicts: 2 reduce/reduce
+
+
+Grammar
+
+    0 $accept: prog $end
+
+    1 prog: stmt_list
+
+    2 stmt_list: stmt
+    3          | stmt stmt_list
+
+    4 stmt: assign end_stmt
+    5     | definition end_stmt
+    6     | decl_var end_stmt
+
+    7 end_stmt: ENDLINE
+    8         | CONTSTMT end_stmt
+
+    9 assign: lhs ASSIGN rhs
+
+   10 lhs: decl_var
+   11    | var
+
+   12 rhs: var
+   13    | expr
+   14    | call_func
+
+   15 call_func: ID LPAREN RPAREN
+   16          | ID LPAREN data_types RPAREN
+
+   17 decl_var: decl_data_type ID
+
+   18 decl_data_type: DECINT
+   19               | DECREAL
+   20               | DECSTR
+   21               | TYPE ID
+   22               | ID
+
+   23 var: data_type
+
+   24 data_type: prim_type
+   25          | abs_type
+
+   26 prim_type: INT
+   27          | REAL
+   28          | STR
+   29          | DICT ASSIGN dict
+   30          | LIST ASSIGN list
+   31          | NIL
+
+   32 abs_type: TYPE ID
+
+   33 dict: LBRACK key_value RBRACK
+
+   34 key_value: data_type COLON data_type
+   35          | data_type COLON data_type COMMA key_value
+
+   36 list: LBRACE data_types RBRACE
+
+   37 data_types: data_type
+   38           | data_type COMMA data_types
+
+   39 definition: type_def
+   40           | func_def
+
+   41 type_def: TYPE ID COLON ENDLINE stmt_list END
+
+   42 func_def: DEF ID LPAREN data_types RPAREN COLON ENDLINE stmt_list END
+   43         | DEF ID LPAREN data_types RPAREN COLON ENDLINE stmt_list RETURN data_type END
+
+   44 expr: expr opbi1 term
+   45     | term
+
+   46 opbi1: PLUS
+   47      | MINUS
+   48      | LT
+   49      | LE
+   50      | GE
+   51      | GT
+   52      | EQ
+   53      | AND
+   54      | OR
+   55      | DIVM
+   56      | NEQ
+
+   57 opbi2: DIV
+   58      | TIMES
+
+   59 term: term opbi2 fact
+   60     | fact
+
+   61 fact: LPAREN expr RPAREN
+   62     | unaop data_type
+   63     | data_type
+
+   64 unaop: NOT
+   65      | PERC
+   66      | MINUS
+
+
+Terminals, with rules where they appear
+
+$end (0) 0
+error (256)
+INT (258) 26
+REAL (259) 27
+STR (260) 28
+TYPE (261) 21 32 41
+ID (262) 15 16 17 21 22 32 41 42 43
+COMMA (263) 35 38
+COLON (264) 34 35 41 42 43
+SEMICOLON (265)
+LPAREN (266) 15 16 42 43 61
+RPAREN (267) 15 16 42 43 61
+LBRACE (268) 36
+RBRACE (269) 36
+LBRACK (270) 33
+RBRACK (271) 33
+DOT (272)
+PLUS (273) 46
+MINUS (274) 47 66
+TIMES (275) 58
+DIV (276) 57
+NEQ (277) 56
+RETURN (278) 43
+EQ (279) 52
+LT (280) 48
+LE (281) 49
+GT (282) 51
+GE (283) 50
+AND (284) 53
+OR (285) 54
+ASSIGN (286) 9 29 30
+ELIF (287)
+IF (288)
+ELSE (289)
+WHILE (290)
+FOR (291)
+SKIP (292)
+IN (293)
+NOT (294) 64
+NIL (295) 31
+DEF (296) 42 43
+TRUE (297)
+FALSE (298)
+BREAK (299)
+SET (300)
+LIST (301) 30
+DIVM (302) 55
+PERC (303) 65
+ADDPERC (304)
+SUBPERC (305)
+ADDEQ (306)
+SUBEQ (307)
+DIVERQ (308)
+MULTEQ (309)
+DIVMEQ (310)
+DICT (311) 29
+MAIN (312)
+END (313) 41 42 43
+ENDLINE (314) 7 41 42 43
+CONTSTMT (315) 8
+DECINT (316) 18
+DECREAL (317) 19
+DECSTR (318) 20
+
+
+Nonterminals, with rules where they appear
+
+$accept (64)
+    on left: 0
+prog (65)
+    on left: 1, on right: 0
+stmt_list (66)
+    on left: 2 3, on right: 1 3 41 42 43
+stmt (67)
+    on left: 4 5 6, on right: 2 3
+end_stmt (68)
+    on left: 7 8, on right: 4 5 6 8
+assign (69)
+    on left: 9, on right: 4
+lhs (70)
+    on left: 10 11, on right: 9
+rhs (71)
+    on left: 12 13 14, on right: 9
+call_func (72)
+    on left: 15 16, on right: 14
+decl_var (73)
+    on left: 17, on right: 6 10
+decl_data_type (74)
+    on left: 18 19 20 21 22, on right: 17
+var (75)
+    on left: 23, on right: 11 12
+data_type (76)
+    on left: 24 25, on right: 23 34 35 37 38 43 62 63
+prim_type (77)
+    on left: 26 27 28 29 30 31, on right: 24
+abs_type (78)
+    on left: 32, on right: 25
+dict (79)
+    on left: 33, on right: 29
+key_value (80)
+    on left: 34 35, on right: 33 35
+list (81)
+    on left: 36, on right: 30
+data_types (82)
+    on left: 37 38, on right: 16 36 38 42 43
+definition (83)
+    on left: 39 40, on right: 5
+type_def (84)
+    on left: 41, on right: 39
+func_def (85)
+    on left: 42 43, on right: 40
+expr (86)
+    on left: 44 45, on right: 13 44 61
+opbi1 (87)
+    on left: 46 47 48 49 50 51 52 53 54 55 56, on right: 44
+opbi2 (88)
+    on left: 57 58, on right: 59
+term (89)
+    on left: 59 60, on right: 44 45 59
+fact (90)
+    on left: 61 62 63, on right: 59 60
+unaop (91)
+    on left: 64 65 66, on right: 62
+
+
+State 0
+
+    0 $accept: . prog $end
+
+    INT      shift, and go to state 1
+    REAL     shift, and go to state 2
+    STR      shift, and go to state 3
+    TYPE     shift, and go to state 4
+    ID       shift, and go to state 5
+    NIL      shift, and go to state 6
+    DEF      shift, and go to state 7
+    LIST     shift, and go to state 8
+    DICT     shift, and go to state 9
+    DECINT   shift, and go to state 10
+    DECREAL  shift, and go to state 11
+    DECSTR   shift, and go to state 12
+
+    prog            go to state 13
+    stmt_list       go to state 14
+    stmt            go to state 15
+    assign          go to state 16
+    lhs             go to state 17
+    decl_var        go to state 18
+    decl_data_type  go to state 19
+    var             go to state 20
+    data_type       go to state 21
+    prim_type       go to state 22
+    abs_type        go to state 23
+    definition      go to state 24
+    type_def        go to state 25
+    func_def        go to state 26
+
+
+State 1
+
+   26 prim_type: INT .
+
+    $default  reduce using rule 26 (prim_type)
+
+
+State 2
+
+   27 prim_type: REAL .
+
+    $default  reduce using rule 27 (prim_type)
+
+
+State 3
+
+   28 prim_type: STR .
+
+    $default  reduce using rule 28 (prim_type)
+
+
+State 4
+
+   21 decl_data_type: TYPE . ID
+   32 abs_type: TYPE . ID
+   41 type_def: TYPE . ID COLON ENDLINE stmt_list END
+
+    ID  shift, and go to state 27
+
+
+State 5
+
+   22 decl_data_type: ID .
+
+    $default  reduce using rule 22 (decl_data_type)
+
+
+State 6
+
+   31 prim_type: NIL .
+
+    $default  reduce using rule 31 (prim_type)
+
+
+State 7
+
+   42 func_def: DEF . ID LPAREN data_types RPAREN COLON ENDLINE stmt_list END
+   43         | DEF . ID LPAREN data_types RPAREN COLON ENDLINE stmt_list RETURN data_type END
+
+    ID  shift, and go to state 28
+
+
+State 8
+
+   30 prim_type: LIST . ASSIGN list
+
+    ASSIGN  shift, and go to state 29
+
+
+State 9
+
+   29 prim_type: DICT . ASSIGN dict
+
+    ASSIGN  shift, and go to state 30
+
+
+State 10
+
+   18 decl_data_type: DECINT .
+
+    $default  reduce using rule 18 (decl_data_type)
+
+
+State 11
+
+   19 decl_data_type: DECREAL .
+
+    $default  reduce using rule 19 (decl_data_type)
+
+
+State 12
+
+   20 decl_data_type: DECSTR .
+
+    $default  reduce using rule 20 (decl_data_type)
+
+
+State 13
+
+    0 $accept: prog . $end
+
+    $end  shift, and go to state 31
+
+
+State 14
+
+    1 prog: stmt_list .
+
+    $default  reduce using rule 1 (prog)
+
+
+State 15
+
+    2 stmt_list: stmt .
+    3          | stmt . stmt_list
+
+    INT      shift, and go to state 1
+    REAL     shift, and go to state 2
+    STR      shift, and go to state 3
+    TYPE     shift, and go to state 4
+    ID       shift, and go to state 5
+    NIL      shift, and go to state 6
+    DEF      shift, and go to state 7
+    LIST     shift, and go to state 8
+    DICT     shift, and go to state 9
+    DECINT   shift, and go to state 10
+    DECREAL  shift, and go to state 11
+    DECSTR   shift, and go to state 12
+
+    $default  reduce using rule 2 (stmt_list)
+
+    stmt_list       go to state 32
+    stmt            go to state 15
+    assign          go to state 16
+    lhs             go to state 17
+    decl_var        go to state 18
+    decl_data_type  go to state 19
+    var             go to state 20
+    data_type       go to state 21
+    prim_type       go to state 22
+    abs_type        go to state 23
+    definition      go to state 24
+    type_def        go to state 25
+    func_def        go to state 26
+
+
+State 16
+
+    4 stmt: assign . end_stmt
+
+    ENDLINE   shift, and go to state 33
+    CONTSTMT  shift, and go to state 34
+
+    end_stmt  go to state 35
+
+
+State 17
+
+    9 assign: lhs . ASSIGN rhs
+
+    ASSIGN  shift, and go to state 36
+
+
+State 18
+
+    6 stmt: decl_var . end_stmt
+   10 lhs: decl_var .
+
+    ENDLINE   shift, and go to state 33
+    CONTSTMT  shift, and go to state 34
+
+    $default  reduce using rule 10 (lhs)
+
+    end_stmt  go to state 37
+
+
+State 19
+
+   17 decl_var: decl_data_type . ID
+
+    ID  shift, and go to state 38
+
+
+State 20
+
+   11 lhs: var .
+
+    $default  reduce using rule 11 (lhs)
+
+
+State 21
+
+   23 var: data_type .
+
+    $default  reduce using rule 23 (var)
+
+
+State 22
+
+   24 data_type: prim_type .
+
+    $default  reduce using rule 24 (data_type)
+
+
+State 23
+
+   25 data_type: abs_type .
+
+    $default  reduce using rule 25 (data_type)
+
+
+State 24
+
+    5 stmt: definition . end_stmt
+
+    ENDLINE   shift, and go to state 33
+    CONTSTMT  shift, and go to state 34
+
+    end_stmt  go to state 39
+
+
+State 25
+
+   39 definition: type_def .
+
+    $default  reduce using rule 39 (definition)
+
+
+State 26
+
+   40 definition: func_def .
+
+    $default  reduce using rule 40 (definition)
+
+
+State 27
+
+   21 decl_data_type: TYPE ID .
+   32 abs_type: TYPE ID .
+   41 type_def: TYPE ID . COLON ENDLINE stmt_list END
+
+    COLON  shift, and go to state 40
+
+    ASSIGN    reduce using rule 32 (abs_type)
+    $default  reduce using rule 21 (decl_data_type)
+
+
+State 28
+
+   42 func_def: DEF ID . LPAREN data_types RPAREN COLON ENDLINE stmt_list END
+   43         | DEF ID . LPAREN data_types RPAREN COLON ENDLINE stmt_list RETURN data_type END
+
+    LPAREN  shift, and go to state 41
+
+
+State 29
+
+   30 prim_type: LIST ASSIGN . list
+
+    LBRACE  shift, and go to state 42
+
+    list  go to state 43
+
+
+State 30
+
+   29 prim_type: DICT ASSIGN . dict
+
+    LBRACK  shift, and go to state 44
+
+    dict  go to state 45
+
+
+State 31
+
+    0 $accept: prog $end .
+
+    $default  accept
+
+
+State 32
+
+    3 stmt_list: stmt stmt_list .
+
+    $default  reduce using rule 3 (stmt_list)
+
+
+State 33
+
+    7 end_stmt: ENDLINE .
+
+    $default  reduce using rule 7 (end_stmt)
+
+
+State 34
+
+    8 end_stmt: CONTSTMT . end_stmt
+
+    ENDLINE   shift, and go to state 33
+    CONTSTMT  shift, and go to state 34
+
+    end_stmt  go to state 46
+
+
+State 35
+
+    4 stmt: assign end_stmt .
+
+    $default  reduce using rule 4 (stmt)
+
+
+State 36
+
+    9 assign: lhs ASSIGN . rhs
+
+    INT     shift, and go to state 1
+    REAL    shift, and go to state 2
+    STR     shift, and go to state 3
+    TYPE    shift, and go to state 47
+    ID      shift, and go to state 48
+    LPAREN  shift, and go to state 49
+    MINUS   shift, and go to state 50
+    NOT     shift, and go to state 51
+    NIL     shift, and go to state 6
+    LIST    shift, and go to state 8
+    PERC    shift, and go to state 52
+    DICT    shift, and go to state 9
+
+    rhs        go to state 53
+    call_func  go to state 54
+    var        go to state 55
+    data_type  go to state 56
+    prim_type  go to state 22
+    abs_type   go to state 23
+    expr       go to state 57
+    term       go to state 58
+    fact       go to state 59
+    unaop      go to state 60
+
+
+State 37
+
+    6 stmt: decl_var end_stmt .
+
+    $default  reduce using rule 6 (stmt)
+
+
+State 38
+
+   17 decl_var: decl_data_type ID .
+
+    $default  reduce using rule 17 (decl_var)
+
+
+State 39
+
+    5 stmt: definition end_stmt .
+
+    $default  reduce using rule 5 (stmt)
+
+
+State 40
+
+   41 type_def: TYPE ID COLON . ENDLINE stmt_list END
+
+    ENDLINE  shift, and go to state 61
+
+
+State 41
+
+   42 func_def: DEF ID LPAREN . data_types RPAREN COLON ENDLINE stmt_list END
+   43         | DEF ID LPAREN . data_types RPAREN COLON ENDLINE stmt_list RETURN data_type END
+
+    INT   shift, and go to state 1
+    REAL  shift, and go to state 2
+    STR   shift, and go to state 3
+    TYPE  shift, and go to state 47
+    NIL   shift, and go to state 6
+    LIST  shift, and go to state 8
+    DICT  shift, and go to state 9
+
+    data_type   go to state 62
+    prim_type   go to state 22
+    abs_type    go to state 23
+    data_types  go to state 63
+
+
+State 42
+
+   36 list: LBRACE . data_types RBRACE
+
+    INT   shift, and go to state 1
+    REAL  shift, and go to state 2
+    STR   shift, and go to state 3
+    TYPE  shift, and go to state 47
+    NIL   shift, and go to state 6
+    LIST  shift, and go to state 8
+    DICT  shift, and go to state 9
+
+    data_type   go to state 62
+    prim_type   go to state 22
+    abs_type    go to state 23
+    data_types  go to state 64
+
+
+State 43
+
+   30 prim_type: LIST ASSIGN list .
+
+    $default  reduce using rule 30 (prim_type)
+
+
+State 44
+
+   33 dict: LBRACK . key_value RBRACK
+
+    INT   shift, and go to state 1
+    REAL  shift, and go to state 2
+    STR   shift, and go to state 3
+    TYPE  shift, and go to state 47
+    NIL   shift, and go to state 6
+    LIST  shift, and go to state 8
+    DICT  shift, and go to state 9
+
+    data_type  go to state 65
+    prim_type  go to state 22
+    abs_type   go to state 23
+    key_value  go to state 66
+
+
+State 45
+
+   29 prim_type: DICT ASSIGN dict .
+
+    $default  reduce using rule 29 (prim_type)
+
+
+State 46
+
+    8 end_stmt: CONTSTMT end_stmt .
+
+    $default  reduce using rule 8 (end_stmt)
+
+
+State 47
+
+   32 abs_type: TYPE . ID
+
+    ID  shift, and go to state 67
+
+
+State 48
+
+   15 call_func: ID . LPAREN RPAREN
+   16          | ID . LPAREN data_types RPAREN
+
+    LPAREN  shift, and go to state 68
+
+
+State 49
+
+   61 fact: LPAREN . expr RPAREN
+
+    INT     shift, and go to state 1
+    REAL    shift, and go to state 2
+    STR     shift, and go to state 3
+    TYPE    shift, and go to state 47
+    LPAREN  shift, and go to state 49
+    MINUS   shift, and go to state 50
+    NOT     shift, and go to state 51
+    NIL     shift, and go to state 6
+    LIST    shift, and go to state 8
+    PERC    shift, and go to state 52
+    DICT    shift, and go to state 9
+
+    data_type  go to state 69
+    prim_type  go to state 22
+    abs_type   go to state 23
+    expr       go to state 70
+    term       go to state 58
+    fact       go to state 59
+    unaop      go to state 60
+
+
+State 50
+
+   66 unaop: MINUS .
+
+    $default  reduce using rule 66 (unaop)
+
+
+State 51
+
+   64 unaop: NOT .
+
+    $default  reduce using rule 64 (unaop)
+
+
+State 52
+
+   65 unaop: PERC .
+
+    $default  reduce using rule 65 (unaop)
+
+
+State 53
+
+    9 assign: lhs ASSIGN rhs .
+
+    $default  reduce using rule 9 (assign)
+
+
+State 54
+
+   14 rhs: call_func .
+
+    $default  reduce using rule 14 (rhs)
+
+
+State 55
+
+   12 rhs: var .
+
+    $default  reduce using rule 12 (rhs)
+
+
+State 56
+
+   23 var: data_type .
+   63 fact: data_type .
+
+    ENDLINE   reduce using rule 23 (var)
+    ENDLINE   [reduce using rule 63 (fact)]
+    CONTSTMT  reduce using rule 23 (var)
+    CONTSTMT  [reduce using rule 63 (fact)]
+    $default  reduce using rule 63 (fact)
+
+
+State 57
+
+   13 rhs: expr .
+   44 expr: expr . opbi1 term
+
+    PLUS   shift, and go to state 71
+    MINUS  shift, and go to state 72
+    NEQ    shift, and go to state 73
+    EQ     shift, and go to state 74
+    LT     shift, and go to state 75
+    LE     shift, and go to state 76
+    GT     shift, and go to state 77
+    GE     shift, and go to state 78
+    AND    shift, and go to state 79
+    OR     shift, and go to state 80
+    DIVM   shift, and go to state 81
+
+    $default  reduce using rule 13 (rhs)
+
+    opbi1  go to state 82
+
+
+State 58
+
+   45 expr: term .
+   59 term: term . opbi2 fact
+
+    TIMES  shift, and go to state 83
+    DIV    shift, and go to state 84
+
+    $default  reduce using rule 45 (expr)
+
+    opbi2  go to state 85
+
+
+State 59
+
+   60 term: fact .
+
+    $default  reduce using rule 60 (term)
+
+
+State 60
+
+   62 fact: unaop . data_type
+
+    INT   shift, and go to state 1
+    REAL  shift, and go to state 2
+    STR   shift, and go to state 3
+    TYPE  shift, and go to state 47
+    NIL   shift, and go to state 6
+    LIST  shift, and go to state 8
+    DICT  shift, and go to state 9
+
+    data_type  go to state 86
+    prim_type  go to state 22
+    abs_type   go to state 23
+
+
+State 61
+
+   41 type_def: TYPE ID COLON ENDLINE . stmt_list END
+
+    INT      shift, and go to state 1
+    REAL     shift, and go to state 2
+    STR      shift, and go to state 3
+    TYPE     shift, and go to state 4
+    ID       shift, and go to state 5
+    NIL      shift, and go to state 6
+    DEF      shift, and go to state 7
+    LIST     shift, and go to state 8
+    DICT     shift, and go to state 9
+    DECINT   shift, and go to state 10
+    DECREAL  shift, and go to state 11
+    DECSTR   shift, and go to state 12
+
+    stmt_list       go to state 87
+    stmt            go to state 15
+    assign          go to state 16
+    lhs             go to state 17
+    decl_var        go to state 18
+    decl_data_type  go to state 19
+    var             go to state 20
+    data_type       go to state 21
+    prim_type       go to state 22
+    abs_type        go to state 23
+    definition      go to state 24
+    type_def        go to state 25
+    func_def        go to state 26
+
+
+State 62
+
+   37 data_types: data_type .
+   38           | data_type . COMMA data_types
+
+    COMMA  shift, and go to state 88
+
+    $default  reduce using rule 37 (data_types)
+
+
+State 63
+
+   42 func_def: DEF ID LPAREN data_types . RPAREN COLON ENDLINE stmt_list END
+   43         | DEF ID LPAREN data_types . RPAREN COLON ENDLINE stmt_list RETURN data_type END
+
+    RPAREN  shift, and go to state 89
+
+
+State 64
+
+   36 list: LBRACE data_types . RBRACE
+
+    RBRACE  shift, and go to state 90
+
+
+State 65
+
+   34 key_value: data_type . COLON data_type
+   35          | data_type . COLON data_type COMMA key_value
+
+    COLON  shift, and go to state 91
+
+
+State 66
+
+   33 dict: LBRACK key_value . RBRACK
+
+    RBRACK  shift, and go to state 92
+
+
+State 67
+
+   32 abs_type: TYPE ID .
+
+    $default  reduce using rule 32 (abs_type)
+
+
+State 68
+
+   15 call_func: ID LPAREN . RPAREN
+   16          | ID LPAREN . data_types RPAREN
+
+    INT     shift, and go to state 1
+    REAL    shift, and go to state 2
+    STR     shift, and go to state 3
+    TYPE    shift, and go to state 47
+    RPAREN  shift, and go to state 93
+    NIL     shift, and go to state 6
+    LIST    shift, and go to state 8
+    DICT    shift, and go to state 9
+
+    data_type   go to state 62
+    prim_type   go to state 22
+    abs_type    go to state 23
+    data_types  go to state 94
+
+
+State 69
+
+   63 fact: data_type .
+
+    $default  reduce using rule 63 (fact)
+
+
+State 70
+
+   44 expr: expr . opbi1 term
+   61 fact: LPAREN expr . RPAREN
+
+    RPAREN  shift, and go to state 95
+    PLUS    shift, and go to state 71
+    MINUS   shift, and go to state 72
+    NEQ     shift, and go to state 73
+    EQ      shift, and go to state 74
+    LT      shift, and go to state 75
+    LE      shift, and go to state 76
+    GT      shift, and go to state 77
+    GE      shift, and go to state 78
+    AND     shift, and go to state 79
+    OR      shift, and go to state 80
+    DIVM    shift, and go to state 81
+
+    opbi1  go to state 82
+
+
+State 71
+
+   46 opbi1: PLUS .
+
+    $default  reduce using rule 46 (opbi1)
+
+
+State 72
+
+   47 opbi1: MINUS .
+
+    $default  reduce using rule 47 (opbi1)
+
+
+State 73
+
+   56 opbi1: NEQ .
+
+    $default  reduce using rule 56 (opbi1)
+
+
+State 74
+
+   52 opbi1: EQ .
+
+    $default  reduce using rule 52 (opbi1)
+
+
+State 75
+
+   48 opbi1: LT .
+
+    $default  reduce using rule 48 (opbi1)
+
+
+State 76
+
+   49 opbi1: LE .
+
+    $default  reduce using rule 49 (opbi1)
+
+
+State 77
+
+   51 opbi1: GT .
+
+    $default  reduce using rule 51 (opbi1)
+
+
+State 78
+
+   50 opbi1: GE .
+
+    $default  reduce using rule 50 (opbi1)
+
+
+State 79
+
+   53 opbi1: AND .
+
+    $default  reduce using rule 53 (opbi1)
+
+
+State 80
+
+   54 opbi1: OR .
+
+    $default  reduce using rule 54 (opbi1)
+
+
+State 81
+
+   55 opbi1: DIVM .
+
+    $default  reduce using rule 55 (opbi1)
+
+
+State 82
+
+   44 expr: expr opbi1 . term
+
+    INT     shift, and go to state 1
+    REAL    shift, and go to state 2
+    STR     shift, and go to state 3
+    TYPE    shift, and go to state 47
+    LPAREN  shift, and go to state 49
+    MINUS   shift, and go to state 50
+    NOT     shift, and go to state 51
+    NIL     shift, and go to state 6
+    LIST    shift, and go to state 8
+    PERC    shift, and go to state 52
+    DICT    shift, and go to state 9
+
+    data_type  go to state 69
+    prim_type  go to state 22
+    abs_type   go to state 23
+    term       go to state 96
+    fact       go to state 59
+    unaop      go to state 60
+
+
+State 83
+
+   58 opbi2: TIMES .
+
+    $default  reduce using rule 58 (opbi2)
+
+
+State 84
+
+   57 opbi2: DIV .
+
+    $default  reduce using rule 57 (opbi2)
+
+
+State 85
+
+   59 term: term opbi2 . fact
+
+    INT     shift, and go to state 1
+    REAL    shift, and go to state 2
+    STR     shift, and go to state 3
+    TYPE    shift, and go to state 47
+    LPAREN  shift, and go to state 49
+    MINUS   shift, and go to state 50
+    NOT     shift, and go to state 51
+    NIL     shift, and go to state 6
+    LIST    shift, and go to state 8
+    PERC    shift, and go to state 52
+    DICT    shift, and go to state 9
+
+    data_type  go to state 69
+    prim_type  go to state 22
+    abs_type   go to state 23
+    fact       go to state 97
+    unaop      go to state 60
+
+
+State 86
+
+   62 fact: unaop data_type .
+
+    $default  reduce using rule 62 (fact)
+
+
+State 87
+
+   41 type_def: TYPE ID COLON ENDLINE stmt_list . END
+
+    END  shift, and go to state 98
+
+
+State 88
+
+   38 data_types: data_type COMMA . data_types
+
+    INT   shift, and go to state 1
+    REAL  shift, and go to state 2
+    STR   shift, and go to state 3
+    TYPE  shift, and go to state 47
+    NIL   shift, and go to state 6
+    LIST  shift, and go to state 8
+    DICT  shift, and go to state 9
+
+    data_type   go to state 62
+    prim_type   go to state 22
+    abs_type    go to state 23
+    data_types  go to state 99
+
+
+State 89
+
+   42 func_def: DEF ID LPAREN data_types RPAREN . COLON ENDLINE stmt_list END
+   43         | DEF ID LPAREN data_types RPAREN . COLON ENDLINE stmt_list RETURN data_type END
+
+    COLON  shift, and go to state 100
+
+
+State 90
+
+   36 list: LBRACE data_types RBRACE .
+
+    $default  reduce using rule 36 (list)
+
+
+State 91
+
+   34 key_value: data_type COLON . data_type
+   35          | data_type COLON . data_type COMMA key_value
+
+    INT   shift, and go to state 1
+    REAL  shift, and go to state 2
+    STR   shift, and go to state 3
+    TYPE  shift, and go to state 47
+    NIL   shift, and go to state 6
+    LIST  shift, and go to state 8
+    DICT  shift, and go to state 9
+
+    data_type  go to state 101
+    prim_type  go to state 22
+    abs_type   go to state 23
+
+
+State 92
+
+   33 dict: LBRACK key_value RBRACK .
+
+    $default  reduce using rule 33 (dict)
+
+
+State 93
+
+   15 call_func: ID LPAREN RPAREN .
+
+    $default  reduce using rule 15 (call_func)
+
+
+State 94
+
+   16 call_func: ID LPAREN data_types . RPAREN
+
+    RPAREN  shift, and go to state 102
+
+
+State 95
+
+   61 fact: LPAREN expr RPAREN .
+
+    $default  reduce using rule 61 (fact)
+
+
+State 96
+
+   44 expr: expr opbi1 term .
+   59 term: term . opbi2 fact
+
+    TIMES  shift, and go to state 83
+    DIV    shift, and go to state 84
+
+    $default  reduce using rule 44 (expr)
+
+    opbi2  go to state 85
+
+
+State 97
+
+   59 term: term opbi2 fact .
+
+    $default  reduce using rule 59 (term)
+
+
+State 98
+
+   41 type_def: TYPE ID COLON ENDLINE stmt_list END .
+
+    $default  reduce using rule 41 (type_def)
+
+
+State 99
+
+   38 data_types: data_type COMMA data_types .
+
+    $default  reduce using rule 38 (data_types)
+
+
+State 100
+
+   42 func_def: DEF ID LPAREN data_types RPAREN COLON . ENDLINE stmt_list END
+   43         | DEF ID LPAREN data_types RPAREN COLON . ENDLINE stmt_list RETURN data_type END
+
+    ENDLINE  shift, and go to state 103
+
+
+State 101
+
+   34 key_value: data_type COLON data_type .
+   35          | data_type COLON data_type . COMMA key_value
+
+    COMMA  shift, and go to state 104
+
+    $default  reduce using rule 34 (key_value)
+
+
+State 102
+
+   16 call_func: ID LPAREN data_types RPAREN .
+
+    $default  reduce using rule 16 (call_func)
+
+
+State 103
+
+   42 func_def: DEF ID LPAREN data_types RPAREN COLON ENDLINE . stmt_list END
+   43         | DEF ID LPAREN data_types RPAREN COLON ENDLINE . stmt_list RETURN data_type END
+
+    INT      shift, and go to state 1
+    REAL     shift, and go to state 2
+    STR      shift, and go to state 3
+    TYPE     shift, and go to state 4
+    ID       shift, and go to state 5
+    NIL      shift, and go to state 6
+    DEF      shift, and go to state 7
+    LIST     shift, and go to state 8
+    DICT     shift, and go to state 9
+    DECINT   shift, and go to state 10
+    DECREAL  shift, and go to state 11
+    DECSTR   shift, and go to state 12
+
+    stmt_list       go to state 105
+    stmt            go to state 15
+    assign          go to state 16
+    lhs             go to state 17
+    decl_var        go to state 18
+    decl_data_type  go to state 19
+    var             go to state 20
+    data_type       go to state 21
+    prim_type       go to state 22
+    abs_type        go to state 23
+    definition      go to state 24
+    type_def        go to state 25
+    func_def        go to state 26
+
+
+State 104
+
+   35 key_value: data_type COLON data_type COMMA . key_value
+
+    INT   shift, and go to state 1
+    REAL  shift, and go to state 2
+    STR   shift, and go to state 3
+    TYPE  shift, and go to state 47
+    NIL   shift, and go to state 6
+    LIST  shift, and go to state 8
+    DICT  shift, and go to state 9
+
+    data_type  go to state 65
+    prim_type  go to state 22
+    abs_type   go to state 23
+    key_value  go to state 106
+
+
+State 105
+
+   42 func_def: DEF ID LPAREN data_types RPAREN COLON ENDLINE stmt_list . END
+   43         | DEF ID LPAREN data_types RPAREN COLON ENDLINE stmt_list . RETURN data_type END
+
+    RETURN  shift, and go to state 107
+    END     shift, and go to state 108
+
+
+State 106
+
+   35 key_value: data_type COLON data_type COMMA key_value .
+
+    $default  reduce using rule 35 (key_value)
+
+
+State 107
+
+   43 func_def: DEF ID LPAREN data_types RPAREN COLON ENDLINE stmt_list RETURN . data_type END
+
+    INT   shift, and go to state 1
+    REAL  shift, and go to state 2
+    STR   shift, and go to state 3
+    TYPE  shift, and go to state 47
+    NIL   shift, and go to state 6
+    LIST  shift, and go to state 8
+    DICT  shift, and go to state 9
+
+    data_type  go to state 109
+    prim_type  go to state 22
+    abs_type   go to state 23
+
+
+State 108
+
+   42 func_def: DEF ID LPAREN data_types RPAREN COLON ENDLINE stmt_list END .
+
+    $default  reduce using rule 42 (func_def)
+
+
+State 109
+
+   43 func_def: DEF ID LPAREN data_types RPAREN COLON ENDLINE stmt_list RETURN data_type . END
+
+    END  shift, and go to state 110
+
+
+State 110
+
+   43 func_def: DEF ID LPAREN data_types RPAREN COLON ENDLINE stmt_list RETURN data_type END .
+
+    $default  reduce using rule 43 (func_def)

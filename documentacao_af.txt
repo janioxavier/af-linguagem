@@ -1,0 +1,160 @@
+Palavras reservadas:
+
+As palavras chaves, palavras reservadas,  não podem ser utilizadas como identificador de variáveis, funções, tipos de abstratos de dados etc. Abaixo está defnido uma lista completa de todas as palavras chave da linguagem
+
+while, for, in, break, def, type, list, dict, if, elif, else, nil, True, False, main, int, real, str, end.
+
+Declaração de variável e tipos de dados:
+
+A linguagem possui 6 tipos de dados que podem ser utilizados, os tipos são inteiro, real, cadeia de caracteres, dicionario, lista e tipos definidos pelo usuário.
+
+A declaração e exemplos de uso de qualquer tipos de dados da linguagem são mostrados abaixo.
+
+int v
+real v
+str v
+dict v
+list v
+type v
+
+onde v é um identificador para uma variável que armazenará algum tipo de dado declarado acima.
+
+
+Definição e uso de tipo abstrato de dados:
+
+Os tipos abstratos de dados são tipos que podem ser criados pelo usuário. A definição tipo segue a seguinte sintaxe:
+
+type ident:
+    decl_data_types
+    end
+
+onde type é uma palavra chave que afirma que o identificador ident é um tipo, decl_data_types é uma ou mais sentenças de declarações de tipos de dados da linguagem e end sinaliza o fim da declaração do tipo de dado.
+
+Exemplo de uma declaração de um tipo de dado.
+
+type A:
+    int a
+end
+
+
+Exemplo de como acessar ou modificar o atributo do tipo de dado definido acima.
+
+type A a
+a.a = 1
+
+Definição de função:
+
+Uma função pode ser definida com retorno:
+
+def identificador(parametros):
+    stmt_list
+    return data_type
+end
+
+onde def é uma palavra reservada para afirmar que o identificador é uma função, , parametros representam os parâmetros que essa função reconhece, return define algum tipo de dado que pode ser retornado para quem chamou a função e end sinaliza que o corpo da função está completo. Nenhum parâmetro pode ser passado.
+
+e sem retorno:
+
+def identificador(parametros):
+    stmt_list
+    end
+
+Atribuição:
+
+Uma atribuição possui a seguinte forma:
+
+LHS = RHS,
+
+onde LHS é o lado esquerdo da atribuição, o símbolo '=' é o símbolo da atribuição e RHS é o lado direito da atribuição.
+No LHS temos: declarações de variáveis e variáveis. Já no RHS, temos: variáveis, chamada de funções e expressões.
+
+Exemplo de atribuições:
+
+int a = 3
+float b = 3.
+str c = "3"
+dict d = {3:"3", 4:"4", 5.:"5.0"}
+list = [1,2,3,4]
+a = (1+2)
+b = 1.5 + 1.5
+c = "3"
+a = aa(1)
+b = bb(1.5)
+c = cc(1,1.5,"3")
+
+Expressões:
+
+Uma expressão é um conjunto de literais de tipos primitivos e operações que geram algum valor. Numa expressão pode haver parênteses para indicar a prioridade das operações.
+
+Uma expressão possui a seguinte forma:
+
+LHS = expr
+
+onde LHS é uma variável que irá armazenar o valor final da expressão, expr é uma expressão que pode conter parenteses e vários tipos primitivos.
+
+Exemplos de expressões:
+
+int a = 3.5 + 3
+a = 3 + 4 * 5 + (3+4)
+b = ((3+4)+(5+6)*7)/4+(6+6)
+c = (True & False) | (False | True)
+d = abc() + abcd()
+
+Setenças de Controle:
+
+As sentença de controle verificam determinada expressão e toma uma decisão baseado no valor da expressão. A única sentença de controle da linguagem é essa:
+
+if expr1:
+    stmt_list1
+end
+elif expr2:
+    stmt_list2
+end
+...
+else:
+    stmt_listn
+end
+
+onde if é uma palavra reservada que computa o valor de expr1 e executa stmt_list1  se o valor de expr1 for considerado verdadeiro, elif é outra palavra reservada que computa o valor de uma expr2 e executa stmt2 se o valor de expr2 for considerado verdadeiro, else é uma outra palavra reservada que é executada quando nenhuma das expressões avaliadas anteriormente forem consideradas como verdadeira e então executa stmtn.
+
+Exemplo de sentenças de controle:
+
+if 1+2 == 3:
+    a = 1+2
+end
+elif 1+2 == 4:
+    b = 1+4
+end
+else:
+    c = 5
+end
+
+Sentenças de repetição:
+
+Existe dois tipos de setenças de repetição, o while e o for.
+
+A sintaxe do while é:
+
+while expr:
+    stmt_list
+end
+
+um exemplo do while é mostrado abaixo.
+
+a = 0
+while a < 10:
+    a += 1
+end
+
+A sintaxe para o for é essa:
+
+for decl_data_types, var in list:
+    stmt_list
+end
+
+onde decl_data_types é uma lista tipos de dados separados por virgula que terão escopo local no dentro do for, var é uma variável que irá iterar por cada valor na lista e a assumirá cada valor contido na lista. Um exemplo da utilização é mostrado abaixo:
+
+for int sum,i in [1,2,3,4]:
+    sum += i
+end
+
