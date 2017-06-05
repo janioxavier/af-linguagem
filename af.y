@@ -16,8 +16,8 @@
 %token ID COMMA COLON SEMICOLON LPAREN RPAREN LBRACE RBRACE LBRACK RBRACK
 %token DOT PLUS MINUS TIMES DIV  NEQ RETURN EQ  LT LE GT GE AND OR ASSIGN ELIF IF ELSE
 %token WHILE FOR SKIP IN NOT NIL DEF TRUE FALSE
-%token BREAK SET LIST DIVM PERC ADDPERC SUBPERC ADDEQ SUBEQ DIVERQ MULTEQ
-%token DIVMEQ DICT MAIN END ENDLINE CONTSTMT
+%token BREAK SET LIST DIVM PERC ADDPERC SUBPERC ADDEQ SUBEQ DIVEQ MULTEQ
+%token DIVMEQ DICT MAIN END ENDLINE CONTSTMT DIVIDE
 %token DECINT DECREAL DECSTR
 
 %%
@@ -30,7 +30,10 @@ stmt_list : stmt                                                                
           
 stmt : assign end_stmt                                                                                  {}
      | definition end_stmt                                                                              {}
-     | decl_var end_stmt                                                                                {}
+     | decl_int end_stmt                                                                                {}
+     | decl_real end_stmt                                                                               {}
+     | decl_str end_stmt                                                                                {}
+     | decl_type end_stmt                                                                               {}
      ;
     
 end_stmt : ENDLINE                                                                                      {}
@@ -40,8 +43,11 @@ end_stmt : ENDLINE                                                              
 assign : lhs ASSIGN rhs                                                                                 {}
        ;
 
-lhs : decl_var                                                                                          {}
-    | var                                                                                               {}
+lhs : decl_int
+    | decl_real
+    | decl_str
+    | decl_type
+    | var
     ;
 
 rhs : var                                                                                               {}
@@ -53,15 +59,18 @@ call_func : ID LPAREN RPAREN                                                    
           | ID LPAREN data_types RPAREN                                                                 {}
           ;
 
-decl_var : decl_data_type ID                                                                            {print("oi");}
+decl_int : DECINT ID                                                                                    {printf("tipo int\n");}
          ;
 
-decl_data_type : DECINT                                                                                 {}
-               | DECREAL                                                                                {}
-               | DECSTR                                                                                 {}
-               | TYPE ID                                                                                {}
-               | ID                                                                                     {}
-               ;    
+decl_real : DECREAL ID                                                                                  {printf("tipo real\n");}
+         ;
+
+decl_str : DECSTR ID                                                                                    {printf("tipo str\n");}
+         ;
+
+decl_type : TYPE ID                                                                                     {printf("tipo tipo\n");}
+          ;
+
 
 var : ID                                                                                                {}
     ;

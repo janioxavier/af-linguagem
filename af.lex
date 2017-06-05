@@ -1,5 +1,5 @@
 %{
-#include "af.h"
+#include "y.tab.h"
 int line_number = 1;
 void yyerror(char *message);
 %}
@@ -22,7 +22,6 @@ nil 	                 return NIL;
 True                     return TRUE;
 False                    return FALSE;
 main                    return MAIN;
-int                     return DECINT;
 real                     return DECREAL;
 str                     return DECSTR;
 return                  return RETURN;
@@ -63,6 +62,7 @@ return                  return RETURN;
 "!"             return NOT;
 "="	        return ASSIGN;
 
+" " ;
 "(*"([^*]|\*+[^*/])*\*+")"    		;
 {digits}+	                  			return INT;
 {digits}+\.{digits}+                    return REAL;

@@ -95,7 +95,7 @@ extern int yydebug;
     SUBPERC = 305,
     ADDEQ = 306,
     SUBEQ = 307,
-    DIVERQ = 308,
+    DIVEQ = 308,
     MULTEQ = 309,
     DIVMEQ = 310,
     DICT = 311,
@@ -103,9 +103,10 @@ extern int yydebug;
     END = 313,
     ENDLINE = 314,
     CONTSTMT = 315,
-    DECINT = 316,
-    DECREAL = 317,
-    DECSTR = 318
+    DIVIDE = 316,
+    DECINT = 317,
+    DECREAL = 318,
+    DECSTR = 319
   };
 #endif
 /* Tokens.  */
@@ -159,7 +160,7 @@ extern int yydebug;
 #define SUBPERC 305
 #define ADDEQ 306
 #define SUBEQ 307
-#define DIVERQ 308
+#define DIVEQ 308
 #define MULTEQ 309
 #define DIVMEQ 310
 #define DICT 311
@@ -167,9 +168,10 @@ extern int yydebug;
 #define END 313
 #define ENDLINE 314
 #define CONTSTMT 315
-#define DECINT 316
-#define DECREAL 317
-#define DECSTR 318
+#define DIVIDE 316
+#define DECINT 317
+#define DECREAL 318
+#define DECSTR 319
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
@@ -182,7 +184,7 @@ union YYSTYPE
     float f;
     char* str;
 
-#line 186 "y.tab.h" /* yacc.c:1909  */
+#line 188 "y.tab.h" /* yacc.c:1909  */
 };
 # define YYSTYPE_IS_TRIVIAL 1
 # define YYSTYPE_IS_DECLARED 1
