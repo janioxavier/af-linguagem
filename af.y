@@ -30,10 +30,7 @@ stmt_list : stmt                                                                
           
 stmt : assign end_stmt                                                                                  {}
      | definition end_stmt                                                                              {}
-     | decl_int end_stmt                                                                                {}
-     | decl_real end_stmt                                                                               {}
-     | decl_str end_stmt                                                                                {}
-     | decl_type end_stmt                                                                               {}
+     | decl_var end_stmt                                                                                {}
      ;
     
 end_stmt : ENDLINE                                                                                      {}
@@ -43,10 +40,7 @@ end_stmt : ENDLINE                                                              
 assign : lhs ASSIGN rhs                                                                                 {}
        ;
 
-lhs : decl_int
-    | decl_real
-    | decl_str
-    | decl_type
+lhs : decl_var
     | var
     ;
 
@@ -59,18 +53,15 @@ call_func : ID LPAREN RPAREN                                                    
           | ID LPAREN data_types RPAREN                                                                 {}
           ;
 
-decl_int : DECINT ID                                                                                    {printf("tipo int\n");}
+decl_var : decl_data_type ID                                                                            {printf("deu certo");}
          ;
 
-decl_real : DECREAL ID                                                                                  {printf("tipo real\n");}
-         ;
-
-decl_str : DECSTR ID                                                                                    {printf("tipo str\n");}
-         ;
-
-decl_type : TYPE ID                                                                                     {printf("tipo tipo\n");}
-          ;
-
+decl_data_type : DECINT                                                                                 {}
+               | DECREAL                                                                                {}
+               | DECSTR                                                                                 {}
+               | TYPE ID                                                                                {}
+               | ID                                                                                     {}
+               ;    
 
 var : ID                                                                                                {}
     ;
