@@ -1449,7 +1449,7 @@ yyreduce:
 
   case 6:
 #line 32 "af.y" /* yacc.c:1646  */
-    {}
+    {printf("definicao\n");}
 #line 1454 "y.tab.c" /* yacc.c:1646  */
     break;
 
@@ -1509,37 +1509,37 @@ yyreduce:
 
   case 18:
 #line 56 "af.y" /* yacc.c:1646  */
-    {printf("deu certo");}
+    {}
 #line 1514 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 19:
 #line 59 "af.y" /* yacc.c:1646  */
-    {}
+    {printf("tipo int\n");}
 #line 1520 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 20:
 #line 60 "af.y" /* yacc.c:1646  */
-    {}
+    {printf("tipo real\n");}
 #line 1526 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 21:
 #line 61 "af.y" /* yacc.c:1646  */
-    {}
+    {printf("tipo str\n");}
 #line 1532 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 22:
 #line 62 "af.y" /* yacc.c:1646  */
-    {}
+    {printf("tipo tipo\n");}
 #line 1538 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 23:
 #line 63 "af.y" /* yacc.c:1646  */
-    {}
+    {printf("identificador de tipo\n");}
 #line 1544 "y.tab.c" /* yacc.c:1646  */
     break;
 
@@ -1653,13 +1653,13 @@ yyreduce:
 
   case 42:
 #line 105 "af.y" /* yacc.c:1646  */
-    {}
+    {printf("def tipo\n");}
 #line 1658 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 43:
 #line 108 "af.y" /* yacc.c:1646  */
-    {}
+    {printf("definicao\n");}
 #line 1664 "y.tab.c" /* yacc.c:1646  */
     break;
 
