@@ -8,7 +8,7 @@ enum tipoErro {
     NEGATIVO_NAO_PERMITIDO,
 };
 
-void erroSemantica(tipoErro, char*);
+void erroSemantica(enum tipoErro, char*);
 
 int yylex ();
 void yyerror (char*);
@@ -178,12 +178,65 @@ unaop : NOT                                                                     
 
 %%
 
-void erroSemantica (int errType, char *info) {
+void erroSemantica (enum tipoErro errType, char *info) {
     char errmsg[200];
     switch (errType) {
-        case 1: sprintf (errmsg, "")
+        case 1: sprintf (errmsg, "");
     }
 }
+
+simboloEntrada *findEntry (char *id) {
+    simboloEntrada *found = tabelaSimbolo;
+    while (found != NULL && strcmp(id, found->name)) {
+        found = found->next;
+    }
+    return found;
+}
+
+int isDeclarado(char *id) {
+    return (findEntry(id) != NULL);
+}
+
+int addId (char *id, char *type) {
+    simboloEntrada *novaEntrada;
+    if (isDeclarado(id)) return 0;
+    novaEntrada = (simboloEntrada*) malloc (sizeof(simboloEntrada));
+    novaEntrada->name = id;
+    novaEntrada->type = type;
+    novaEntrada->intValue = 0;
+    novaEntrada->doubleValue = 0;
+    novaEntrada->strValue = NULL;
+    novaEntrada->next = tabelaSimbolo;
+    tabelaSimbolo = novaEntrada;
+    return 1;
+}
+
+int getIntValor (char *id, int *v) {
+    simboloEntrada *entrada = findEntry (id);
+    if (entrada == NULL) return 0;
+    *v = entrada->intValue;
+    return 1;
+}
+
+int getRealValor (char *id, double *v) {
+    simboloEntrada *entrada = findEntry (id);
+    if (entrada == NULL) return 0;
+    *v = entrada->doubleValue;
+    return 1;
+}
+
+int getStrValor (char *id, char *str) {
+    simboloEntrada *entrada = findEntry (id);
+    if (entrada == NULL) return 0;
+    str = entrada->strValue;
+    return 1;
+}
+
+int verificadorTipo(simboloEntrada *in1, simboloEntrada *in2) {
+    if (!strcmp(in1->type, in2->type)) return 1;
+    return 0;
+}
+
 
 int main() {
     yyparse();
