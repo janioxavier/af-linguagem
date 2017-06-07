@@ -1,0 +1,5 @@
+int v
+real v
+str v
+type pessoa p1
+pessoa hh

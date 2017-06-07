@@ -1509,37 +1509,37 @@ yyreduce:
 
   case 18:
 #line 56 "af.y" /* yacc.c:1646  */
-    {printf("deu certo");}
+    {printf("deu certo\n");}
 #line 1514 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 19:
 #line 59 "af.y" /* yacc.c:1646  */
-    {}
+    {printf("DEC INT\n");}
 #line 1520 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 20:
 #line 60 "af.y" /* yacc.c:1646  */
-    {}
+    {printf("DEC REAL\n");}
 #line 1526 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 21:
 #line 61 "af.y" /* yacc.c:1646  */
-    {}
+    {printf("DEC STR\n");}
 #line 1532 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 22:
 #line 62 "af.y" /* yacc.c:1646  */
-    {}
+    {printf("DEC TYPE\n");}
 #line 1538 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 23:
 #line 63 "af.y" /* yacc.c:1646  */
-    {}
+    {printf("DEC TIPO D-E-F-I-N-D-O\n");}
 #line 1544 "y.tab.c" /* yacc.c:1646  */
     break;
 

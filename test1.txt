@@ -1,8 +1,6 @@
 int v
 real v
 str v
-dict v
-list v
 type v
 
 type A:
@@ -10,6 +8,7 @@ type A:
 end
 
 type A a
+
 a.a = 1
 
 
