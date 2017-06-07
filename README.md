@@ -1,32 +1,29 @@
-Como executar no ambiente linux com flex e yacc instalados?
+# af-linguagem
 
-opção 1:
+## Como executar no ambiente linux com flex e yacc instalados?
 
-1) dê permissão ao arquivo Makefile
+### opção 1:
+
+#### 1. Dê permissão ao arquivo Makefile
 
 chmod +x Makefile
 
-2) execute o arquivo makefile
+#### 2. Execute o arquivo makefile
 
 ./Makefile
 
-3) execute o analisador passando o arquivo de test
+#### 3. Execute o analisador passando o arquivo de test
 
 parse < test1.txt
 
-opção 2:
+### opção 2:
 
-1) execute os comandos:
+#### 1. execute os comandos:
 
 flex af.lex
 yacc -vd af.y
 gcc lex.yy.c y.tab.c -o parse
 
-2) execute o analisador passando o arquivo de test
+#### 2. execute o analisador passando o arquivo de test
 
 parse < test1.txt
-
-
-
-
-# af-linguagem
