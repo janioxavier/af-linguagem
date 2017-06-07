@@ -2,7 +2,7 @@
 #include <stdlib.h>
 
 struct Node{
- int num;
+ char id[64];
  struct Node *prox;
 };
 typedef struct Node node;
@@ -83,7 +83,7 @@ void opcao(node *PILHA, int op)
   case 4:
    tmp= pop(PILHA);
    if(tmp != NULL)
-   printf("Retirado: %3d\n\n", tmp->num);
+   printf("Retirado: %s\n\n", tmp->id);
    break;
 
   default:
@@ -106,7 +106,7 @@ node *aloca()
   printf("Sem memoria disponivel!\n");
   exit(1);
  }else{
-  printf("Novo elemento: "); scanf("%d", &novo->num);
+  printf("Novo elemento: "); scanf("%s", novo->id);
   return novo;
  }
 }
@@ -123,7 +123,7 @@ void exibe(node *PILHA)
  tmp = PILHA->prox;
  printf("PILHA:");
  while( tmp != NULL){
-  printf("%5d", tmp->num);
+  printf("%s", tmp->id);
   tmp = tmp->prox;
  }
  printf("\n        ");
