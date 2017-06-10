@@ -925,7 +925,7 @@ case 22:
 /* rule 22 can match eol */
 YY_RULE_SETUP
 #line 32 "af.lex"
-return ENDLINE;
+line_number++;return ENDLINE;
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
@@ -2141,9 +2141,4 @@ int yywrap(void)
 	return 1;
 }
 
-void yyerror(char *message)
-{
-   fprintf(stderr,"Error: \"%s\" in line %d. Lexem = %s\n", message, line_number, yytext);
-   exit(1);
-}
 

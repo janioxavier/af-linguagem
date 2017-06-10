@@ -1,6 +1,10 @@
 %{
 #include <stdio.h>
 
+int yyerror(char *s);
+extern int yylineno;
+extern char * yytext;
+extern int line_number;
 %}
 
 %union{
@@ -26,12 +30,12 @@ prog : stmt_list                                                                
      
 stmt_list : stmt                                                                                        {}
           | stmt stmt_list                                                                              {}
-          | estr_cond                                                                                   {}
           ;
           
 stmt : assign end_stmt                                                                                  {}
      | definition end_stmt                                                                              {}
      | decl_var end_stmt                                                                                {}
+     | estr_cond end_stmt
      ;
     
 end_stmt : ENDLINE                                                                                      {}
@@ -147,22 +151,27 @@ opuna : NOT                                                                     
       ;
       
       
-estr_cond : cond_ifelse                                                                                 {printf("estr_cond: ");}
+estr_cond : 
+          | IF expr COLON ENDLINE stmt_list END             {printf("if\n");}
+          | IF expr COLON ENDLINE stmt_list cond_else       {printf("if..else \n");}
+          | IF expr COLON ENDLINE stmt_list cond_elif       {printf("if..elif..else \n");}
           ;
           
-cond_ifelse : IF expr COLON stmt_list END                                                               {printf("if \n");}  
-            | IF expr COLON stmt_list END cond_else                                                     {printf("if else \n");}
-            | IF expr COLON stmt_list END cond_elsif                                                    {printf("if elsif ");}
-            ;
-        
-cond_else : ELSE COLON stmt_list END                                                                    {}
+cond_elif : ELIF expr COLON ENDLINE stmt_list cond_elif
+           | ELIF expr COLON ENDLINE stmt_list cond_else
+           ;
+           
+cond_else : ELSE COLON ENDLINE stmt_list END                                                                    {}
           ;
              
-cond_elsif : ELIF expr COLON stmt_list END cond_elsif                                                   {printf("multiples elif \n");}
-           | ELIF expr COLON stmt_list END cond_else                                                    {printf("single elif \n");}
-           ;
-      
 %%
+
+
+int yyerror (char *msg) {
+	fprintf (stderr, "Line %d: %s at '%s'\n", line_number, msg, yytext);
+	return 0;
+}
+
 
 int main() {
     yyparse();

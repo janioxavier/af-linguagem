@@ -3,6 +3,37 @@ if 8 < 10:
     int b
 end
 
+if 8 < 10:
+    int a 
+    int b
 else:
-    int x
+    int a
+end
+if 8 < 10:
+    int a 
+    int b
+elif 9< 10:
+    int a
+    int b
+else:
+    int a
+end
+
+if 8 < 10:
+    int a 
+    int b
+elif 9< 10:
+    int a
+    int b
+elif 9< 10:
+    int a
+    int b
+else:
+    int a
+end
+
+if 9 < 10:
+    if 1 < 2:
+        int a
+    end
 end

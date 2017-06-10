@@ -29,7 +29,7 @@ return                   return RETURN;
 end                      return END;
 
 "\\"                     return CONTSTMT;
-"\n"                     return ENDLINE;
+"\n"                     line_number++;return ENDLINE;
 ","	                     return COMMA;
 ":"	                     return COLON;
 ";"	                     return SEMICOLON;
@@ -79,8 +79,3 @@ int yywrap(void)
 	return 1;
 }
 
-void yyerror(char *message)
-{
-   fprintf(stderr,"Error: \"%s\" in line %d. Lexem = %s\n", message, line_number, yytext);
-   exit(1);
-}
