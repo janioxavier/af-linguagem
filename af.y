@@ -1,6 +1,38 @@
 %{
 #include <stdio.h>
 
+enum tipoErro {
+    NAO_DECLARADO,
+    JA_DECLARADO,
+    TIPOS_DIFERENTES,
+    NEGATIVO_NAO_PERMITIDO,
+};
+
+void erroSemantica(enum tipoErro, char*);
+
+int yylex ();
+void yyerror (char*);
+
+struct simboloNode {
+    char *name;
+    int intValue;
+    double doubleValue;
+    char *strValue;
+    char *type;
+    struct simboloNode *next;
+};
+typedef struct simboloNode simboloEntrada;
+
+simboloEntrada *tabelaSimbolo = NULL;
+
+int isDeclarado (char *id);
+int addId (char *id, char *type);
+int getIntValor (char *id, int *v);
+int getRealValor (char *id, double *v);
+int getStrValor (char *id, char *str);
+int setValue (char *id1, char *id2);
+int verificadorTipo (simboloEntrada *in1, simboloEntrada *in2);
+
 %}
 
 %union{
@@ -21,15 +53,15 @@
 %token DECINT DECREAL DECSTR
 
 %%
-prog : stmt_list                                                                                        {}
+prog : stmt_list                            {}
      ;
      
-stmt_list : stmt                                                                                        {}
-          | stmt stmt_list                                                                              {}
+stmt_list : stmt                                                  {}
+          | stmt stmt_list                                           {}
           ;
           
-stmt : assign end_stmt                                                                                  {}
-     | definition end_stmt                                                                              {}
+stmt : assign end_stmt                                                                              {}
+     | definition end_stmt                                                                              {printf("definicao\n");}
      | decl_var end_stmt                                                                                {}
      ;
     
@@ -61,7 +93,6 @@ decl_data_type : DECINT                                                         
                | DECSTR                                                                                 {printf("DEC STR\n");}
                | TYPE ID                                                                                {printf("DEC TYPE\n");}
                | ID                                                                                     {printf("DEC TIPO D-E-F-I-N-D-O\n");}
-               ;    
 
 var : ID                                                                                                {}
     ;
@@ -102,10 +133,10 @@ definition : type_def                                                           
            | func_def                                                                                   {}
            ;
            
-type_def : TYPE ID COLON ENDLINE stmt_list END                                                          {}
+type_def : TYPE ID COLON ENDLINE stmt_list END                                                          {printf("def tipo\n");}
          ;
 
-func_def : DEF ID LPAREN data_types RPAREN COLON ENDLINE stmt_list END                                  {}
+func_def : DEF ID LPAREN data_types RPAREN COLON ENDLINE stmt_list END                                  {printf("definicao\n");}
          | DEF ID LPAREN data_types RPAREN COLON ENDLINE stmt_list RETURN data_type END                 {}
          ;
 
@@ -145,6 +176,66 @@ unaop : NOT                                                                     
       ;
 
 %%
+
+void erroSemantica (enum tipoErro errType, char *info) {
+    char errmsg[200];
+    switch (errType) {
+        case 1: sprintf (errmsg, "");
+    }
+}
+
+simboloEntrada *findEntry (char *id) {
+    simboloEntrada *found = tabelaSimbolo;
+    while (found != NULL && strcmp(id, found->name)) {
+        found = found->next;
+    }
+    return found;
+}
+
+int isDeclarado(char *id) {
+    return (findEntry(id) != NULL);
+}
+
+int addId (char *id, char *type) {
+    simboloEntrada *novaEntrada;
+    if (isDeclarado(id)) return 0;
+    novaEntrada = (simboloEntrada*) malloc (sizeof(simboloEntrada));
+    novaEntrada->name = id;
+    novaEntrada->type = type;
+    novaEntrada->intValue = 0;
+    novaEntrada->doubleValue = 0;
+    novaEntrada->strValue = NULL;
+    novaEntrada->next = tabelaSimbolo;
+    tabelaSimbolo = novaEntrada;
+    return 1;
+}
+
+int getIntValor (char *id, int *v) {
+    simboloEntrada *entrada = findEntry (id);
+    if (entrada == NULL) return 0;
+    *v = entrada->intValue;
+    return 1;
+}
+
+int getRealValor (char *id, double *v) {
+    simboloEntrada *entrada = findEntry (id);
+    if (entrada == NULL) return 0;
+    *v = entrada->doubleValue;
+    return 1;
+}
+
+int getStrValor (char *id, char *str) {
+    simboloEntrada *entrada = findEntry (id);
+    if (entrada == NULL) return 0;
+    str = entrada->strValue;
+    return 1;
+}
+
+int verificadorTipo(simboloEntrada *in1, simboloEntrada *in2) {
+    if (!strcmp(in1->type, in2->type)) return 1;
+    return 0;
+}
+
 
 int main() {
     yyparse();
