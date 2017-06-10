@@ -26,6 +26,7 @@ prog : stmt_list                                                                
      
 stmt_list : stmt                                                                                        {}
           | stmt stmt_list                                                                              {}
+          | estr_cond                                                                                   {}
           ;
           
 stmt : assign end_stmt                                                                                  {}
@@ -79,8 +80,6 @@ prim_type : INT                                                                 
           
 abs_type : TYPE ID                                                                                      {}
          ;
-
-
 
 dict : LBRACK key_value RBRACK                                                                          {}
      ;
@@ -138,15 +137,31 @@ term : term opbi2 fact                                                          
      ;
 
 fact : LPAREN expr RPAREN                                                                               {}
-     | unaop data_type                                                                                  {}
+     | opuna data_type                                                                                  {}
      | data_type                                                                                        {}
      ;
 
-unaop : NOT                                                                                             {}
+opuna : NOT                                                                                             {}
       | PERC                                                                                            {}
       | MINUS                                                                                           {}
       ;
-
+      
+      
+estr_cond : cond_ifelse                                                                                 {printf("estr_cond: ");}
+          ;
+          
+cond_ifelse : IF expr COLON stmt_list END                                                               {printf("if \n");}  
+            | IF expr COLON stmt_list END cond_else                                                     {printf("if else \n");}
+            | IF expr COLON stmt_list END cond_elsif                                                    {printf("if elsif ");}
+            ;
+        
+cond_else : ELSE COLON stmt_list END                                                                    {}
+          ;
+             
+cond_elsif : ELIF expr COLON stmt_list END cond_elsif                                                   {printf("multiples elif \n");}
+           | ELIF expr COLON stmt_list END cond_else                                                    {printf("single elif \n");}
+           ;
+      
 %%
 
 int main() {

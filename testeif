@@ -1,0 +1,8 @@
+if 8 < 10:
+    int a 
+    int b
+end
+
+else:
+    int x
+end
