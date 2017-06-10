@@ -48,8 +48,8 @@ extern int yydebug;
     INT = 258,
     REAL = 259,
     STR = 260,
-    TYPE = 261,
-    ID = 262,
+    ID = 261,
+    TYPE = 262,
     COMMA = 263,
     COLON = 264,
     SEMICOLON = 265,
@@ -113,8 +113,8 @@ extern int yydebug;
 #define INT 258
 #define REAL 259
 #define STR 260
-#define TYPE 261
-#define ID 262
+#define ID 261
+#define TYPE 262
 #define COMMA 263
 #define COLON 264
 #define SEMICOLON 265
@@ -178,11 +178,11 @@ extern int yydebug;
 typedef union YYSTYPE YYSTYPE;
 union YYSTYPE
 {
-#line 38 "af.y" /* yacc.c:1909  */
+#line 40 "af.y" /* yacc.c:1909  */
 
     int i;
     float f;
-    char* str;
+    char * str;
 
 #line 188 "y.tab.h" /* yacc.c:1909  */
 };
