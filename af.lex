@@ -22,10 +22,10 @@ nil 	                 return NIL;
 True                     return TRUE;
 False                    return FALSE;
 main                     return MAIN;
+int                      return DECINT;
 real                     return DECREAL;
 str                      return DECSTR;
 return                   return RETURN;
-int                     return DECINT;
 
 "\\"                     return CONTSTMT;
 "\n"                     return ENDLINE;

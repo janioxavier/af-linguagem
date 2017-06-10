@@ -85,15 +85,14 @@ call_func : ID LPAREN RPAREN                                                    
           | ID LPAREN data_types RPAREN                                                                 {}
           ;
 
-decl_var : decl_data_type ID                                                                            {}
+decl_var : decl_data_type ID                                                                            {printf("deu certo\n");}
          ;
 
-decl_data_type : DECINT                              {printf("tipo int\n");}
-               | DECREAL             {printf("tipo real\n");}
-               | DECSTR                                     {printf("tipo str\n");}
-               | TYPE ID               {printf("tipo de tipo\n");}
-               | ID           {printf("identificador de tipo\n");}
-               ;    
+decl_data_type : DECINT                                                                                 {printf("DEC INT\n");}
+               | DECREAL                                                                                {printf("DEC REAL\n");}
+               | DECSTR                                                                                 {printf("DEC STR\n");}
+               | TYPE ID                                                                                {printf("DEC TYPE\n");}
+               | ID                                                                                     {printf("DEC TIPO D-E-F-I-N-D-O\n");}
 
 var : ID                                                                                                {}
     ;

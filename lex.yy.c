@@ -388,10 +388,10 @@ static yyconst flex_int16_t yy_accept[120] =
        48,   45,   50,    0,    0,   59,   59,   59,   59,   59,
        59,    9,    3,   59,   59,   59,   59,   59,   59,   59,
         0,    0,   58,    0,    0,   59,    5,   59,   59,   59,
-        2,   19,   59,   59,   12,   59,   59,   17,   59,   59,
+        2,   16,   59,   59,   12,   59,   59,   18,   59,   59,
 
-       56,    0,   13,   59,    8,   10,   11,    7,   15,   16,
-       59,    6,   59,   14,    4,   59,    1,   18,    0
+       56,    0,   13,   59,    8,   10,   11,    7,   15,   17,
+       59,    6,   59,   14,    4,   59,    1,   19,    0
     } ;
 
 static yyconst flex_int32_t yy_ec[256] =
@@ -893,22 +893,22 @@ return MAIN;
 case 16:
 YY_RULE_SETUP
 #line 25 "af.lex"
-return DECREAL;
+return DECINT;
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
 #line 26 "af.lex"
-return DECSTR;
+return DECREAL;
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
 #line 27 "af.lex"
-return RETURN;
+return DECSTR;
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
 #line 28 "af.lex"
-return DECINT;
+return RETURN;
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
