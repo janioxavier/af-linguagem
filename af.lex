@@ -26,6 +26,7 @@ int                      return DECINT;
 real                     return DECREAL;
 str                      return DECSTR;
 return                   return RETURN;
+end                      return END;
 
 "\\"                     return CONTSTMT;
 "\n"                     return ENDLINE;
