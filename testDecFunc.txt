@@ -1,0 +1,14 @@
+def func():
+    int a
+    return a
+end
+def func(int a):
+    int a
+    return a
+end
+def func(int a, int b):
+    int a
+end
+def func():
+    int a
+end
