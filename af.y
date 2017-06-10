@@ -108,8 +108,15 @@ decl_field_type : decl_var ENDLINE
 type_def : TYPE ID COLON ENDLINE decl_field_type END                                                          {printf("definiu tipo\n");}
          ;
 
-func_def : DEF ID LPAREN data_types RPAREN COLON ENDLINE stmt_list END                                  {}
-         | DEF ID LPAREN data_types RPAREN COLON ENDLINE stmt_list RETURN data_type END                 {}
+param_func : decl_var
+           | decl_var COMMA param_func
+           ;
+
+func_def :
+         | DEF ID LPAREN  RPAREN COLON ENDLINE stmt_list END                        {printf("função sem retorno e sem parametro\n");}
+         | DEF ID LPAREN  RPAREN COLON ENDLINE stmt_list RETURN ID ENDLINE END       {printf("função com retorno e sem parametro\n");}
+         | DEF ID LPAREN param_func RPAREN COLON ENDLINE stmt_list RETURN ID ENDLINE END                 {printf("função com retorno e com parametro\n");}
+         | DEF ID LPAREN param_func RPAREN COLON ENDLINE stmt_list END                                  {printf("função sem retorno e com parametro\n");}
          ;
 
 expr : expr opbi1 term                                                                                  {}
