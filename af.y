@@ -30,16 +30,18 @@ node *pilha;
 %token <sValor> ID
 %token TYPE PRINT INPUT
 %token COMMA COLON SEMICOLON LPAREN RPAREN LBRACE RBRACE LBRACK RBRACK
-%token DOT PLUS MINUS TIMES DIV  NEQ RETURN EQ  LT LE GT GE AND OR ASSIGN ELIF IF ELSE
+%token DOT ASSIGN ELIF IF ELSE RETURN
 %token WHILE FOR SKIP IN NOT NIL DEF TRUE FALSE
-%token BREAK SET LIST DIVM PERC ADDPERC SUBPERC ADDEQ SUBEQ DIVEQ MULTEQ
-%token DIVMEQ DICT MAIN END ENDLINE CONTSTMT DIVIDE
+%token BREAK SET LIST DIVM ADDPERC SUBPERC ADDEQ SUBEQ DIVEQ MULTEQ
+%token DIVMEQ DICT MAIN END ENDLINE CONTSTMT
 %token <iValor> DECINT DECREAL DECSTR
 
+%type <rValor> expr term fact
 %type <iValor> decl_data_type
 
 %type <sValor> lhs decl_var var rhs
 
+%left PLUS MINUS TIMES DIV  NEQ  EQ  LT LE GT GE AND OR PERC DIVIDE 
 
 %%
 prog : stmt_list                      {}
@@ -141,37 +143,37 @@ func_def :
          | DEF ID LPAREN param_func RPAREN COLON ENDLINE stmt_list END                                  {printf("função sem retorno e com parametro\n");}
          ;
 
-expr : expr opbi1 term {}
-     | term            {}
-     ;
-     
-term : term opbi2 fact {}
-     | fact            {}
+expr : 
+       expr PLUS term           {printf("%lf\n",$1 + $3);}
+     | expr MINUS term          {printf("%lf\n",$1 - $3);}
+     | expr LT term             {printf("%lf\n",$1 < $3);}
+     | expr LE term             {printf("%lf\n",$1 <= $3);}
+     | expr GE term             {printf("%lf\n",$1 >= $3);}
+     | expr GT term             {printf("%lf\n",$1 > $3);}
+     | expr EQ term             {printf("%lf\n",$1 == $3);}
+     | expr AND term            {printf("%lf\n",$1 && $3);}
+     | expr OR term             {printf("%lf\n",$1 || $3);}
+     //| expr DIVM term         {printf("%lf\n",$1 % $3);}
+     | expr NEQ term            {printf("%lf\n",$1 != $3);}
+     //| expr ADDEQ term        {printf("%lf\n",$1 += $3);}
+     | term                     {$$ = $1;}
      ;
 
-fact : LPAREN expr RPAREN  {}
-     | unaop data_type     {}
-     | data_type           {}
+term : term TIMES fact  {printf("%lf\n",$1 * $3);}
+     | term DIVIDE fact   {printf("%lf\n",$1 / $3);}
+     | fact            {$$ = $1;}
+     ;
+
+fact : LPAREN expr RPAREN  {$$ = $2;}
+     | unaop INT           {}
+     | unaop REAL          {}
+     | unaop ID            {}
+     | INT                 {$$ = $1;}
+     | REAL                {$$ = $1;}
+     | ID                  {}
      | call_func           {}
      ;
 
-opbi1 : PLUS                                                                                            {}
-      | MINUS                                                                                           {}
-      | LT                                                                                              {}
-      | LE                                                                                              {}
-      | GE                                                                                              {}
-      | GT                                                                                              {}
-      | EQ                                                                                              {}
-      | AND                                                                                             {}
-      | OR                                                                                              {}    
-      | DIVM                                                                                            {}
-      | NEQ                                                                                             {}
-      | ADDEQ                                                                                           {}
-      ;
-
-opbi2 : DIV            {}
-      | TIMES          {}
-      ;
 
 unaop : NOT               {}
       | PERC              {}

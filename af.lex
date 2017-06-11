@@ -62,8 +62,8 @@ input                    return INPUT;
 "<="	                 return LE;
 ">"	                     return GT;
 ">="	                 return GE;
-"&"	                     return AND;
-"|"	                     return OR;
+"&&"	                     return AND;
+"||"	                     return OR;
 "!"                      return NOT;
 "="	                     return ASSIGN;
 

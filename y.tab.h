@@ -62,53 +62,53 @@ extern int yydebug;
     LBRACK = 272,
     RBRACK = 273,
     DOT = 274,
-    PLUS = 275,
-    MINUS = 276,
-    TIMES = 277,
-    DIV = 278,
-    NEQ = 279,
-    RETURN = 280,
-    EQ = 281,
-    LT = 282,
-    LE = 283,
-    GT = 284,
-    GE = 285,
-    AND = 286,
-    OR = 287,
-    ASSIGN = 288,
-    ELIF = 289,
-    IF = 290,
-    ELSE = 291,
-    WHILE = 292,
-    FOR = 293,
-    SKIP = 294,
-    IN = 295,
-    NOT = 296,
-    NIL = 297,
-    DEF = 298,
-    TRUE = 299,
-    FALSE = 300,
-    BREAK = 301,
-    SET = 302,
-    LIST = 303,
-    DIVM = 304,
-    PERC = 305,
-    ADDPERC = 306,
-    SUBPERC = 307,
-    ADDEQ = 308,
-    SUBEQ = 309,
-    DIVEQ = 310,
-    MULTEQ = 311,
-    DIVMEQ = 312,
-    DICT = 313,
-    MAIN = 314,
-    END = 315,
-    ENDLINE = 316,
-    CONTSTMT = 317,
-    DIVIDE = 318,
-    DECINT = 319,
-    DECREAL = 320,
-    DECSTR = 321
+    ASSIGN = 275,
+    ELIF = 276,
+    IF = 277,
+    ELSE = 278,
+    RETURN = 279,
+    WHILE = 280,
+    FOR = 281,
+    SKIP = 282,
+    IN = 283,
+    NOT = 284,
+    NIL = 285,
+    DEF = 286,
+    TRUE = 287,
+    FALSE = 288,
+    BREAK = 289,
+    SET = 290,
+    LIST = 291,
+    DIVM = 292,
+    ADDPERC = 293,
+    SUBPERC = 294,
+    ADDEQ = 295,
+    SUBEQ = 296,
+    DIVEQ = 297,
+    MULTEQ = 298,
+    DIVMEQ = 299,
+    DICT = 300,
+    MAIN = 301,
+    END = 302,
+    ENDLINE = 303,
+    CONTSTMT = 304,
+    DECINT = 305,
+    DECREAL = 306,
+    DECSTR = 307,
+    PLUS = 308,
+    MINUS = 309,
+    TIMES = 310,
+    DIV = 311,
+    NEQ = 312,
+    EQ = 313,
+    LT = 314,
+    LE = 315,
+    GT = 316,
+    GE = 317,
+    AND = 318,
+    OR = 319,
+    PERC = 320,
+    DIVIDE = 321
   };
 #endif
 /* Tokens.  */
@@ -129,53 +129,53 @@ extern int yydebug;
 #define LBRACK 272
 #define RBRACK 273
 #define DOT 274
-#define PLUS 275
-#define MINUS 276
-#define TIMES 277
-#define DIV 278
-#define NEQ 279
-#define RETURN 280
-#define EQ 281
-#define LT 282
-#define LE 283
-#define GT 284
-#define GE 285
-#define AND 286
-#define OR 287
-#define ASSIGN 288
-#define ELIF 289
-#define IF 290
-#define ELSE 291
-#define WHILE 292
-#define FOR 293
-#define SKIP 294
-#define IN 295
-#define NOT 296
-#define NIL 297
-#define DEF 298
-#define TRUE 299
-#define FALSE 300
-#define BREAK 301
-#define SET 302
-#define LIST 303
-#define DIVM 304
-#define PERC 305
-#define ADDPERC 306
-#define SUBPERC 307
-#define ADDEQ 308
-#define SUBEQ 309
-#define DIVEQ 310
-#define MULTEQ 311
-#define DIVMEQ 312
-#define DICT 313
-#define MAIN 314
-#define END 315
-#define ENDLINE 316
-#define CONTSTMT 317
-#define DIVIDE 318
-#define DECINT 319
-#define DECREAL 320
-#define DECSTR 321
+#define ASSIGN 275
+#define ELIF 276
+#define IF 277
+#define ELSE 278
+#define RETURN 279
+#define WHILE 280
+#define FOR 281
+#define SKIP 282
+#define IN 283
+#define NOT 284
+#define NIL 285
+#define DEF 286
+#define TRUE 287
+#define FALSE 288
+#define BREAK 289
+#define SET 290
+#define LIST 291
+#define DIVM 292
+#define ADDPERC 293
+#define SUBPERC 294
+#define ADDEQ 295
+#define SUBEQ 296
+#define DIVEQ 297
+#define MULTEQ 298
+#define DIVMEQ 299
+#define DICT 300
+#define MAIN 301
+#define END 302
+#define ENDLINE 303
+#define CONTSTMT 304
+#define DECINT 305
+#define DECREAL 306
+#define DECSTR 307
+#define PLUS 308
+#define MINUS 309
+#define TIMES 310
+#define DIV 311
+#define NEQ 312
+#define EQ 313
+#define LT 314
+#define LE 315
+#define GT 316
+#define GE 317
+#define AND 318
+#define OR 319
+#define PERC 320
+#define DIVIDE 321
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
