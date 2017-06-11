@@ -1,0 +1,15 @@
+echo "---COMPILANDO---"
+echo ""
+./Makefile
+echo "---TEST TABELA SIMBOLO---\n\n"
+echo ""
+./parse < testTabelaSimbolo.txt
+echo "---TEST DEC FUNCAO---\n\n"
+echo ""
+./parse < testDecFunc.txt
+echo "---TEST DEC VAR---\n\n"
+echo ""
+./parse < testDecVar.txt
+echo "---TEST DEC TIPO---\n\n"
+echo ""
+./parse < testDecTipo.txt
