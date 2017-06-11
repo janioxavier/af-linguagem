@@ -27,6 +27,8 @@ int                      return DECINT;
 real                     return DECREAL;
 str                      return DECSTR;
 return                   return RETURN;
+print                    return PRINT;
+input                    return INPUT;
 
 "\\"                     return CONTSTMT;
 "\n"                     line_number++;return ENDLINE;
@@ -74,7 +76,7 @@ return                   return RETURN;
 
 [a-zA-Z][a-zA-Z0-9]*        {yylval.sValor = strdup(yytext); return ID;}
 
-\"(\\.|[^\\"'])*\"	        return STR;
+\"(\\.|[^\\"'])*\"	        {yylval.sValor = strdup(yytext); return STR;}
 .	                        yyerror("Illegal input");
 
 %%

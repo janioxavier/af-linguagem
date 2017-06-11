@@ -50,63 +50,65 @@ extern int yydebug;
     STR = 260,
     ID = 261,
     TYPE = 262,
-    COMMA = 263,
-    COLON = 264,
-    SEMICOLON = 265,
-    LPAREN = 266,
-    RPAREN = 267,
-    LBRACE = 268,
-    RBRACE = 269,
-    LBRACK = 270,
-    RBRACK = 271,
-    DOT = 272,
-    PLUS = 273,
-    MINUS = 274,
-    TIMES = 275,
-    DIV = 276,
-    NEQ = 277,
-    RETURN = 278,
-    EQ = 279,
-    LT = 280,
-    LE = 281,
-    GT = 282,
-    GE = 283,
-    AND = 284,
-    OR = 285,
-    ASSIGN = 286,
-    ELIF = 287,
-    IF = 288,
-    ELSE = 289,
-    WHILE = 290,
-    FOR = 291,
-    SKIP = 292,
-    IN = 293,
-    NOT = 294,
-    NIL = 295,
-    DEF = 296,
-    TRUE = 297,
-    FALSE = 298,
-    BREAK = 299,
-    SET = 300,
-    LIST = 301,
-    DIVM = 302,
-    PERC = 303,
-    ADDPERC = 304,
-    SUBPERC = 305,
-    ADDEQ = 306,
-    SUBEQ = 307,
-    DIVEQ = 308,
-    MULTEQ = 309,
-    DIVMEQ = 310,
-    DICT = 311,
-    MAIN = 312,
-    END = 313,
-    ENDLINE = 314,
-    CONTSTMT = 315,
-    DIVIDE = 316,
-    DECINT = 317,
-    DECREAL = 318,
-    DECSTR = 319
+    PRINT = 263,
+    INPUT = 264,
+    COMMA = 265,
+    COLON = 266,
+    SEMICOLON = 267,
+    LPAREN = 268,
+    RPAREN = 269,
+    LBRACE = 270,
+    RBRACE = 271,
+    LBRACK = 272,
+    RBRACK = 273,
+    DOT = 274,
+    PLUS = 275,
+    MINUS = 276,
+    TIMES = 277,
+    DIV = 278,
+    NEQ = 279,
+    RETURN = 280,
+    EQ = 281,
+    LT = 282,
+    LE = 283,
+    GT = 284,
+    GE = 285,
+    AND = 286,
+    OR = 287,
+    ASSIGN = 288,
+    ELIF = 289,
+    IF = 290,
+    ELSE = 291,
+    WHILE = 292,
+    FOR = 293,
+    SKIP = 294,
+    IN = 295,
+    NOT = 296,
+    NIL = 297,
+    DEF = 298,
+    TRUE = 299,
+    FALSE = 300,
+    BREAK = 301,
+    SET = 302,
+    LIST = 303,
+    DIVM = 304,
+    PERC = 305,
+    ADDPERC = 306,
+    SUBPERC = 307,
+    ADDEQ = 308,
+    SUBEQ = 309,
+    DIVEQ = 310,
+    MULTEQ = 311,
+    DIVMEQ = 312,
+    DICT = 313,
+    MAIN = 314,
+    END = 315,
+    ENDLINE = 316,
+    CONTSTMT = 317,
+    DIVIDE = 318,
+    DECINT = 319,
+    DECREAL = 320,
+    DECSTR = 321
   };
 #endif
 /* Tokens.  */
@@ -115,76 +117,78 @@ extern int yydebug;
 #define STR 260
 #define ID 261
 #define TYPE 262
-#define COMMA 263
-#define COLON 264
-#define SEMICOLON 265
-#define LPAREN 266
-#define RPAREN 267
-#define LBRACE 268
-#define RBRACE 269
-#define LBRACK 270
-#define RBRACK 271
-#define DOT 272
-#define PLUS 273
-#define MINUS 274
-#define TIMES 275
-#define DIV 276
-#define NEQ 277
-#define RETURN 278
-#define EQ 279
-#define LT 280
-#define LE 281
-#define GT 282
-#define GE 283
-#define AND 284
-#define OR 285
-#define ASSIGN 286
-#define ELIF 287
-#define IF 288
-#define ELSE 289
-#define WHILE 290
-#define FOR 291
-#define SKIP 292
-#define IN 293
-#define NOT 294
-#define NIL 295
-#define DEF 296
-#define TRUE 297
-#define FALSE 298
-#define BREAK 299
-#define SET 300
-#define LIST 301
-#define DIVM 302
-#define PERC 303
-#define ADDPERC 304
-#define SUBPERC 305
-#define ADDEQ 306
-#define SUBEQ 307
-#define DIVEQ 308
-#define MULTEQ 309
-#define DIVMEQ 310
-#define DICT 311
-#define MAIN 312
-#define END 313
-#define ENDLINE 314
-#define CONTSTMT 315
-#define DIVIDE 316
-#define DECINT 317
-#define DECREAL 318
-#define DECSTR 319
+#define PRINT 263
+#define INPUT 264
+#define COMMA 265
+#define COLON 266
+#define SEMICOLON 267
+#define LPAREN 268
+#define RPAREN 269
+#define LBRACE 270
+#define RBRACE 271
+#define LBRACK 272
+#define RBRACK 273
+#define DOT 274
+#define PLUS 275
+#define MINUS 276
+#define TIMES 277
+#define DIV 278
+#define NEQ 279
+#define RETURN 280
+#define EQ 281
+#define LT 282
+#define LE 283
+#define GT 284
+#define GE 285
+#define AND 286
+#define OR 287
+#define ASSIGN 288
+#define ELIF 289
+#define IF 290
+#define ELSE 291
+#define WHILE 292
+#define FOR 293
+#define SKIP 294
+#define IN 295
+#define NOT 296
+#define NIL 297
+#define DEF 298
+#define TRUE 299
+#define FALSE 300
+#define BREAK 301
+#define SET 302
+#define LIST 303
+#define DIVM 304
+#define PERC 305
+#define ADDPERC 306
+#define SUBPERC 307
+#define ADDEQ 308
+#define SUBEQ 309
+#define DIVEQ 310
+#define MULTEQ 311
+#define DIVMEQ 312
+#define DICT 313
+#define MAIN 314
+#define END 315
+#define ENDLINE 316
+#define CONTSTMT 317
+#define DIVIDE 318
+#define DECINT 319
+#define DECREAL 320
+#define DECSTR 321
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 typedef union YYSTYPE YYSTYPE;
 union YYSTYPE
 {
-#line 43 "af.y" /* yacc.c:1909  */
+#line 15 "af.y" /* yacc.c:1909  */
 
     int iValor;
     double rValor;
     char * sValor;
 
-#line 188 "y.tab.h" /* yacc.c:1909  */
+#line 192 "y.tab.h" /* yacc.c:1909  */
 };
 # define YYSTYPE_IS_TRIVIAL 1
 # define YYSTYPE_IS_DECLARED 1

@@ -1,5 +1,3 @@
-#include <stdio.h>
-
 enum tipoErro {
     NAO_DECLARADO,
     JA_DECLARADO,
@@ -11,7 +9,8 @@ enum tipo{
     tipoInteiro,
     tipoReal,
     tipoString,
-    tipoDefinido
+    tipoDefinido,
+    tipoFuncao,
 };
 typedef enum tipo TipoVariavel;
 
@@ -23,10 +22,10 @@ union valor{
 };
 typedef union valor ValorVariavel;
 
-void erroSemantica(enum tipoErro, char*);
+void erroSemantica(int tipoErro, char*);
 
 struct simboloNode {
-    char *name;
+    char *nome;
     ValorVariavel valor;
     TipoVariavel tipo;
     char *escopo;
@@ -34,13 +33,13 @@ struct simboloNode {
 };
 typedef struct simboloNode simboloEntrada;
 
-simboloEntrada *tabelaSimbolo = NULL;
+simboloEntrada *tabelaSimbolo;
 
+simboloEntrada *encontrarEntrada (char *id);
 int isDeclarado (char *id);
 int addId (char *id, int tipo, char *escopo);
 int addIdValor (char *id, int tipo, ValorVariavel valor, char *escopo);
-int getIntValor (char *id, int *v);
-int getRealValor (char *id, double *v);
-int getStrValor (char *id, char *str);
-int setValor (char *id1, char *id2);
+ValorVariavel getValor(char *id);
+int setValorId (char *id1, char *id2);
+int setValor (char *id1, int tipo, ValorVariavel valor);
 int verificadorTipo (simboloEntrada *in1, simboloEntrada *in2);

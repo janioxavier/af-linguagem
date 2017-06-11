@@ -1,4 +1,4 @@
-int abc
-real bd
-str cha
-casa d
+int a = 10
+a = 10
+print a
+a + b - c + 2 - (3 * 4) + "abcde" % 10.423
