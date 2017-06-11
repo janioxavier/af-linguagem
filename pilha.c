@@ -1,11 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-
-struct Node{
- char id[64];
- struct Node *prox;
-};
-typedef struct Node node;
+#include "pilha.h"
 
 int tam;
 
@@ -17,31 +12,20 @@ void libera(node *PILHA);
 void push(node *PILHA);
 node *pop(node *PILHA);
 
+void liberar() {
+    libera(PILHA);
+}
 
-int main(void)
-{
- node *PILHA = (node *) malloc(sizeof(node));
- if(!PILHA){
-  printf("Sem memoria disponivel!\n");
-  exit(1);
- }else{
- inicia(PILHA);
- int opt;
-
- do{
-  opt=menu();
-  opcao(PILHA,opt);
- }while(opt);
-
- free(PILHA);
- return 0;
- }
+void iniciar_pilha() {
+    PILHA = (node *) malloc(sizeof(node));
+    inicia(PILHA);
 }
 
 void inicia(node *PILHA)
 {
  PILHA->prox = NULL;
  tam=0;
+ PILHA->top = NULL;
 }
 
 int menu(void)
@@ -54,6 +38,7 @@ int menu(void)
  printf("2. Exibir PILHA\n");
  printf("3. PUSH\n");
  printf("4. POP\n");
+ printf("5. TOP\n");
  printf("Opcao: "); scanf("%d", &opt);
 
  return opt;
@@ -84,6 +69,11 @@ void opcao(node *PILHA, int op)
    tmp= pop(PILHA);
    if(tmp != NULL)
    printf("Retirado: %s\n\n", tmp->id);
+   break;
+  case 5:
+   tmp = PILHA->top;
+   if (tmp != NULL)
+   printf("Topo: %s\n\n", tmp->id);
    break;
 
   default:
@@ -153,13 +143,14 @@ void libera(node *PILHA)
  }
 }
 
-void push(node *PILHA)
+void push(node *novo)
 {
- node *novo=aloca();
+ //node *novo=aloca();
  novo->prox = NULL;
 
- if(vazia(PILHA))
+ if(vazia(PILHA)) {
   PILHA->prox=novo;
+ }
  else{
   node *tmp = PILHA->prox;
 
@@ -168,6 +159,7 @@ void push(node *PILHA)
 
   tmp->prox = novo;
  }
+ PILHA->top = novo;
  tam++;
 }
 
@@ -185,9 +177,28 @@ node *pop(node *PILHA)
    penultimo = ultimo;
    ultimo = ultimo->prox;
   }
-
+  PILHA->top = penultimo;
   penultimo->prox = NULL;
   tam--;
   return ultimo;
  }
+}
+
+void colocar_pilha(char *id) {
+ node *novo=(node *) malloc(sizeof(node));
+ if(!novo){
+  printf("Sem memoria disponivel!\n");
+  exit(1);
+ }else{
+  novo->id = id;
+ }
+ push(novo);
+}
+
+void retirar_pilha() {
+ pop(PILHA);
+}
+
+char *topo_pilha() {
+    return PILHA->top != NULL ? PILHA->top->id : "";
 }

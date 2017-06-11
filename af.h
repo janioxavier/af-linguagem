@@ -57,3 +57,5 @@
 # define DECSTR          // palavra chave para str
 # define CONTSTMT        // define o continuamento de uma sentença
 # define RETURN         // define o retorno de uma funcao
+# define PRINT          // funcao de escrita
+# define INPUT           // funcao de leitura
