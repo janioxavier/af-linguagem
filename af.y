@@ -10,6 +10,10 @@ extern char * yytext;
 extern int line_number;
 
 
+int yyerror(char *s);
+extern int yylineno;
+extern char * yytext;
+extern int line_number;
 %}
 
 %union{
@@ -43,8 +47,9 @@ stmt_list : stmt                      {}
           ;
           
 stmt : assign end_stmt                  {}
-     | definition end_stmt              {printf("definicao\n");}
-     | decl_var end_stmt                {}   
+     | definition end_stmt              {}
+     | decl_var end_stmt                {}
+     | estr_cond end_stmt               {}
      | f_builtin end_stmt               {}
      | expr end_stmt                    {}
      ;
@@ -93,8 +98,6 @@ prim_type : INT                 {printf("%i\n", $1);}
           
 abs_type : ID                   {printf("%s\n", $1);}
          ;
-
-
 
 dict : LBRACK key_value RBRACK                                                                          {}
      ;
@@ -179,6 +182,19 @@ f_print : PRINT expr    {}
 f_input : INPUT ID      {}
         ;
         
+estr_cond : 
+          IF expr COLON ENDLINE stmt_list END             {printf("if\n");}
+          | IF expr COLON ENDLINE stmt_list cond_else       {printf("if..else \n");}
+          | IF expr COLON ENDLINE stmt_list cond_elif       {printf("if..elif..else \n");}
+          ;
+          
+cond_elif : ELIF expr COLON ENDLINE stmt_list cond_elif
+           | ELIF expr COLON ENDLINE stmt_list cond_else
+           ;
+           
+cond_else : ELSE COLON ENDLINE stmt_list END                                                                    {}
+          ;
+        
 %%
 
 void printIdValue(char *id) {
@@ -197,7 +213,6 @@ void printIdValue(char *id) {
         }
     }
 }
-
 
 
 int yyerror (char *msg) {

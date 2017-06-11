@@ -13,3 +13,6 @@ echo ""
 echo "---TEST DEC TIPO---\n\n"
 echo ""
 ./parse < testDecTipo.txt
+echo "---TEST ESTRUTURA CONDICIONAL---\n\n"
+echo ""
+./parse < testEstCond.txt
