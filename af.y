@@ -1,5 +1,14 @@
 %{
 #include <stdio.h>
+#include <string.h>
+#include "pilha.h"
+#include "tabelasimbolo.h"
+
+int yyerror(char *s);
+extern int yylineno;
+extern char * yytext;
+extern int line_number;
+
 
 int yyerror(char *s);
 extern int yylineno;
@@ -8,83 +17,88 @@ extern int line_number;
 %}
 
 %union{
-    int i;
-    float f;
-    char* str;
+    int iValor;
+    double rValor;
+    char * sValor;
 }
 
-%token <i> INT
-%token <f> REAL
-%token <str> STR
-%token TYPE
-%token ID COMMA COLON SEMICOLON LPAREN RPAREN LBRACE RBRACE LBRACK RBRACK
+%token <iValor> INT 
+%token <rValor> REAL
+%token <sValor> STR
+%token <sValor> ID
+%token TYPE PRINT INPUT
+%token COMMA COLON SEMICOLON LPAREN RPAREN LBRACE RBRACE LBRACK RBRACK
 %token DOT PLUS MINUS TIMES DIV  NEQ RETURN EQ  LT LE GT GE AND OR ASSIGN ELIF IF ELSE
 %token WHILE FOR SKIP IN NOT NIL DEF TRUE FALSE
 %token BREAK SET LIST DIVM PERC ADDPERC SUBPERC ADDEQ SUBEQ DIVEQ MULTEQ
 %token DIVMEQ DICT MAIN END ENDLINE CONTSTMT DIVIDE
-%token DECINT DECREAL DECSTR
+%token <iValor> DECINT DECREAL DECSTR
+
+%type <iValor> decl_data_type
+
+%type <sValor> lhs decl_var var rhs
 
 %%
-prog : stmt_list                                                                                        {}
+prog : stmt_list                      {}
      ;
      
-stmt_list : stmt                                                                                        {}
-          | stmt stmt_list                                                                              {}
+stmt_list : stmt                      {}
+          | stmt stmt_list            {}
           ;
           
-stmt : assign end_stmt                                                                                  {}
-     | definition end_stmt                                                                              {}
-     | decl_var end_stmt                                                                                {}
-     | estr_cond end_stmt                                                                               {}
+stmt : assign end_stmt                  {}
+     | definition end_stmt              {}
+     | decl_var end_stmt                {}
+     | estr_cond end_stmt               {}
+     | f_builtin end_stmt               {}
+     | expr end_stmt                    {}
      | estr_while end_stmt                                                                              {}
      | estr_for end_stmt                                                                                {}
      ;
-    
-end_stmt : ENDLINE                                                                                      {}
-         | CONTSTMT end_stmt                                                                            {}
+
+end_stmt : ENDLINE            {}
          ;
 
-assign : lhs ASSIGN rhs                                                                                 {}
+assign : lhs ASSIGN rhs     {}
        ;
 
-lhs : decl_var
-    | var
+lhs : decl_var  {$$ = $1;}
+    | var       {$$ = $1;}
     ;
 
-rhs : var                                                                                               {}
-    | expr                                                                                              {}
-    | call_func                                                                                         {}
+rhs : expr        {}
     ;
 
-call_func : ID LPAREN RPAREN                                                                            {}
-          | ID LPAREN data_types RPAREN                                                                 {}
+call_func : ID LPAREN RPAREN             {}
+          | ID LPAREN data_types RPAREN  {}
           ;
 
-decl_var : decl_data_type ID                                                                            {}
+
+decl_var : decl_data_type ID   {addId($2, $1, topo_pilha()); $$ = $2;}
          ;
 
-decl_data_type : DECINT                                                                                 {printf("DEC INT\n");}
-               | DECREAL                                                                                {printf("DEC REAL\n");}
-               | DECSTR                                                                                 {printf("DEC STR\n");}
-               | ID                                                                                     {printf("DEC TIPO D-E-F-I-N-D-O\n");}
-               ;    
+decl_data_type : DECINT        {$$ = tipoInteiro;}
+               | DECREAL       {$$ = tipoReal;}
+               | DECSTR        {$$ = tipoString;}
+               | ID            {$$ = tipoDefinido;}
+               ;
 
-var : ID                                                                                                {}
+var : ID   {$$ = $1;}
     ;
 
 data_type : prim_type                                                                                   {}
           | abs_type                                                                                    {}
           ;
 
-prim_type : INT                                                                                         {}
-          | REAL                                                                                        {}
-          | STR                                                                                         {}
-          | DICT ASSIGN dict                                                                            {}
-          | LIST ASSIGN list                                                                            {}
-          | NIL                                                                                         {}
+prim_type : INT                 {printf("%i\n", $1);}
+          | REAL                {printf("%lf\n", $1);}
+          | STR                 {printf("%s\n", $1);}
+          | DICT ASSIGN dict    {}
+          | LIST ASSIGN list    {}
+          | NIL                 {}
           ;
           
-abs_type : TYPE ID                                                                                      {}
+abs_type : ID                   {printf("%s\n", $1);}
          ;
 
 dict : LBRACK key_value RBRACK                                                                          {}
@@ -113,12 +127,29 @@ decl_field_type : decl_var ENDLINE
 type_def : TYPE ID COLON ENDLINE decl_field_type END                                                    {printf("definiu tipo\n");}
          ;
 
-func_def : DEF ID LPAREN data_types RPAREN COLON ENDLINE stmt_list END                                  {}
-         | DEF ID LPAREN data_types RPAREN COLON ENDLINE stmt_list RETURN data_type END                 {}
+param_func : decl_var
+           | decl_var COMMA param_func
+           ;
+
+func_def :
+         | DEF ID LPAREN  RPAREN COLON ENDLINE stmt_list END                        {printf("função sem retorno e sem parametro\n");}
+         | DEF ID LPAREN  RPAREN COLON ENDLINE stmt_list RETURN ID ENDLINE END       {printf("função com retorno e sem parametro\n");}
+         | DEF ID LPAREN param_func RPAREN COLON ENDLINE stmt_list RETURN ID ENDLINE END                 {printf("função com retorno e com parametro\n");}
+         | DEF ID LPAREN param_func RPAREN COLON ENDLINE stmt_list END                                  {printf("função sem retorno e com parametro\n");}
          ;
 
-expr : expr opbi1 term                                                                                  {}
-     | term                                                                                             {}
+expr : expr opbi1 term {}
+     | term            {}
+     ;
+     
+term : term opbi2 fact {}
+     | fact            {}
+     ;
+
+fact : LPAREN expr RPAREN  {}
+     | unaop data_type     {}
+     | data_type           {}
+     | call_func           {}
      ;
 
 opbi1 : PLUS                                                                                            {}
@@ -135,27 +166,27 @@ opbi1 : PLUS                                                                    
       | ADDEQ                                                                                           {}
       ;
 
-opbi2 : DIV                                                                                             {}
-      | TIMES                                                                                           {}
+opbi2 : DIV            {}
+      | TIMES          {}
       ;
 
-term : term opbi2 fact                                                                                  {}
-     | fact                                                                                             {}
-     ;
-
-fact : LPAREN expr RPAREN                                                                               {}
-     | opuna data_type                                                                                  {}
-     | data_type                                                                                        {}
-     ;
-
-opuna : NOT                                                                                             {}
-      | PERC                                                                                            {}
-      | MINUS                                                                                           {}
+unaop : NOT               {}
+      | PERC              {}
+      | MINUS             {}
       ;
-      
-      
+
+f_builtin : f_print     {}
+          | f_input     {}
+          ;
+
+f_print : PRINT expr    {}
+        ;
+
+f_input : INPUT ID      {}
+        ;
+        
 estr_cond : 
-          | IF expr COLON ENDLINE stmt_list END             {printf("if\n");}
+          IF expr COLON ENDLINE stmt_list END             {printf("if\n");}
           | IF expr COLON ENDLINE stmt_list cond_else       {printf("if..else \n");}
           | IF expr COLON ENDLINE stmt_list cond_elif       {printf("if..elif..else \n");}
           ;
@@ -175,6 +206,23 @@ estr_for : FOR decl_var COMMA var IN var COLON stmt_list END                    
              
 %%
 
+void printIdValue(char *id) {
+    simboloEntrada *in = encontrarEntrada(id);
+    if (in != NULL) {
+        switch(in->tipo) {
+        case tipoInteiro:
+        printf("%i", in->valor.i);break;
+        case tipoReal:
+        printf("%lf", in->valor.r);break;
+        case tipoString:
+        printf("%s", in->valor.s);break;
+        default:
+        printf("tipo não pode ser escrito\n");
+        break;
+        }
+    }
+}
+
 
 int yyerror (char *msg) {
 	fprintf (stderr, "Line %d: %s at '%s'\n", line_number, msg, yytext);
@@ -183,6 +231,7 @@ int yyerror (char *msg) {
 
 
 int main() {
+    iniciar_pilha();colocar_pilha("global");
     yyparse();
     return 0;
 }
