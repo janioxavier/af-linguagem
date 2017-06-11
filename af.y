@@ -85,13 +85,12 @@ call_func : ID LPAREN RPAREN                                                    
           | ID LPAREN data_types RPAREN                                                                 {}
           ;
 
-decl_var : decl_data_type ID                                                                            {printf("deu certo\n");}
+decl_var : decl_data_type ID                                                                            {}
          ;
 
 decl_data_type : DECINT                                                                                 {printf("DEC INT\n");}
                | DECREAL                                                                                {printf("DEC REAL\n");}
                | DECSTR                                                                                 {printf("DEC STR\n");}
-               | TYPE ID                                                                                {printf("DEC TYPE\n");}
                | ID                                                                                     {printf("DEC TIPO D-E-F-I-N-D-O\n");}
 
 var : ID                                                                                                {}
@@ -132,12 +131,23 @@ data_types : data_type                                                          
 definition : type_def                                                                                   {}
            | func_def                                                                                   {}
            ;
+
+decl_field_type : decl_var ENDLINE
+                | decl_var ENDLINE decl_field_type 
+                 ;
            
-type_def : TYPE ID COLON ENDLINE stmt_list END                                                          {printf("def tipo\n");}
+type_def : TYPE ID COLON ENDLINE decl_field_type END                                                          {printf("definiu tipo\n");}
          ;
 
-func_def : DEF ID LPAREN data_types RPAREN COLON ENDLINE stmt_list END                                  {printf("definicao\n");}
-         | DEF ID LPAREN data_types RPAREN COLON ENDLINE stmt_list RETURN data_type END                 {}
+param_func : decl_var
+           | decl_var COMMA param_func
+           ;
+
+func_def :
+         | DEF ID LPAREN  RPAREN COLON ENDLINE stmt_list END                        {printf("função sem retorno e sem parametro\n");}
+         | DEF ID LPAREN  RPAREN COLON ENDLINE stmt_list RETURN ID ENDLINE END       {printf("função com retorno e sem parametro\n");}
+         | DEF ID LPAREN param_func RPAREN COLON ENDLINE stmt_list RETURN ID ENDLINE END                 {printf("função com retorno e com parametro\n");}
+         | DEF ID LPAREN param_func RPAREN COLON ENDLINE stmt_list END                                  {printf("função sem retorno e com parametro\n");}
          ;
 
 expr : expr opbi1 term                                                                                  {}
