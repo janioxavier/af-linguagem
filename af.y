@@ -14,6 +14,8 @@ int yyerror(char *s);
 extern int yylineno;
 extern char * yytext;
 extern int line_number;
+
+node *pilha;
 %}
 
 %union{
@@ -52,8 +54,8 @@ stmt : assign end_stmt                  {}
      | estr_cond end_stmt               {}
      | f_builtin end_stmt               {}
      | expr end_stmt                    {}
-     | estr_while end_stmt                                                                              {}
-     | estr_for end_stmt                                                                                {}
+     | estr_while end_stmt              {}
+     | estr_for end_stmt                {}
      ;
 
 end_stmt : ENDLINE            {}
@@ -231,7 +233,8 @@ int yyerror (char *msg) {
 
 
 int main() {
-    iniciar_pilha();colocar_pilha("global");
+    pilha = nova_pilha();
+    push(pilha, "global");
     yyparse();
     return 0;
 }

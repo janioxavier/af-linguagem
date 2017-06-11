@@ -2,13 +2,13 @@
 #include "pilha.h"
 
 int main() {
-    iniciar_pilha();
-    colocar_pilha("123");
-    colocar_pilha("a");
-    colocar_pilha("c");
-    printf("%s\n", topo_pilha() );
-    retirar_pilha();
-    printf("%s\n", topo_pilha() );
-    retirar_pilha();
-    printf("%s\n", topo_pilha() );
+    node *pilha = nova_pilha();
+
+    push(pilha, "3");
+    push(pilha, "2");
+    push(pilha, "1");
+    printf("%s\n",topo_pilha(pilha));
+    printf("%s\n",pop(pilha)->id);
+    printf("%s\n",pop(pilha)->id);
+    printf("%s\n",pop(pilha)->id);
 }

@@ -5,10 +5,9 @@ struct Node{
 };
 typedef struct Node node;
 
-node *PILHA;
+node* nova_pilha();
+void push(node *PILHA, char *id);
+node *pop(node *PILHA);
+void libera(node *PILHA);
 
-void iniciar_pilha();
-void colocar_pilha(char*);
-void retirar_pilha();
-void liberar_pilha();
-char *topo_pilha();
+char *topo_pilha(node *PILHA);
