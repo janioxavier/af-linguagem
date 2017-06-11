@@ -40,6 +40,7 @@ node *pilha;
 
 %type <sValor> lhs decl_var var rhs
 
+
 %%
 prog : stmt_list                      {}
      ;
@@ -76,7 +77,7 @@ call_func : ID LPAREN RPAREN             {}
           ;
 
 
-decl_var : decl_data_type ID   {addId($2, $1, topo_pilha()); $$ = $2;}
+decl_var : decl_data_type ID   {addId($2, $1, topo_pilha(pilha)); $$ = $2;}
          ;
 
 decl_data_type : DECINT        {$$ = tipoInteiro;}
