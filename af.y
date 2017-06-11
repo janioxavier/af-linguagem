@@ -35,7 +35,9 @@ stmt_list : stmt                                                                
 stmt : assign end_stmt                                                                                  {}
      | definition end_stmt                                                                              {}
      | decl_var end_stmt                                                                                {}
-     | estr_cond end_stmt
+     | estr_cond end_stmt                                                                               {}
+     | estr_while end_stmt                                                                              {}
+     | estr_for end_stmt                                                                                {}
      ;
     
 end_stmt : ENDLINE                                                                                      {}
@@ -108,7 +110,7 @@ decl_field_type : decl_var ENDLINE
                 | decl_var ENDLINE decl_field_type 
                  ;
            
-type_def : TYPE ID COLON ENDLINE decl_field_type END                                                          {printf("definiu tipo\n");}
+type_def : TYPE ID COLON ENDLINE decl_field_type END                                                    {printf("definiu tipo\n");}
          ;
 
 func_def : DEF ID LPAREN data_types RPAREN COLON ENDLINE stmt_list END                                  {}
@@ -130,6 +132,7 @@ opbi1 : PLUS                                                                    
       | OR                                                                                              {}    
       | DIVM                                                                                            {}
       | NEQ                                                                                             {}
+      | ADDEQ                                                                                           {}
       ;
 
 opbi2 : DIV                                                                                             {}
@@ -158,11 +161,17 @@ estr_cond :
           ;
           
 cond_elif : ELIF expr COLON ENDLINE stmt_list cond_elif
-           | ELIF expr COLON ENDLINE stmt_list cond_else
-           ;
+          | ELIF expr COLON ENDLINE stmt_list cond_else
+          ;
            
 cond_else : ELSE COLON ENDLINE stmt_list END                                                                    {}
           ;
+          
+estr_while : WHILE expr COLON stmt_list END                                                                     {printf("while \n");}
+           ;
+           
+estr_for : FOR decl_var COMMA var IN var COLON stmt_list END                                                    {printf("for \n");}
+         ;
              
 %%
 
