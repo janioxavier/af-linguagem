@@ -178,11 +178,11 @@ extern int yydebug;
 typedef union YYSTYPE YYSTYPE;
 union YYSTYPE
 {
-#line 40 "af.y" /* yacc.c:1909  */
+#line 43 "af.y" /* yacc.c:1909  */
 
-    int i;
-    float f;
-    char * str;
+    int iValor;
+    double rValor;
+    char * sValor;
 
 #line 188 "y.tab.h" /* yacc.c:1909  */
 };

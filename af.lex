@@ -1,4 +1,5 @@
 %{
+#include <stdio.h>
 #include "y.tab.h"
 int line_number = 1;
 void yyerror(char *message);
@@ -64,10 +65,15 @@ return                   return RETURN;
 "="	                     return ASSIGN;
 
 " "                         ;
+
 "(*"([^*]|\*+[^*/])*\*+")"  ;
-{digits}+	                return INT;
-{digits}+\.{digits}+        return REAL;
-[a-z][a-zA-Z0-9]*           return ID;
+
+{digits}+	                {yylval.iValor = atoi(yytext);return INT;}
+
+{digits}+\.{digits}+        {sscanf(yytext, "%lf", &yylval.rValor); return REAL;}
+
+[a-zA-Z][a-zA-Z0-9]*        {yylval.sValor = strdup(yytext); return ID;}
+
 \"(\\.|[^\\"'])*\"	        return STR;
 .	                        yyerror("Illegal input");
 

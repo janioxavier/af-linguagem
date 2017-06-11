@@ -1,5 +1,8 @@
 %{
 #include <stdio.h>
+#include <string.h>
+#include "pilha.h"
+
 //#include "tabelasimbolo.h"
 
 int yyerror(char *s);
@@ -38,59 +41,60 @@ simboloEntrada *tabelaSimbolo = NULL;
 %}
 
 %union{
-    int i;
-    float f;
-    char * str;
+    int iValor;
+    double rValor;
+    char * sValor;
 }
 
-%token <i> INT 
-%token <f> REAL
-%token <str> STR
-%token <str> ID
+%token <iValor> INT 
+%token <rValor> REAL
+%token <sValor> STR
+%token <sValor> ID
 %token TYPE
-%token  COMMA COLON SEMICOLON LPAREN RPAREN LBRACE RBRACE LBRACK RBRACK
+%token COMMA COLON SEMICOLON LPAREN RPAREN LBRACE RBRACE LBRACK RBRACK
 %token DOT PLUS MINUS TIMES DIV  NEQ RETURN EQ  LT LE GT GE AND OR ASSIGN ELIF IF ELSE
 %token WHILE FOR SKIP IN NOT NIL DEF TRUE FALSE
 %token BREAK SET LIST DIVM PERC ADDPERC SUBPERC ADDEQ SUBEQ DIVEQ MULTEQ
 %token DIVMEQ DICT MAIN END ENDLINE CONTSTMT DIVIDE
-%token <i> DECINT DECREAL DECSTR
+%token <iValor> DECINT DECREAL DECSTR
 
-%type <i> decl_data_type
+%type <iValor> decl_data_type
 
 %%
-prog : stmt_list                            {}
+prog : stmt_list                      {}
      ;
      
-stmt_list : stmt                                                  {}
-          | stmt stmt_list                                           {}
+stmt_list : stmt                      {}
+          | stmt stmt_list            {}
           ;
           
-stmt : assign end_stmt                                                                              {}
-     | definition end_stmt                                                                              {printf("definicao\n");}
-     | decl_var end_stmt                                                                                {}
+stmt : assign end_stmt                  {}
+     | definition end_stmt              {printf("definicao\n");}
+     | decl_var end_stmt                {}       
      ;
     
-end_stmt : ENDLINE                                                                                      {}
-         | CONTSTMT end_stmt                                                                            {}
+end_stmt : ENDLINE            {}
+         | CONTSTMT end_stmt  {}
          ;
 
-assign : lhs ASSIGN rhs                                                                                 {}
+assign : lhs ASSIGN rhs     {}
        ;
 
-lhs : decl_var
-    | var
+lhs : decl_var  {$$ = $1}
+    | var       {$$ = $1}
     ;
 
-rhs : var                                                                                               {}
-    | expr                                                                                              {}
-    | call_func                                                                                         {}
+rhs : var         {$$ = $1}
+    | expr        {$$ = $1}
+    | call_func   {$$ = $1}
     ;
 
-call_func : ID LPAREN RPAREN                                                                            {}
-          | ID LPAREN data_types RPAREN                                                                 {}
+call_func : ID LPAREN RPAREN             {}
+          | ID LPAREN data_types RPAREN  {}
           ;
 
-decl_var : decl_data_type ID      {$<str>$ = $3;printf("%i %s\n", $1, $<str>$);}
+
+decl_var : decl_data_type ID   {addId($2, $1, topo_pilha());}
          ;
 
 decl_data_type : DECINT        {$$ = tipoInteiro;}
@@ -99,7 +103,7 @@ decl_data_type : DECINT        {$$ = tipoInteiro;}
                | ID            {$$ = tipoDefinido;}
                ;
 
-var : ID                                                                                                {}
+var : ID   {$$ = $1}
     ;
 
 data_type : prim_type                                                                                   {}
@@ -145,39 +149,39 @@ func_def : DEF ID LPAREN data_types RPAREN COLON ENDLINE stmt_list END          
          | DEF ID LPAREN data_types RPAREN COLON ENDLINE stmt_list RETURN data_type END                 {}
          ;
 
-expr : expr opbi1 term                                                                                  {}
-     | term                                                                                             {}
+expr : expr opbi1 term {}
+     | term            {}
      ;
 
-opbi1 : PLUS                                                                                            {}
-      | MINUS                                                                                           {}
-      | LT                                                                                              {}
-      | LE                                                                                              {}
-      | GE                                                                                              {}
-      | GT                                                                                              {}
-      | EQ                                                                                              {}
-      | AND                                                                                             {}
-      | OR                                                                                              {}    
-      | DIVM                                                                                            {}
-      | NEQ                                                                                             {}
+opbi1 : PLUS           {}
+      | MINUS          {}
+      | LT             {}
+      | LE             {}
+      | GE             {}
+      | GT             {}
+      | EQ             {}
+      | AND            {}
+      | OR             {}    
+      | DIVM           {}
+      | NEQ            {}
       ;
 
-opbi2 : DIV                                                                                             {}
-      | TIMES                                                                                           {}
+opbi2 : DIV            {}
+      | TIMES          {}
       ;
 
-term : term opbi2 fact                                                                                  {}
-     | fact                                                                                             {}
+term : term opbi2 fact {}
+     | fact            {}
      ;
 
-fact : LPAREN expr RPAREN                                                                               {}
-     | unaop data_type                                                                                  {}
-     | data_type                                                                                        {}
+fact : LPAREN expr RPAREN  {}
+     | unaop data_type     {}
+     | data_type           {}
      ;
 
-unaop : NOT                                                                                             {}
-      | PERC                                                                                            {}
-      | MINUS                                                                                           {}
+unaop : NOT               {}
+      | PERC              {}
+      | MINUS             {}
       ;
 
 %%
@@ -195,6 +199,7 @@ int isDeclarado(char *id) {
 }
 
 int addId (char *id, int tipo, char *escopo) {
+    printf("oi\n");
     simboloEntrada *novaEntrada;
     if (isDeclarado(id)) return 0;
     novaEntrada = (simboloEntrada*) malloc (sizeof(simboloEntrada));
@@ -226,6 +231,7 @@ int yyerror (char *msg) {
 
 
 int main() {
+    iniciar_pilha();colocar_pilha("global");
     yyparse();
     return 0;
 }
