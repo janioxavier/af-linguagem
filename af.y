@@ -36,7 +36,7 @@ node *pilha;
 %token DIVMEQ DICT MAIN END ENDLINE CONTSTMT DIV 
 %token <iValor> DECINT DECREAL DECSTR
 
-
+%type <rValor> expr
 %left PLUS MINUS AND OR NEQ  EQ  LT LE GT GE PERC
 %left TIMES DIVIDE 
 %right NOT '-'
