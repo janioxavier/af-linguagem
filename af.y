@@ -14,6 +14,8 @@ int yyerror(char *s);
 extern int yylineno;
 extern char * yytext;
 extern int line_number;
+
+node *pilha;
 %}
 
 %union{
@@ -37,6 +39,7 @@ extern int line_number;
 
 %type <sValor> lhs decl_var var
 
+
 %%
 prog : stmt_list                      {}
      ;
@@ -51,8 +54,8 @@ stmt : assign end_stmt                  {}
      | estr_cond end_stmt               {}
      | f_builtin end_stmt               {}
      | expr end_stmt                    {}
-     | estr_while end_stmt                                                                              {}
-     | estr_for end_stmt                                                                                {}
+     | estr_while end_stmt              {}
+     | estr_for end_stmt                {}
      ;
 
 end_stmt : ENDLINE            {}
@@ -74,7 +77,7 @@ call_func : ID LPAREN RPAREN             {}
           ;
 
 
-decl_var : decl_data_type ID   {addId($2, $1, topo_pilha()); $$ = $2;}
+decl_var : decl_data_type ID   {addId($2, $1, topo_pilha(pilha)); $$ = $2;}
          ;
 
 decl_data_type : DECINT        {$$ = tipoInteiro;}
@@ -232,7 +235,8 @@ int yyerror (char *msg) {
 
 
 int main() {
-    iniciar_pilha();colocar_pilha("global");
+    pilha = nova_pilha();
+    push(pilha, "global");
     yyparse();
     return 0;
 }
