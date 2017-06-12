@@ -33,7 +33,7 @@ node *pilha;
 %token DOT ASSIGN ELIF IF ELSE RETURN
 %token WHILE FOR SKIP IN NOT NIL DEF TRUE FALSE
 %token BREAK SET LIST DIVM ADDPERC SUBPERC ADDEQ SUBEQ DIVEQ MULTEQ
-%token DIVMEQ DICT MAIN END ENDLINE CONTSTMT DIV
+%token DIVMEQ DICT MAIN END ENDLINE CONTSTMT DIV 
 %token <iValor> DECINT DECREAL DECSTR
 
 
@@ -41,7 +41,7 @@ node *pilha;
 %left TIMES DIVIDE 
 %right NOT '-'
 
-%type <rValor> expr 
+//%type <rValor> expr 
 %type <iValor> decl_data_type
 
 %type <sValor> lhs decl_var var rhs
