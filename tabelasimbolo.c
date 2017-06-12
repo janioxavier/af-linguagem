@@ -9,6 +9,7 @@ void erroSemantica (int erroTipo, char *info) {
     
     switch (erroTipo) {
         case TIPOS_DIFERENTES: sprintf (errmsg, "Tipos diferentes: %s\n", info); break;
+        case JA_DECLARADO: sprintf(errmsg, "identificador '%s' já foi declarado\n", info); break;
     }
     printf("%s\n", errmsg);
 }
@@ -34,7 +35,10 @@ int isDeclarado(char *id) {
 
 int addId (char *id, int tipo, char *escopo) {
     simboloEntrada *novaEntrada;
-    if (isDeclarado(id)) return 0;
+    if (isDeclarado(id)) {
+        erroSemantica(JA_DECLARADO, id);
+        return 0;
+    }
     novaEntrada = (simboloEntrada*) malloc (sizeof(simboloEntrada));
     novaEntrada->nome = id;
     novaEntrada->tipo = tipo;
@@ -46,7 +50,10 @@ int addId (char *id, int tipo, char *escopo) {
 
 int addIdValor (char *id, int tipo, ValorVariavel valor, char *escopo) {
     simboloEntrada *novaEntrada;
-    if (isDeclarado(id)) return 0;
+    if (isDeclarado(id)) {
+        erroSemantica(JA_DECLARADO, id);
+        return 0;
+    }
     novaEntrada = (simboloEntrada*) malloc (sizeof(simboloEntrada));
     novaEntrada->nome = id;
     novaEntrada->tipo = tipo;
