@@ -1533,7 +1533,7 @@ yyreduce:
 
   case 10:
 #line 64 "af.y" /* yacc.c:1646  */
-    {}
+    {printf("%lf\n", (yyvsp[-1].rValor));}
 #line 1538 "y.tab.c" /* yacc.c:1646  */
     break;
 
@@ -1731,67 +1731,67 @@ yyreduce:
 
   case 48:
 #line 154 "af.y" /* yacc.c:1646  */
-    {printf("%lf\n",(yyval.rValor) = (yyvsp[-2].rValor) + (yyvsp[0].rValor));}
+    {(yyval.rValor) = (yyvsp[-2].rValor) + (yyvsp[0].rValor);}
 #line 1736 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 49:
 #line 155 "af.y" /* yacc.c:1646  */
-    {printf("%lf\n",(yyval.rValor) = (yyvsp[-2].rValor) - (yyvsp[0].rValor));}
+    {(yyval.rValor) = (yyvsp[-2].rValor) - (yyvsp[0].rValor);}
 #line 1742 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 50:
 #line 156 "af.y" /* yacc.c:1646  */
-    {printf("%lf\n",(yyval.rValor) = (yyvsp[-2].rValor) * (yyvsp[0].rValor));}
+    {(yyval.rValor) = (yyvsp[-2].rValor) * (yyvsp[0].rValor);}
 #line 1748 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 51:
 #line 157 "af.y" /* yacc.c:1646  */
-    {printf("%lf\n",(yyval.rValor) = (yyvsp[-2].rValor) / (yyvsp[0].rValor));}
+    {(yyval.rValor) = (yyvsp[-2].rValor) / (yyvsp[0].rValor);}
 #line 1754 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 52:
 #line 158 "af.y" /* yacc.c:1646  */
-    {printf("%lf\n",(yyval.rValor) = (yyvsp[-2].rValor) < (yyvsp[0].rValor));}
+    {(yyval.rValor) = (yyvsp[-2].rValor) < (yyvsp[0].rValor);}
 #line 1760 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 53:
 #line 159 "af.y" /* yacc.c:1646  */
-    {printf("%lf\n",(yyval.rValor) = (yyvsp[-2].rValor) <= (yyvsp[0].rValor));}
+    {(yyval.rValor) = (yyvsp[-2].rValor) <= (yyvsp[0].rValor);}
 #line 1766 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 54:
 #line 160 "af.y" /* yacc.c:1646  */
-    {printf("%lf\n",(yyval.rValor) = (yyvsp[-2].rValor) >= (yyvsp[0].rValor));}
+    {(yyval.rValor) = (yyvsp[-2].rValor) >= (yyvsp[0].rValor);}
 #line 1772 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 55:
 #line 161 "af.y" /* yacc.c:1646  */
-    {printf("%lf\n",(yyval.rValor) = (yyvsp[-2].rValor) > (yyvsp[0].rValor));}
+    {(yyval.rValor) = (yyvsp[-2].rValor) > (yyvsp[0].rValor);}
 #line 1778 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 56:
 #line 162 "af.y" /* yacc.c:1646  */
-    {printf("%lf\n",(yyval.rValor) = (yyvsp[-2].rValor) == (yyvsp[0].rValor));}
+    {(yyval.rValor) = (yyvsp[-2].rValor) == (yyvsp[0].rValor);}
 #line 1784 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 57:
 #line 163 "af.y" /* yacc.c:1646  */
-    {printf("%lf\n",(yyval.rValor) = (yyvsp[-2].rValor) && (yyvsp[0].rValor));}
+    {(yyval.rValor) = (yyvsp[-2].rValor) && (yyvsp[0].rValor);}
 #line 1790 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 58:
 #line 164 "af.y" /* yacc.c:1646  */
-    {printf("%lf\n",(yyval.rValor) = (yyvsp[-2].rValor) || (yyvsp[0].rValor));}
+    {(yyval.rValor) = (yyvsp[-2].rValor) || (yyvsp[0].rValor);}
 #line 1796 "y.tab.c" /* yacc.c:1646  */
     break;
 
@@ -1803,7 +1803,7 @@ yyreduce:
 
   case 60:
 #line 167 "af.y" /* yacc.c:1646  */
-    {(yyval.rValor) = ! (yyvsp[0].rValor);printf("%lf\n", (yyval.rValor));}
+    {(yyval.rValor) = ! (yyvsp[0].rValor);}
 #line 1808 "y.tab.c" /* yacc.c:1646  */
     break;
 

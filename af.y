@@ -61,7 +61,7 @@ stmt : assign end_stmt                  {}
      | decl_var end_stmt                {}
      | estr_cond end_stmt               {}
      | f_builtin end_stmt               {}
-     | expr end_stmt                    {}
+     | expr end_stmt                    {printf("%lf\n", $1);}
      | estr_while end_stmt              {}
      | estr_for end_stmt                {}
      ;
@@ -151,23 +151,23 @@ func_def :
 
 expr :
        LPAREN expr RPAREN       {$$ = $2;}
-     | expr PLUS expr           {printf("%lf\n",$$ = $1 + $3);}
-     | expr MINUS expr          {printf("%lf\n",$$ = $1 - $3);}
-     | expr TIMES expr          {printf("%lf\n",$$ = $1 * $3);}
-     | expr DIVIDE expr         {printf("%lf\n",$$ = $1 / $3);}
-     | expr LT expr             {printf("%lf\n",$$ = $1 < $3);}
-     | expr LE expr             {printf("%lf\n",$$ = $1 <= $3);}
-     | expr GE expr             {printf("%lf\n",$$ = $1 >= $3);}
-     | expr GT expr             {printf("%lf\n",$$ = $1 > $3);}
-     | expr EQ expr             {printf("%lf\n",$$ = $1 == $3);}
-     | expr AND expr            {printf("%lf\n",$$ = $1 && $3);}
-     | expr OR expr             {printf("%lf\n",$$ = $1 || $3);}
-     //| expr DIVM expr         {printf("%lf\n",$$ = $1 % $3);}
+     | expr PLUS expr           {$$ = $1 + $3;}
+     | expr MINUS expr          {$$ = $1 - $3;}
+     | expr TIMES expr          {$$ = $1 * $3;}
+     | expr DIVIDE expr         {$$ = $1 / $3;}
+     | expr LT expr             {$$ = $1 < $3;}
+     | expr LE expr             {$$ = $1 <= $3;}
+     | expr GE expr             {$$ = $1 >= $3;}
+     | expr GT expr             {$$ = $1 > $3;}
+     | expr EQ expr             {$$ = $1 == $3;}
+     | expr AND expr            {$$ = $1 && $3;}
+     | expr OR expr             {$$ = $1 || $3;}
+     //| expr DIVM expr         {$$ = $1 % $3;}
      | expr NEQ expr            {$$ = $1 != $3;}    
-     | NOT expr                 {$$ = ! $2;printf("%lf\n", $$);}
+     | NOT expr                 {$$ = ! $2;}
      //| PERC expr              {$$ = }
      | MINUS expr               {$$ = - $2;}
-     //| expr ADDEQ term        {printf("%lf\n",$$ = $1 += $3);}
+     //| expr ADDEQ term        {$$ = $1 += $3);}
      | REAL                     {$$ = $1;}
      | INT                      {$$ = (int) $1;}
      | call_func                {}
