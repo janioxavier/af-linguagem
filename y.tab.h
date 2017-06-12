@@ -106,9 +106,10 @@ extern int yydebug;
     ENDLINE = 316,
     CONTSTMT = 317,
     DIVIDE = 318,
-    DECINT = 319,
-    DECREAL = 320,
-    DECSTR = 321
+    PRINTLN = 319,
+    DECINT = 320,
+    DECREAL = 321,
+    DECSTR = 322
   };
 #endif
 /* Tokens.  */
@@ -173,9 +174,10 @@ extern int yydebug;
 #define ENDLINE 316
 #define CONTSTMT 317
 #define DIVIDE 318
-#define DECINT 319
-#define DECREAL 320
-#define DECSTR 321
+#define PRINTLN 319
+#define DECINT 320
+#define DECREAL 321
+#define DECSTR 322
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
@@ -188,7 +190,7 @@ union YYSTYPE
     double rValor;
     char * sValor;
 
-#line 192 "y.tab.h" /* yacc.c:1909  */
+#line 194 "y.tab.h" /* yacc.c:1909  */
 };
 # define YYSTYPE_IS_TRIVIAL 1
 # define YYSTYPE_IS_DECLARED 1

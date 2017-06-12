@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include "tabelasimbolo.h"
 
+extern pilha_exec;
 
 void erroSemantica (int erroTipo, char *info) {
     char errmsg[200];

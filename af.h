@@ -58,4 +58,5 @@
 # define CONTSTMT        // define o continuamento de uma sentença
 # define RETURN         // define o retorno de uma funcao
 # define PRINT          // funcao de escrita
+# define PRINTLN        // funcao que imprime e pula linha
 # define INPUT           // funcao de leitura

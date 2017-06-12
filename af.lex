@@ -29,6 +29,7 @@ str                      return DECSTR;
 return                   return RETURN;
 end                      return END;
 print                    return PRINT;
+println                  return PRINTLN;
 input                    return INPUT;
 
 "\\"                     return CONTSTMT;
