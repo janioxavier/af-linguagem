@@ -19,3 +19,6 @@ echo ""
 echo "---TEST ESTRUTURA REPETICAO---\n\n"
 echo ""
 ./parse < testEstRepet.txt
+echo "---TEST RESOLUCAO ESCOPO---\n\n"
+echo ""
+./parse < testResolucaoEscopo.txt

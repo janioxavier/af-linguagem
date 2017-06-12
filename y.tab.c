@@ -2256,7 +2256,6 @@ void printIdValue(char *id, char ln) {
     }
 }
 
-
 int yyerror (char *msg) {
 	fprintf (stderr, "Line %d: %s at '%s'\n", line_number, msg, yytext);
 	return 0;
