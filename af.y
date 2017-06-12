@@ -33,15 +33,20 @@ node *pilha;
 %token DOT ASSIGN ELIF IF ELSE RETURN
 %token WHILE FOR SKIP IN NOT NIL DEF TRUE FALSE
 %token BREAK SET LIST DIVM ADDPERC SUBPERC ADDEQ SUBEQ DIVEQ MULTEQ
-%token DIVMEQ DICT MAIN END ENDLINE CONTSTMT
+%token DIVMEQ DICT MAIN END ENDLINE CONTSTMT DIV
 %token <iValor> DECINT DECREAL DECSTR
 
-%type <rValor> expr term fact
+
+%left PLUS MINUS AND OR NEQ  EQ  LT LE GT GE PERC
+%left TIMES DIVIDE 
+%right NOT '-'
+
+%type <rValor> expr 
 %type <iValor> decl_data_type
 
 %type <sValor> lhs decl_var var rhs
 
-%left PLUS MINUS TIMES DIV  NEQ  EQ  LT LE GT GE AND OR PERC DIVIDE 
+
 
 %%
 prog : stmt_list                      {}
@@ -98,14 +103,14 @@ data_type : prim_type                                                           
 prim_type : INT                 {printf("%i\n", $1);}
           | REAL                {printf("%lf\n", $1);}
           | STR                 {printf("%s\n", $1);}
-          | DICT ASSIGN dict    {}
-          | LIST ASSIGN list    {}
+          //| DICT ASSIGN dict    {}
+          //| LIST ASSIGN list    {}
           | NIL                 {}
           ;
           
 abs_type : ID                   {printf("%s\n", $1);}
          ;
-
+/*
 dict : LBRACK key_value RBRACK                                                                          {}
      ;
 
@@ -115,6 +120,7 @@ key_value : data_type COLON data_type                                           
 
 list : LBRACE data_types RBRACE                                                                         {}
      ;
+*/
 
 data_types : data_type                                                                                  {}
            | data_type COMMA data_types                                                                 {}
@@ -143,42 +149,30 @@ func_def :
          | DEF ID LPAREN param_func RPAREN COLON ENDLINE stmt_list END                                  {printf("função sem retorno e com parametro\n");}
          ;
 
-expr : 
-       expr PLUS term           {printf("%lf\n",$1 + $3);}
-     | expr MINUS term          {printf("%lf\n",$1 - $3);}
-     | expr LT term             {printf("%lf\n",$1 < $3);}
-     | expr LE term             {printf("%lf\n",$1 <= $3);}
-     | expr GE term             {printf("%lf\n",$1 >= $3);}
-     | expr GT term             {printf("%lf\n",$1 > $3);}
-     | expr EQ term             {printf("%lf\n",$1 == $3);}
-     | expr AND term            {printf("%lf\n",$1 && $3);}
-     | expr OR term             {printf("%lf\n",$1 || $3);}
-     //| expr DIVM term         {printf("%lf\n",$1 % $3);}
-     | expr NEQ term            {printf("%lf\n",$1 != $3);}
-     //| expr ADDEQ term        {printf("%lf\n",$1 += $3);}
-     | term                     {$$ = $1;}
+expr :
+       LPAREN expr RPAREN       {$$ = $2;}
+     | expr PLUS expr           {printf("%lf\n",$$ = $1 + $3);}
+     | expr MINUS expr          {printf("%lf\n",$$ = $1 - $3);}
+     | expr TIMES expr          {printf("%lf\n",$$ = $1 * $3);}
+     | expr DIVIDE expr         {printf("%lf\n",$$ = $1 / $3);}
+     | expr LT expr             {printf("%lf\n",$$ = $1 < $3);}
+     | expr LE expr             {printf("%lf\n",$$ = $1 <= $3);}
+     | expr GE expr             {printf("%lf\n",$$ = $1 >= $3);}
+     | expr GT expr             {printf("%lf\n",$$ = $1 > $3);}
+     | expr EQ expr             {printf("%lf\n",$$ = $1 == $3);}
+     | expr AND expr            {printf("%lf\n",$$ = $1 && $3);}
+     | expr OR expr             {printf("%lf\n",$$ = $1 || $3);}
+     //| expr DIVM expr         {printf("%lf\n",$$ = $1 % $3);}
+     | expr NEQ expr            {$$ = $1 != $3;}    
+     | NOT expr                 {$$ = ! $2;printf("%lf\n", $$);}
+     //| PERC expr              {$$ = }
+     | MINUS expr               {$$ = - $2;}
+     //| expr ADDEQ term        {printf("%lf\n",$$ = $1 += $3);}
+     | REAL                     {$$ = $1;}
+     | INT                      {$$ = (int) $1;}
+     | call_func                {}
      ;
 
-term : term TIMES fact  {printf("%lf\n",$1 * $3);}
-     | term DIVIDE fact   {printf("%lf\n",$1 / $3);}
-     | fact            {$$ = $1;}
-     ;
-
-fact : LPAREN expr RPAREN  {$$ = $2;}
-     | unaop INT           {}
-     | unaop REAL          {}
-     | unaop ID            {}
-     | INT                 {$$ = $1;}
-     | REAL                {$$ = $1;}
-     | ID                  {}
-     | call_func           {}
-     ;
-
-
-unaop : NOT               {}
-      | PERC              {}
-      | MINUS             {}
-      ;
 
 f_builtin : f_print     {}
           | f_input     {}

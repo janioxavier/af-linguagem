@@ -92,22 +92,22 @@ extern int yydebug;
     END = 302,
     ENDLINE = 303,
     CONTSTMT = 304,
-    DECINT = 305,
-    DECREAL = 306,
-    DECSTR = 307,
-    PLUS = 308,
-    MINUS = 309,
-    TIMES = 310,
-    DIV = 311,
-    NEQ = 312,
-    EQ = 313,
-    LT = 314,
-    LE = 315,
-    GT = 316,
-    GE = 317,
-    AND = 318,
-    OR = 319,
-    PERC = 320,
+    DIV = 305,
+    DECINT = 306,
+    DECREAL = 307,
+    DECSTR = 308,
+    PLUS = 309,
+    MINUS = 310,
+    AND = 311,
+    OR = 312,
+    NEQ = 313,
+    EQ = 314,
+    LT = 315,
+    LE = 316,
+    GT = 317,
+    GE = 318,
+    PERC = 319,
+    TIMES = 320,
     DIVIDE = 321
   };
 #endif
@@ -159,22 +159,22 @@ extern int yydebug;
 #define END 302
 #define ENDLINE 303
 #define CONTSTMT 304
-#define DECINT 305
-#define DECREAL 306
-#define DECSTR 307
-#define PLUS 308
-#define MINUS 309
-#define TIMES 310
-#define DIV 311
-#define NEQ 312
-#define EQ 313
-#define LT 314
-#define LE 315
-#define GT 316
-#define GE 317
-#define AND 318
-#define OR 319
-#define PERC 320
+#define DIV 305
+#define DECINT 306
+#define DECREAL 307
+#define DECSTR 308
+#define PLUS 309
+#define MINUS 310
+#define AND 311
+#define OR 312
+#define NEQ 313
+#define EQ 314
+#define LT 315
+#define LE 316
+#define GT 317
+#define GE 318
+#define PERC 319
+#define TIMES 320
 #define DIVIDE 321
 
 /* Value type.  */
