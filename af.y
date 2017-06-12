@@ -33,7 +33,7 @@ node *pilha;
 %token DOT ASSIGN ELIF IF ELSE RETURN
 %token WHILE FOR SKIP IN NOT NIL DEF TRUE FALSE
 %token BREAK SET LIST DIVM ADDPERC SUBPERC ADDEQ SUBEQ DIVEQ MULTEQ
-%token DIVMEQ DICT MAIN END ENDLINE CONTSTMT DIV 
+%token DIVMEQ DICT MAIN END ENDLINE CONTSTMT DIV PRINTLN
 %token <iValor> DECINT DECREAL DECSTR
 
 %type <rValor> expr
@@ -44,7 +44,7 @@ node *pilha;
 //%type <rValor> expr 
 %type <iValor> decl_data_type
 
-%type <sValor> lhs decl_var var rhs
+%type <sValor> lhs decl_var var
 
 
 
@@ -69,14 +69,15 @@ stmt : assign end_stmt                  {}
 end_stmt : ENDLINE            {}
          ;
 
-assign : lhs ASSIGN rhs     {}
+assign :
+         lhs ASSIGN INT     {ValorVariavel v; v.i = $3;setValor($1, tipoInteiro, v);}
+       | lhs ASSIGN REAL    {}
+       | lhs ASSIGN STR     {}
+       //| lhs ASSIGN expr  {}
        ;
 
 lhs : decl_var  {$$ = $1;}
     | var       {$$ = $1;}
-    ;
-
-rhs : expr        {}
     ;
 
 call_func : ID LPAREN RPAREN             {}
@@ -108,7 +109,7 @@ prim_type : INT                 {printf("%i\n", $1);}
           | NIL                 {}
           ;
           
-abs_type : ID                   {printf("%s\n", $1);}
+abs_type : ID                   {}
          ;
 /*
 dict : LBRACK key_value RBRACK                                                                          {}
@@ -135,7 +136,7 @@ decl_field_type : decl_var ENDLINE
                 | decl_var ENDLINE decl_field_type 
                  ;
            
-type_def : TYPE ID COLON ENDLINE decl_field_type END                                                    {printf("definiu tipo\n");}
+type_def : TYPE ID COLON ENDLINE decl_field_type END   {printf("definiu tipo\n");}
          ;
 
 param_func : decl_var
@@ -178,7 +179,8 @@ f_builtin : f_print     {}
           | f_input     {}
           ;
 
-f_print : PRINT ID    {}
+f_print : PRINT ID    {printIdValue($2, 0);}
+        | PRINTLN ID  {printIdValue($2, '\n');}
         ;
 
 f_input : INPUT ID      {}
@@ -205,23 +207,22 @@ estr_for : FOR decl_var COMMA var IN var COLON stmt_list END                    
              
 %%
 
-void printIdValue(char *id) {
+void printIdValue(char *id, char ln) {
     simboloEntrada *in = encontrarEntrada(id);
     if (in != NULL) {
         switch(in->tipo) {
         case tipoInteiro:
-        printf("%i", in->valor.i);break;
+        printf("%i%c", in->valor.i, ln);break;
         case tipoReal:
-        printf("%lf", in->valor.r);break;
+        printf("%lf%c", in->valor.r, ln);break;
         case tipoString:
-        printf("%s", in->valor.s);break;
+        printf("%s%c", in->valor.s, ln);break;
         default:
         printf("tipo não pode ser escrito\n");
         break;
         }
     }
 }
-
 
 int yyerror (char *msg) {
 	fprintf (stderr, "Line %d: %s at '%s'\n", line_number, msg, yytext);

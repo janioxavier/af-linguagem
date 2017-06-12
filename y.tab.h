@@ -93,22 +93,23 @@ extern int yydebug;
     ENDLINE = 303,
     CONTSTMT = 304,
     DIV = 305,
-    DECINT = 306,
-    DECREAL = 307,
-    DECSTR = 308,
-    PLUS = 309,
-    MINUS = 310,
-    AND = 311,
-    OR = 312,
-    NEQ = 313,
-    EQ = 314,
-    LT = 315,
-    LE = 316,
-    GT = 317,
-    GE = 318,
-    PERC = 319,
-    TIMES = 320,
-    DIVIDE = 321
+    PRINTLN = 306,
+    DECINT = 307,
+    DECREAL = 308,
+    DECSTR = 309,
+    PLUS = 310,
+    MINUS = 311,
+    AND = 312,
+    OR = 313,
+    NEQ = 314,
+    EQ = 315,
+    LT = 316,
+    LE = 317,
+    GT = 318,
+    GE = 319,
+    PERC = 320,
+    TIMES = 321,
+    DIVIDE = 322
   };
 #endif
 /* Tokens.  */
@@ -160,22 +161,23 @@ extern int yydebug;
 #define ENDLINE 303
 #define CONTSTMT 304
 #define DIV 305
-#define DECINT 306
-#define DECREAL 307
-#define DECSTR 308
-#define PLUS 309
-#define MINUS 310
-#define AND 311
-#define OR 312
-#define NEQ 313
-#define EQ 314
-#define LT 315
-#define LE 316
-#define GT 317
-#define GE 318
-#define PERC 319
-#define TIMES 320
-#define DIVIDE 321
+#define PRINTLN 306
+#define DECINT 307
+#define DECREAL 308
+#define DECSTR 309
+#define PLUS 310
+#define MINUS 311
+#define AND 312
+#define OR 313
+#define NEQ 314
+#define EQ 315
+#define LT 316
+#define LE 317
+#define GT 318
+#define GE 319
+#define PERC 320
+#define TIMES 321
+#define DIVIDE 322
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
@@ -188,7 +190,7 @@ union YYSTYPE
     double rValor;
     char * sValor;
 
-#line 192 "y.tab.h" /* yacc.c:1909  */
+#line 194 "y.tab.h" /* yacc.c:1909  */
 };
 # define YYSTYPE_IS_TRIVIAL 1
 # define YYSTYPE_IS_DECLARED 1
