@@ -178,7 +178,7 @@ f_builtin : f_print     {}
           | f_input     {}
           ;
 
-f_print : PRINT expr    {}
+f_print : PRINT ID    {}
         ;
 
 f_input : INPUT ID      {}

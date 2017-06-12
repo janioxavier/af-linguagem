@@ -119,7 +119,7 @@ Grammar
    64 f_builtin: f_print
    65          | f_input
 
-   66 f_print: PRINT expr
+   66 f_print: PRINT ID
 
    67 f_input: INPUT ID
 
@@ -145,7 +145,7 @@ error (256)
 INT (258) 27 62
 REAL (259) 28 61
 STR (260) 29
-ID (261) 17 18 19 23 24 31 38 42 43 44 45 67
+ID (261) 17 18 19 23 24 31 38 42 43 44 45 66 67
 TYPE (262) 38
 PRINT (263) 66
 INPUT (264) 67
@@ -254,8 +254,8 @@ func_def (88)
     on left: 41 42 43 44 45, on right: 35
 expr (89)
     on left: 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63,
-    on right: 9 16 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 66
-    68 69 70 71 72 74
+    on right: 9 16 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 68
+    69 70 71 72 74
 f_builtin (90)
     on left: 64 65, on right: 8
 f_print (91)
@@ -354,24 +354,16 @@ State 4
 
 State 5
 
-   66 f_print: PRINT . expr
+   66 f_print: PRINT . ID
 
-    INT     shift, and go to state 1
-    REAL    shift, and go to state 2
-    ID      shift, and go to state 38
-    LPAREN  shift, and go to state 7
-    NOT     shift, and go to state 11
-    MINUS   shift, and go to state 16
-
-    call_func  go to state 22
-    expr       go to state 39
+    ID  shift, and go to state 38
 
 
 State 6
 
    67 f_input: INPUT . ID
 
-    ID  shift, and go to state 40
+    ID  shift, and go to state 39
 
 
 State 7
@@ -380,7 +372,7 @@ State 7
 
     INT     shift, and go to state 1
     REAL    shift, and go to state 2
-    ID      shift, and go to state 38
+    ID      shift, and go to state 40
     LPAREN  shift, and go to state 7
     NOT     shift, and go to state 11
     MINUS   shift, and go to state 16
@@ -397,7 +389,7 @@ State 8
 
     INT     shift, and go to state 1
     REAL    shift, and go to state 2
-    ID      shift, and go to state 38
+    ID      shift, and go to state 40
     LPAREN  shift, and go to state 7
     NOT     shift, and go to state 11
     MINUS   shift, and go to state 16
@@ -412,7 +404,7 @@ State 9
 
     INT     shift, and go to state 1
     REAL    shift, and go to state 2
-    ID      shift, and go to state 38
+    ID      shift, and go to state 40
     LPAREN  shift, and go to state 7
     NOT     shift, and go to state 11
     MINUS   shift, and go to state 16
@@ -440,7 +432,7 @@ State 11
 
     INT     shift, and go to state 1
     REAL    shift, and go to state 2
-    ID      shift, and go to state 38
+    ID      shift, and go to state 40
     LPAREN  shift, and go to state 7
     NOT     shift, and go to state 11
     MINUS   shift, and go to state 16
@@ -486,7 +478,7 @@ State 16
 
     INT     shift, and go to state 1
     REAL    shift, and go to state 2
-    ID      shift, and go to state 38
+    ID      shift, and go to state 40
     LPAREN  shift, and go to state 7
     NOT     shift, and go to state 11
     MINUS   shift, and go to state 16
@@ -736,49 +728,24 @@ State 37
 
 State 38
 
-   17 call_func: ID . LPAREN RPAREN
-   18          | ID . LPAREN data_types RPAREN
-
-    LPAREN  shift, and go to state 36
-
-
-State 39
-
-   47 expr: expr . PLUS expr
-   48     | expr . MINUS expr
-   49     | expr . TIMES expr
-   50     | expr . DIVIDE expr
-   51     | expr . LT expr
-   52     | expr . LE expr
-   53     | expr . GE expr
-   54     | expr . GT expr
-   55     | expr . EQ expr
-   56     | expr . AND expr
-   57     | expr . OR expr
-   58     | expr . NEQ expr
-   66 f_print: PRINT expr .
-
-    PLUS    shift, and go to state 57
-    MINUS   shift, and go to state 58
-    AND     shift, and go to state 59
-    OR      shift, and go to state 60
-    NEQ     shift, and go to state 61
-    EQ      shift, and go to state 62
-    LT      shift, and go to state 63
-    LE      shift, and go to state 64
-    GT      shift, and go to state 65
-    GE      shift, and go to state 66
-    TIMES   shift, and go to state 67
-    DIVIDE  shift, and go to state 68
+   66 f_print: PRINT ID .
 
     $default  reduce using rule 66 (f_print)
 
 
-State 40
+State 39
 
    67 f_input: INPUT ID .
 
     $default  reduce using rule 67 (f_input)
+
+
+State 40
+
+   17 call_func: ID . LPAREN RPAREN
+   18          | ID . LPAREN data_types RPAREN
+
+    LPAREN  shift, and go to state 36
 
 
 State 41
@@ -975,7 +942,7 @@ State 53
 
     INT     shift, and go to state 1
     REAL    shift, and go to state 2
-    ID      shift, and go to state 38
+    ID      shift, and go to state 40
     LPAREN  shift, and go to state 7
     NOT     shift, and go to state 11
     MINUS   shift, and go to state 16
@@ -1012,7 +979,7 @@ State 57
 
     INT     shift, and go to state 1
     REAL    shift, and go to state 2
-    ID      shift, and go to state 38
+    ID      shift, and go to state 40
     LPAREN  shift, and go to state 7
     NOT     shift, and go to state 11
     MINUS   shift, and go to state 16
@@ -1027,7 +994,7 @@ State 58
 
     INT     shift, and go to state 1
     REAL    shift, and go to state 2
-    ID      shift, and go to state 38
+    ID      shift, and go to state 40
     LPAREN  shift, and go to state 7
     NOT     shift, and go to state 11
     MINUS   shift, and go to state 16
@@ -1042,7 +1009,7 @@ State 59
 
     INT     shift, and go to state 1
     REAL    shift, and go to state 2
-    ID      shift, and go to state 38
+    ID      shift, and go to state 40
     LPAREN  shift, and go to state 7
     NOT     shift, and go to state 11
     MINUS   shift, and go to state 16
@@ -1057,7 +1024,7 @@ State 60
 
     INT     shift, and go to state 1
     REAL    shift, and go to state 2
-    ID      shift, and go to state 38
+    ID      shift, and go to state 40
     LPAREN  shift, and go to state 7
     NOT     shift, and go to state 11
     MINUS   shift, and go to state 16
@@ -1072,7 +1039,7 @@ State 61
 
     INT     shift, and go to state 1
     REAL    shift, and go to state 2
-    ID      shift, and go to state 38
+    ID      shift, and go to state 40
     LPAREN  shift, and go to state 7
     NOT     shift, and go to state 11
     MINUS   shift, and go to state 16
@@ -1087,7 +1054,7 @@ State 62
 
     INT     shift, and go to state 1
     REAL    shift, and go to state 2
-    ID      shift, and go to state 38
+    ID      shift, and go to state 40
     LPAREN  shift, and go to state 7
     NOT     shift, and go to state 11
     MINUS   shift, and go to state 16
@@ -1102,7 +1069,7 @@ State 63
 
     INT     shift, and go to state 1
     REAL    shift, and go to state 2
-    ID      shift, and go to state 38
+    ID      shift, and go to state 40
     LPAREN  shift, and go to state 7
     NOT     shift, and go to state 11
     MINUS   shift, and go to state 16
@@ -1117,7 +1084,7 @@ State 64
 
     INT     shift, and go to state 1
     REAL    shift, and go to state 2
-    ID      shift, and go to state 38
+    ID      shift, and go to state 40
     LPAREN  shift, and go to state 7
     NOT     shift, and go to state 11
     MINUS   shift, and go to state 16
@@ -1132,7 +1099,7 @@ State 65
 
     INT     shift, and go to state 1
     REAL    shift, and go to state 2
-    ID      shift, and go to state 38
+    ID      shift, and go to state 40
     LPAREN  shift, and go to state 7
     NOT     shift, and go to state 11
     MINUS   shift, and go to state 16
@@ -1147,7 +1114,7 @@ State 66
 
     INT     shift, and go to state 1
     REAL    shift, and go to state 2
-    ID      shift, and go to state 38
+    ID      shift, and go to state 40
     LPAREN  shift, and go to state 7
     NOT     shift, and go to state 11
     MINUS   shift, and go to state 16
@@ -1162,7 +1129,7 @@ State 67
 
     INT     shift, and go to state 1
     REAL    shift, and go to state 2
-    ID      shift, and go to state 38
+    ID      shift, and go to state 40
     LPAREN  shift, and go to state 7
     NOT     shift, and go to state 11
     MINUS   shift, and go to state 16
@@ -1177,7 +1144,7 @@ State 68
 
     INT     shift, and go to state 1
     REAL    shift, and go to state 2
-    ID      shift, and go to state 38
+    ID      shift, and go to state 40
     LPAREN  shift, and go to state 7
     NOT     shift, and go to state 11
     MINUS   shift, and go to state 16
@@ -1926,7 +1893,7 @@ State 125
 
     INT     shift, and go to state 1
     REAL    shift, and go to state 2
-    ID      shift, and go to state 38
+    ID      shift, and go to state 40
     LPAREN  shift, and go to state 7
     NOT     shift, and go to state 11
     MINUS   shift, and go to state 16
