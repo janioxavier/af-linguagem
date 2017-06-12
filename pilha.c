@@ -98,3 +98,19 @@ node *pop(node *PILHA)
 char *topo_pilha(node *PILHA) {
     return PILHA->top != NULL ? PILHA->top->id : "";
 }
+
+node *copia(node *PILHA){
+  node *pilhaAUX = nova_pilha();
+  node *pilhaCOP = nova_pilha();
+  node *pilhaORIG = nova_pilha();
+  while(topo_pilha(PILHA) != NULL){
+   push(pilhaAUX, topo_pilha(PILHA));
+   pop(PILHA);
+  }
+  while(topo_pilha(pilhaAUX) != NULL){
+   push(pilhaCOP, topo_pilha(pilhaAUX));
+   push(pilhaORIG, topo_pilha(pilhaAUX));
+   pop(pilhaAUX);
+  }
+  return pilhaORIG;
+}
