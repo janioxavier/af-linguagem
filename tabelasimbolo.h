@@ -57,3 +57,4 @@ int setValorId (char *id1, char *id2);
 int verificadorTipo (simboloEntrada *in1, simboloEntrada *in2);
 Variavel *criarVariavel(char *nome,TipoVariavel tipo, ValorVariavel valor, char *escopo);
 Variavel  *copiarVariavel(Variavel *v);
+Variavel *novaVariavel();

@@ -33,14 +33,14 @@ node *pilha;
 %token TYPE PRINT INPUT
 %token COMMA COLON SEMICOLON LPAREN RPAREN LBRACE RBRACE LBRACK RBRACK
 %token DOT ASSIGN ELIF IF ELSE RETURN
-%token WHILE FOR SKIP IN NOT NIL DEF TRUE FALSE
-%token BREAK SET LIST  ADDPERC SUBPERC ADDEQ SUBEQ DIVEQ MULTEQ
+%token WHILE FOR SKIP IN  NIL DEF TRUE FALSE
+%token BREAK SET LIST  ADDPERC SUBPERC ADDEQ SUBEQ DIVEQ MULTEQ 
 %token DIVMEQ DICT MAIN END ENDLINE CONTSTMT DIV 
 %token <iValor> DECINT DECREAL DECSTR
 
-%left PLUS MINUS AND OR NEQ  EQ  LT LE GT GE PERC DIVM
+%left PLUS MINUS AND OR NEQ  EQ  LT LE GT GE PERC DIVM 
 %left TIMES DIVIDE 
-%right NOT '-' ASSIGN
+%right  NOT '-' ASSIGN
 
 %type <v> expr 
 %type <iValor> decl_data_type
@@ -169,9 +169,9 @@ expr :
      | expr OR expr             {operar($$, $1, OR, $3);}
      | expr DIVM expr           {operar($$, $1, DIVM, $3);}
      | expr NEQ expr            {operar($$, $1, NEQ, $3);}    
-     //| NOT expr               {operar($$, $1, NOT, $3);}
      //| PERC expr              {$$ = }
-     //| MINUS expr               {$$ = - $2;}
+     //| MINUS expr               {opera_unario($$, MINUS, $2);}
+     //| NOT expr                 {$$ = novaVariavel();opera_unario(novaVariavel(), NOT, $2);}
      //| expr ADDEQ term        {$$ = $1 += $3);}
      //| call_func                {}
      | ID                       {$$ = copiarVariavel(encontra_variavel($1)); if ($$ == NULL) erroSemantica(NAO_DECLARADO_EM_NENHUM_ESCOPO, $1);}
@@ -213,8 +213,6 @@ estr_for : FOR decl_var COMMA var IN var COLON stmt_list END                    
 %%
 
 void operar(Variavel *res, Variavel *v1, int op, Variavel *v2) {
-    
-    Variavel *resTemp = (Variavel*) malloc(sizeof(Variavel));
     switch(op) {
      case PLUS:
         if (v1->tipo == tipoInteiro && v2->tipo == tipoInteiro) {
@@ -495,7 +493,7 @@ void opera_unario(Variavel *res, int op, Variavel *v1) {
         //erroSemantica();
     }
     break;
-    case '-':
+    case MINUS:
     if (v1->tipo == tipoInteiro) {
         res->valor.i = - v1->valor.i;
         res->tipo = tipoInteiro;

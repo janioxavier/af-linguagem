@@ -124,6 +124,11 @@ int setValorId (char *id1, char *id2) {
 	}
 }
 */
+
+Variavel *novaVariavel() {
+    return (Variavel*) malloc(sizeof(Variavel));
+}
+
 char* nomeTipo(int tipo) {
     switch(tipo) {
         case tipoInteiro:
