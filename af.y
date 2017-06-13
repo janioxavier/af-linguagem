@@ -160,20 +160,20 @@ expr :
      | expr TIMES expr          {operar($$, $1, TIMES, $3);}
      | expr DIVIDE expr         {operar($$, $1, DIVIDE, $3);}
      | expr ASSIGN expr         {operar($$, $1, ASSIGN, $3);}
-     /*| expr LT expr             {$$ = $1 < $3;}
-     | expr LE expr             {$$ = $1 <= $3;}
-     | expr GE expr             {$$ = $1 >= $3;}
-     | expr GT expr             {$$ = $1 > $3;}
-     | expr EQ expr             {$$ = $1 == $3;}
-     | expr AND expr            {$$ = $1 && $3;}
-     | expr OR expr             {$$ = $1 || $3;}
+     | expr LT expr             {operar($$, $1, LT, $3);}
+     | expr LE expr             {operar($$, $1, LE, $3);}
+     | expr GE expr             {operar($$, $1, GE, $3);}
+     | expr GT expr             {operar($$, $1, GT, $3);}
+     | expr EQ expr             {operar($$, $1, EQ, $3);}
+     | expr AND expr            {operar($$, $1, AND, $3);}
+     | expr OR expr             {operar($$, $1, OR, $3);}
      //| expr DIVM expr         {$$ = $1 % $3;}
-     | expr NEQ expr            {$$ = $1 != $3;}    
-     | NOT expr                 {$$ = ! $2;}
+     | expr NEQ expr            {operar($$, $1, NEQ, $3);}    
+     //| NOT expr               {operar($$, $1, NOT, $3);}
      //| PERC expr              {$$ = }
-     | MINUS expr               {$$ = - $2;}
+     //| MINUS expr               {$$ = - $2;}
      //| expr ADDEQ term        {$$ = $1 += $3);}
-     | call_func                {}*/
+     //| call_func                {}
      | ID                       {$$ = copiarVariavel(encontra_variavel($1)); if ($$ == NULL) erroSemantica(NAO_DECLARADO_EM_NENHUM_ESCOPO, $1);}
      | REAL                     { Variavel *v = (Variavel*) malloc(sizeof(Variavel));
                                 v->tipo = tipoReal; ValorVariavel vv; vv.r = $1; v->valor = vv; $$ = v;}
@@ -334,24 +334,180 @@ void operar(Variavel *res, Variavel *v1, int op, Variavel *v2) {
             res->valor.i = v1->valor.i < v2->valor.i;
             res->tipo = tipoBooleano;
         } else if (v1->tipo == tipoReal && v2->tipo == tipoInteiro) {
-            res->valor.r = v1->valor.r < v2->valor.i;
+            res->valor.i = v1->valor.r < v2->valor.i;
             res->tipo = tipoBooleano;
         } else if (v1->tipo == tipoInteiro && v2->tipo == tipoReal) {
-            res->valor.r = v1->valor.i < v2->valor.r;
+            res->valor.i = v1->valor.i < v2->valor.r;
             res->tipo = tipoBooleano;
         } else if (v1->tipo == tipoReal && v2->tipo == tipoReal) {
-            res->valor.r = v1->valor.r < v2->valor.r;
+            res->valor.i = v1->valor.r < v2->valor.r;
+            res->tipo = tipoBooleano;
+        }
+        else {
+            //erroSemantica();
+        }
+        break;
+    case LT:
+        if (v1->tipo == tipoInteiro && v2->tipo == tipoInteiro) {
+            res->valor.i = v1->valor.i <= v2->valor.i;
+            res->tipo = tipoBooleano;
+        } else if (v1->tipo == tipoReal && v2->tipo == tipoInteiro) {
+            res->valor.i = v1->valor.r <= v2->valor.i;
+            res->tipo = tipoBooleano;
+        } else if (v1->tipo == tipoInteiro && v2->tipo == tipoReal) {
+            res->valor.i = v1->valor.i <= v2->valor.r;
+            res->tipo = tipoBooleano;
+        } else if (v1->tipo == tipoReal && v2->tipo == tipoReal) {
+            res->valor.i = v1->valor.r <= v2->valor.r;
             res->tipo = tipoBooleano;
         } 
         else {
             //erroSemantica();
         }
         break;
+    case GE:
+        if (v1->tipo == tipoInteiro && v2->tipo == tipoInteiro) {
+            res->valor.i = v1->valor.i > v2->valor.i;
+            res->tipo = tipoBooleano;
+        } else if (v1->tipo == tipoReal && v2->tipo == tipoInteiro) {
+            res->valor.i = v1->valor.r > v2->valor.i;
+            res->tipo = tipoBooleano;
+        } else if (v1->tipo == tipoInteiro && v2->tipo == tipoReal) {
+            res->valor.i = v1->valor.i > v2->valor.r;
+            res->tipo = tipoBooleano;
+        } else if (v1->tipo == tipoReal && v2->tipo == tipoReal) {
+            res->valor.i = v1->valor.r > v2->valor.r;
+            res->tipo = tipoBooleano;
+        } 
+        else {
+            //erroSemantica();
+        }
+        break;
+    case GT:
+        if (v1->tipo == tipoInteiro && v2->tipo == tipoInteiro) {
+            res->valor.i = v1->valor.i >= v2->valor.i;
+            res->tipo = tipoBooleano;
+        } else if (v1->tipo == tipoReal && v2->tipo == tipoInteiro) {
+            res->valor.i = v1->valor.r >= v2->valor.i;
+            res->tipo = tipoBooleano;
+        } else if (v1->tipo == tipoInteiro && v2->tipo == tipoReal) {
+            res->valor.i = v1->valor.i >= v2->valor.r;
+            res->tipo = tipoBooleano;
+        } else if (v1->tipo == tipoReal && v2->tipo == tipoReal) {
+            res->valor.i = v1->valor.r >= v2->valor.r;
+            res->tipo = tipoBooleano;
+        } 
+        else {
+            //erroSemantica();
+        }
+        break;
+    case EQ:
+        if (v1->tipo == tipoInteiro && v2->tipo == tipoInteiro) {
+            res->valor.i = v1->valor.i == v2->valor.i;
+            res->tipo = tipoBooleano;
+        } else if (v1->tipo == tipoReal && v2->tipo == tipoInteiro) {
+            res->valor.i = v1->valor.r == v2->valor.i;
+            res->tipo = tipoBooleano;
+        } else if (v1->tipo == tipoInteiro && v2->tipo == tipoReal) {
+            res->valor.i = v1->valor.i == v2->valor.r;
+            res->tipo = tipoBooleano;
+        } else if (v1->tipo == tipoReal && v2->tipo == tipoReal) {
+            res->valor.i = v1->valor.r == v2->valor.r;
+            res->tipo = tipoBooleano;
+        } 
+        else {
+            //erroSemantica();
+        }
+        break;
+    case NEQ:
+        if (v1->tipo == tipoInteiro && v2->tipo == tipoInteiro) {
+            res->valor.i = v1->valor.i != v2->valor.i;
+            res->tipo = tipoBooleano;
+        } else if (v1->tipo == tipoReal && v2->tipo == tipoInteiro) {
+            res->valor.i = v1->valor.r != v2->valor.i;
+            res->tipo = tipoBooleano;
+        } else if (v1->tipo == tipoInteiro && v2->tipo == tipoReal) {
+            res->valor.i = v1->valor.i != v2->valor.r;
+            res->tipo = tipoBooleano;
+        } else if (v1->tipo == tipoReal && v2->tipo == tipoReal) {
+            res->valor.i = v1->valor.r != v2->valor.r;
+            res->tipo = tipoBooleano;
+        } 
+        else {
+            //erroSemantica();
+        }
+        break;
+    case AND:
+        if (v1->tipo == tipoBooleano && v2->tipo == tipoBooleano) {
+            res->valor.i = v1->valor.i && v2->valor.i;
+            res->tipo = tipoBooleano;
+        } 
+        else {
+            //erroSemantica();
+        }
+        break;
+    case OR:
+        if (v1->tipo == tipoBooleano && v2->tipo == tipoBooleano) {
+            res->valor.i = v1->valor.i || v2->valor.i;
+            res->tipo = tipoBooleano;
+        } 
+        else {
+            //erroSemantica();
+        }
+        break;
+    /*case NOT:
+        if (v1->tipo == tipoBooleano && v2->tipo == tipoBooleano) {
+            res->valor.i = v1->valor.i && v2->valor.i;
+            res->tipo = tipoBooleano
+        } 
+        else {
+            //erroSemantica();
+        }
+        break;
+    case '-':
+        if (v1->tipo == tipoBooleano && v2->tipo == tipoBooleano) {
+            res->valor.i = v1->valor.i && v2->valor.i;
+            res->tipo = tipoBooleano
+        } 
+        else {
+            //erroSemantica();
+        }
+        break;*/
     default:
         sprintf(stderr,"OPERADOR '%c' NAO DEFINIDO", op);
     }
-    
-    
+}
+
+void opera_unario(Variavel *res, int op, Variavel *v1) {
+    switch(op) {
+    case NOT:
+    if (v1->tipo == tipoBooleano) {
+        res->valor.i = ! v1->valor.i;
+        res->tipo = tipoBooleano;
+    } else if (v1->tipo == tipoInteiro) {
+        res->valor.i = ! v1->valor.i;
+        res->tipo = tipoBooleano;
+    } else if (v1->tipo == tipoReal) {
+        res->valor.i = ! v1->valor.r;
+        res->tipo = tipoBooleano;
+    } else {
+        //erroSemantica();
+    }
+    break;
+    case '-':
+    if (v1->tipo == tipoInteiro) {
+        res->valor.i = - v1->valor.i;
+        res->tipo = tipoInteiro;
+    } else if (v1->tipo == tipoReal) {
+        res->valor.i = - v1->valor.r;
+        res->tipo = tipoReal;
+    } else {
+        //erroSemantica();
+    }
+    break;
+    default:
+        sprintf(stderr,"OPERADOR '%c' NAO DEFINIDO", op);
+    }
 }
 
 
@@ -364,6 +520,8 @@ void printValorVariavel(Variavel v) {
     printf("%lf\n", v.valor.r); break;
     case tipoString:
     printf("%s\n", v.valor); break;
+    case tipoBooleano:
+        printf("%s\n", v.valor.i ? "True" : "False"); break;
     default:
     printf("tipo: %s nao impresso.\n", nomeTipo(v.tipo)); break;
     }
@@ -378,7 +536,9 @@ void printIdValue(char *id) {
         case tipoReal:
         printf("%lf", in->var->valor);break;
         case tipoString:
-        printf("%s", in->var->valor);break;
+        printf("%s\n", in->var->valor);break;
+        case tipoBooleano:
+        printf("%s\n", in->var->valor.i ? "True" : "False"); break;
         default:
         printf("tipo não pode ser escrito\n");
         break;
