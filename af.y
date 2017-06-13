@@ -323,6 +323,8 @@ void operar(Variavel *res, Variavel *v1, int op, Variavel *v2) {
             }
             *res=  *v1;
         break;
+    case LE:
+        
     default:
         sprintf(stderr,"OPERADOR '%c' NAO DEFINIDO", op);
     }
