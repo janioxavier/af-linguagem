@@ -17,6 +17,33 @@ node* nova_pilha()
  return PILHA;
 }
 
+void exibe(node *PILHA)
+{
+ if(vazia(PILHA)){
+  printf("PILHA vazia!\n\n");
+  return ;
+ }
+
+ node *tmp;
+ tmp = PILHA->prox;
+ printf("PILHA:");
+ while( tmp != NULL){
+  printf("%s", tmp->id);
+  tmp = tmp->prox;
+ }
+ printf("\n        ");
+ int count;
+ for(count=0 ; count < tam ; count++)
+  printf("  ^  ");
+ printf("\nOrdem:");
+ for(count=0 ; count < tam ; count++)
+  printf("%5d", count+1);
+
+
+ printf("\n\n");
+}
+
+
 int vazia(node *PILHA)
 {
  if(PILHA->prox == NULL)
@@ -99,18 +126,19 @@ char *topo_pilha(node *PILHA) {
     return PILHA->top != NULL ? PILHA->top->id : "";
 }
 
-node *copia(node *PILHA){
+void copiar_pilha(node *orig, node *dest) {
   node *pilhaAUX = nova_pilha();
-  node *pilhaCOP = nova_pilha();
-  node *pilhaORIG = nova_pilha();
-  while(topo_pilha(PILHA) != NULL){
-   push(pilhaAUX, topo_pilha(PILHA));
-   pop(PILHA);
+  
+  node *temp;
+  temp = pop(orig);
+  while(temp != NULL){
+   push(pilhaAUX, temp->id);
+   temp = pop(orig);
   }
-  while(topo_pilha(pilhaAUX) != NULL){
-   push(pilhaCOP, topo_pilha(pilhaAUX));
-   push(pilhaORIG, topo_pilha(pilhaAUX));
-   pop(pilhaAUX);
+  temp = pop(pilhaAUX);
+  while(temp != NULL){
+   push(orig, temp->id);
+   push(dest, temp->id);
+   temp = pop(pilhaAUX);
   }
-  return pilhaORIG;
 }

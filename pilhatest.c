@@ -4,11 +4,19 @@
 int main() {
     node *pilha = nova_pilha();
 
-    push(pilha, "56");
-    push(pilha, "4354");
+    push(pilha, "2");
+    push(pilha, "1");
     push(pilha, "3");
-    printf("%s\n",topo_pilha(pilha));
-    printf("%s\n",pop(pilha)->id);
-    printf("%s\n",pop(pilha)->id);
-    printf("%s\n",pop(pilha)->id);
+    node *copiapilha = nova_pilha();
+    printf("pilha original: ");
+    exibe(pilha);
+    copiar_pilha(pilha, copiapilha);
+    
+    //printf("%s\n",topo_pilha(pilha));
+    printf("%s\n",pop(copiapilha)->id);
+    printf("%s\n",pop(copiapilha)->id);
+    printf("%s\n",pop(copiapilha)->id);
+    exibe(pilha);
+    exibe(copiapilha);
+    
 }
