@@ -41,11 +41,9 @@ int isDeclarado(char *id) {
     return (encontrarEntrada(id) != NULL);
 }
 
-Variavel *encontra_variavel(Variavel *v, char *id) {
+Variavel *encontra_variavel(char *id) {
     if (isDeclarado(id)) {
-        v = encontrarEntrada(id)->var;
-        //printf("encontra_variavel - valor de v = %s", v->nome);
-        return v;
+        return encontrarEntrada(id)->var;
     }
     return NULL;
 }

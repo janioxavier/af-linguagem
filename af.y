@@ -174,7 +174,7 @@ expr :
      | MINUS expr               {$$ = - $2;}
      //| expr ADDEQ term        {$$ = $1 += $3);}
      | call_func                {}*/
-     | ID                       {if (encontra_variavel($$, $1) == NULL) erroSemantica(NAO_DECLARADO_EM_NENHUM_ESCOPO, $1);}
+     | ID                       {$$ = encontra_variavel($1); if ($$ == NULL) erroSemantica(NAO_DECLARADO_EM_NENHUM_ESCOPO, $1);}
      | REAL                     { Variavel *v = (Variavel*) malloc(sizeof(Variavel));
                                 v->tipo = tipoReal; ValorVariavel vv; vv.r = $1; v->valor = vv; $$ = v;}
      | INT                      { Variavel *v = (Variavel*) malloc(sizeof(Variavel));

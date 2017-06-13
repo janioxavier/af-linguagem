@@ -1628,13 +1628,13 @@ yyreduce:
 
   case 37:
 #line 162 "af.y" /* yacc.c:1646  */
-    {operar((yyval.v), (yyvsp[-2].v), '=', (yyvsp[0].v));}
+    {printf("nome = %s", (yyvsp[-2].v)->nome);operar((yyval.v), (yyvsp[-2].v), '=', (yyvsp[0].v));}
 #line 1633 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 38:
 #line 177 "af.y" /* yacc.c:1646  */
-    {if (encontra_variavel((yyval.v), (yyvsp[0].sValor)) == NULL) erroSemantica(NAO_DECLARADO_EM_NENHUM_ESCOPO, (yyvsp[0].sValor));}
+    {(yyval.v) = encontra_variavel((yyvsp[0].sValor)); if ((yyval.v) == NULL) erroSemantica(NAO_DECLARADO_EM_NENHUM_ESCOPO, (yyvsp[0].sValor));}
 #line 1639 "y.tab.c" /* yacc.c:1646  */
     break;
 

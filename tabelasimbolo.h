@@ -45,7 +45,7 @@ simboloEntrada *tabelaSimbolo;
 
 simboloEntrada *encontrarEntrada (char *id);
 int isDeclarado (char *id);
-Variavel *encontra_variavel(Variavel *v, char *id);
+Variavel *encontra_variavel(char *id);
 int addVar(Variavel var);
 int addId (char *id, int tipo, char *escopo);
 //int addIdValor (char *id, int tipo, ValorVariavel valor, char *escopo);
