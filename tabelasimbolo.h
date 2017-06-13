@@ -1,6 +1,7 @@
 extern int line_number;
 enum tipoErro {
     NAO_DECLARADO,
+    NAO_DECLARADO_EM_NENHUM_ESCOPO,
     JA_DECLARADO,
     TIPOS_DIFERENTES,
     NEGATIVO_NAO_PERMITIDO,
@@ -44,8 +45,9 @@ simboloEntrada *tabelaSimbolo;
 
 simboloEntrada *encontrarEntrada (char *id);
 int isDeclarado (char *id);
+Variavel *encontra_variavel(Variavel *v, char *id);
 int addVar(Variavel var);
-//int addId (char *id, int tipo, char *escopo);
+int addId (char *id, int tipo, char *escopo);
 //int addIdValor (char *id, int tipo, ValorVariavel valor, char *escopo);
 ValorVariavel getValor(char *id);
 int getTipo(char *id);

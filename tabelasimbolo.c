@@ -8,6 +8,8 @@ void erroSemantica (int erroTipo, char *info) {
     switch (erroTipo) {
         case TIPOS_DIFERENTES: sprintf (errmsg, "Tipos diferentes: %s\n", info); break;
         case JA_DECLARADO: sprintf (errmsg, "Tipo já definido %s\n", info); break;
+        //case NAO_DECLARADO: sprintf(errmsg, ""); break;
+        case NAO_DECLARADO_EM_NENHUM_ESCOPO: sprintf(errmsg, "Variável '%s' não foi declarada em nenhum escopo.\n", info); break;
     }
     fprintf (stderr, "Line %d: %s \n", line_number, errmsg);
 }
@@ -38,22 +40,39 @@ simboloEntrada *encontrarEntrada (char *id) {
 int isDeclarado(char *id) {
     return (encontrarEntrada(id) != NULL);
 }
-/*
+
+Variavel *encontra_variavel(Variavel *v, char *id) {
+    if (isDeclarado(id)) {
+        v = encontrarEntrada(id)->var;
+        //printf("encontra_variavel - valor de v = %s", v->nome);
+        return v;
+    }
+    return NULL;
+}
+
+Variavel *criarVariavel(char *nome,TipoVariavel tipo, ValorVariavel valor, char *escopo) {
+    Variavel *v = (Variavel*) malloc (sizeof(Variavel));
+    v->nome = nome;
+    v->tipo = tipo;
+    v->valor = valor;
+    v->escopo = escopo;
+    return v;
+}
+
 int addId (char *id, int tipo, char *escopo) {
     simboloEntrada *novaEntrada;
     if (isDeclarado(id)) {
-        erroSemantica(JA_DECLARADO, id);
         return 0;
     }
     novaEntrada = (simboloEntrada*) malloc (sizeof(simboloEntrada));
-    novaEntrada->nome = id;
-    novaEntrada->tipo = tipo;
-    novaEntrada->escopo = escopo;
+    ValorVariavel valor;
+    valor.i = 0;
+    novaEntrada->var = criarVariavel(id, tipo, valor, escopo);
     novaEntrada->proximo = tabelaSimbolo;
     tabelaSimbolo = novaEntrada;
     return 1;
 }
-
+/*
 int addIdValor (char *id, int tipo, ValorVariavel valor, char *escopo) {
     simboloEntrada *novaEntrada;
     if (isDeclarado(id)) {

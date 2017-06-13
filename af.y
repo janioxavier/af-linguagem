@@ -87,7 +87,7 @@ call_func : ID LPAREN RPAREN             {}
           ;
 
 
-decl_var : decl_data_type ID                //{addId($2, $1, topo_pilha(pilha)); $$ = $2;}
+decl_var : decl_data_type ID                {if (!addId($2, $1, topo_pilha(pilha))) erroSemantica(JA_DECLARADO, $2);}
          | decl_data_type ID ASSIGN expr    //{ValorVariavel v; v.r = $4;addIdValor($2, $1, v,topo_pilha(pilha));}
          ;
 
@@ -159,8 +159,8 @@ expr :
      | expr MINUS expr          {operar($$, $1, '-', $3);}
      | expr TIMES expr          {operar($$, $1, '*', $3);}
      | expr DIVIDE expr         {operar($$, $1, '/', $3);}
-     /*| expr ASSIGN expr       {operar($$, $1, '=', $3);}
-     | expr LT expr             {$$ = $1 < $3;}
+     | expr ASSIGN expr         {operar($$, $1, '=', $3);}
+     /*| expr LT expr             {$$ = $1 < $3;}
      | expr LE expr             {$$ = $1 <= $3;}
      | expr GE expr             {$$ = $1 >= $3;}
      | expr GT expr             {$$ = $1 > $3;}
@@ -173,8 +173,8 @@ expr :
      //| PERC expr              {$$ = }
      | MINUS expr               {$$ = - $2;}
      //| expr ADDEQ term        {$$ = $1 += $3);}
-     | call_func                {}
-     | ID                       {$$ = getValor($1).r;}*/
+     | call_func                {}*/
+     | ID                       {if (encontra_variavel($$, $1) == NULL) erroSemantica(NAO_DECLARADO_EM_NENHUM_ESCOPO, $1);}
      | REAL                     { Variavel *v = (Variavel*) malloc(sizeof(Variavel));
                                 v->tipo = tipoReal; ValorVariavel vv; vv.r = $1; v->valor = vv; $$ = v;}
      | INT                      { Variavel *v = (Variavel*) malloc(sizeof(Variavel));
@@ -218,6 +218,7 @@ void operar(Variavel *res, Variavel *v1, char op, Variavel *v2) {
      case '+':
         if (v1->tipo == tipoInteiro && v2->tipo == tipoInteiro) {
             res->valor.i = v1->valor.i + v2->valor.i;
+            res->tipo = tipoInteiro;
         } else if (v1->tipo == tipoReal && v2->tipo == tipoInteiro) {
             res->valor.r = v1->valor.r + v2->valor.i;
             res->tipo = tipoReal;
@@ -241,10 +242,11 @@ void operar(Variavel *res, Variavel *v1, char op, Variavel *v2) {
         } else {
             //erroSemantica();
         }
-     break;
+        break;
      case '-':
         if (v1->tipo == tipoInteiro && v2->tipo == tipoInteiro) {
             res->valor.i = v1->valor.i - v2->valor.i;
+            res->tipo = tipoInteiro;
         } else if (v1->tipo == tipoReal && v2->tipo == tipoInteiro) {
             res->valor.r = v1->valor.r - v2->valor.i;
             res->tipo = tipoReal;
@@ -258,10 +260,11 @@ void operar(Variavel *res, Variavel *v1, char op, Variavel *v2) {
         else {
             //erroSemantica();
         }
-     break;
+        break;
      case '*':
         if (v1->tipo == tipoInteiro && v2->tipo == tipoInteiro) {
             res->valor.i = v1->valor.i * v2->valor.i;
+            res->tipo = tipoInteiro;
         } else if (v1->tipo == tipoReal && v2->tipo == tipoInteiro) {
             res->valor.r = v1->valor.r * v2->valor.i;
             res->tipo = tipoReal;
@@ -274,10 +277,11 @@ void operar(Variavel *res, Variavel *v1, char op, Variavel *v2) {
         } else {
             //erroSemantica();
         }
-    break;
+        break;
     case '/':
         if (v1->tipo == tipoInteiro && v2->tipo == tipoInteiro) {
             res->valor.i = v1->valor.i / v2->valor.i;
+            res->tipo = tipoInteiro;
         } else if (v1->tipo == tipoReal && v2->tipo == tipoInteiro) {
             res->valor.r = v1->valor.r / v2->valor.i;
             res->tipo = tipoReal;
@@ -290,14 +294,36 @@ void operar(Variavel *res, Variavel *v1, char op, Variavel *v2) {
         } else {
             //erroSemantica();
         }
-    break;
+        break;
     case '%':
         if (v1->tipo == tipoInteiro && v2->tipo == tipoInteiro) {
             res->valor.i = v1->valor.i % v2->valor.i;
         } else {
             //erroSemantica();
         }
-    break;
+        break;
+    case '=':
+            if (v1->tipo == tipoInteiro && v2->tipo == tipoInteiro) {
+                v1->valor.i = v2->valor.i;
+                v1->tipo = tipoInteiro;
+            } else if(v1->tipo == tipoInteiro && v2->tipo == tipoReal) {
+                res->valor.r = v2->valor.r;
+                res->tipo = tipoReal;
+            } else if (v1->tipo == tipoReal && v2->tipo == tipoInteiro) {
+                res->valor.i = v2->valor.r;
+                res->tipo = tipoInteiro;
+            } else if (v1->tipo == tipoReal && v2->tipo == tipoReal) {
+                res->valor.r = v2->valor.r;
+                res->tipo = tipoReal;
+            } else if(v1->tipo == tipoString && v2->tipo == tipoString){
+                res->valor.s = strdup(v2->valor.s);
+                res->tipo = tipoString;
+            } else {
+                //erroSemantica();
+            }
+            *res=  *v1;
+      
+        break;
     default:
         sprintf(stderr,"OPERADOR '%c' NAO DEFINIDO", op);
     }
