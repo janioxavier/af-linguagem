@@ -34,11 +34,11 @@ node *pilha;
 %token COMMA COLON SEMICOLON LPAREN RPAREN LBRACE RBRACE LBRACK RBRACK
 %token DOT ASSIGN ELIF IF ELSE RETURN
 %token WHILE FOR SKIP IN NOT NIL DEF TRUE FALSE
-%token BREAK SET LIST DIVM ADDPERC SUBPERC ADDEQ SUBEQ DIVEQ MULTEQ
+%token BREAK SET LIST  ADDPERC SUBPERC ADDEQ SUBEQ DIVEQ MULTEQ
 %token DIVMEQ DICT MAIN END ENDLINE CONTSTMT DIV 
 %token <iValor> DECINT DECREAL DECSTR
 
-%left PLUS MINUS AND OR NEQ  EQ  LT LE GT GE PERC
+%left PLUS MINUS AND OR NEQ  EQ  LT LE GT GE PERC DIVM
 %left TIMES DIVIDE 
 %right NOT '-' ASSIGN
 
@@ -167,7 +167,7 @@ expr :
      | expr EQ expr             {operar($$, $1, EQ, $3);}
      | expr AND expr            {operar($$, $1, AND, $3);}
      | expr OR expr             {operar($$, $1, OR, $3);}
-     //| expr DIVM expr         {$$ = $1 % $3;}
+     | expr DIVM expr           {operar($$, $1, DIVM, $3);}
      | expr NEQ expr            {operar($$, $1, NEQ, $3);}    
      //| NOT expr               {operar($$, $1, NOT, $3);}
      //| PERC expr              {$$ = }
@@ -299,6 +299,7 @@ void operar(Variavel *res, Variavel *v1, int op, Variavel *v2) {
     case DIVM:
         if (v1->tipo == tipoInteiro && v2->tipo == tipoInteiro) {
             res->valor.i = v1->valor.i % v2->valor.i;
+            res->tipo = tipoInteiro;
         } else {
             //erroSemantica();
         }
