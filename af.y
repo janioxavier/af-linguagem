@@ -62,9 +62,16 @@ stmt :
      | decl_var end_stmt                {}
      | estr_cond end_stmt               {}
      | f_builtin end_stmt               {}
-     | expr end_stmt                    {printValorVariavel(*$1);}
+     | ID ASSIGN expr end_stmt          { if (!isDeclarado($1)) erroSemantica(NAO_DECLARADO_EM_NENHUM_ESCOPO, $1);
+                                          else {
+                                            Variavel *v = encontra_variavel($1);
+                                            operar(novaVariavel(), v, ASSIGN, $3);
+                                          }
+                                        }
+     // adicionar call_func
      | estr_while end_stmt              {}
      | estr_for end_stmt                {}
+///*debug*/     | expr                    {printValorVariavel(*$1);}
      ;
 
 end_stmt : ENDLINE            {}
@@ -194,7 +201,7 @@ f_builtin : f_print     {}
           | f_input     {}
           ;
 
-f_print : PRINT expr    {}
+f_print : PRINT expr    {printValorVariavel(*$2);}
         ;
 
 f_input : INPUT ID      {}
@@ -319,23 +326,23 @@ void operar(Variavel *res, Variavel *v1, int op, Variavel *v2) {
                 res->tipo = tipoInteiro;
                 //*res = *v1;
             } else if(v1->tipo == tipoInteiro && v2->tipo == tipoReal) {
-                res->valor.i = v2->valor.r;
-                res->tipo = tipoInteiro;
+                v1->valor.i = v2->valor.r;
+                v1->tipo = tipoInteiro;
                 res->valor.i = v2->valor.i;
                 res->tipo = tipoInteiro;
             } else if (v1->tipo == tipoReal && v2->tipo == tipoInteiro) {
-                res->valor.r = v2->valor.i;
-                res->tipo = tipoReal;
+                v1->valor.r = v2->valor.i;
+                v1->tipo = tipoReal;
                 res->valor.r = v2->valor.i;
                 res->tipo = tipoReal;
             } else if (v1->tipo == tipoReal && v2->tipo == tipoReal) {
-                res->valor.r = v2->valor.r;
-                res->tipo = tipoReal;
+                v1->valor.r = v2->valor.r;
+                v1->tipo = tipoReal;
                 res->valor.i = v2->valor.i;
                 res->tipo = tipoReal;
             } else if(v1->tipo == tipoString && v2->tipo == tipoString){
-                res->valor.s = strdup(v2->valor.s);
-                res->tipo = tipoString;
+                v1->valor.s = strdup(v2->valor.s);
+                v1->tipo = tipoString;
                 res->valor.s = strdup(v2->valor.s);
                 res->tipo = tipoString;
             } else {
