@@ -57,6 +57,15 @@ Variavel *criarVariavel(char *nome,TipoVariavel tipo, ValorVariavel valor, char 
     return v;
 }
 
+Variavel *copiarVariavel(Variavel *orig) {
+    Variavel *v = (Variavel*) malloc (sizeof(Variavel));
+    v->nome = orig->nome;
+    v->tipo = orig->tipo;
+    v->valor = orig->valor;
+    v->escopo = orig->escopo;
+    return v;
+}
+
 int addId (char *id, int tipo, char *escopo) {
     simboloEntrada *novaEntrada;
     if (isDeclarado(id)) {
@@ -127,6 +136,8 @@ char* nomeTipo(int tipo) {
         return "tipodefinido";
         case tipoFuncao:
         return "def";
+        case tipoBooleano:
+        return "booleano";
     }
 }
 

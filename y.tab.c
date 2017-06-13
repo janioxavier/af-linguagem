@@ -1634,7 +1634,7 @@ yyreduce:
 
   case 38:
 #line 177 "af.y" /* yacc.c:1646  */
-    {(yyval.v) = encontra_variavel((yyvsp[0].sValor)); if ((yyval.v) == NULL) erroSemantica(NAO_DECLARADO_EM_NENHUM_ESCOPO, (yyvsp[0].sValor));}
+    {(yyval.v) = copiarVariavel(encontra_variavel((yyvsp[0].sValor))); if ((yyval.v) == NULL) erroSemantica(NAO_DECLARADO_EM_NENHUM_ESCOPO, (yyvsp[0].sValor));}
 #line 1639 "y.tab.c" /* yacc.c:1646  */
     break;
 
@@ -1952,6 +1952,7 @@ yyreturn:
 
 void operar(Variavel *res, Variavel *v1, int op, Variavel *v2) {
     
+    Variavel *resTemp = (Variavel*) malloc(sizeof(Variavel));
     switch(op) {
      case PLUS:
         if (v1->tipo == tipoInteiro && v2->tipo == tipoInteiro) {
@@ -2041,9 +2042,13 @@ void operar(Variavel *res, Variavel *v1, int op, Variavel *v2) {
         }
         break;
     case ASSIGN:
+            v1 = encontra_variavel(v1->nome);
             if (v1->tipo == tipoInteiro && v2->tipo == tipoInteiro) {
                 v1->valor.i = v2->valor.i;
                 v1->tipo = tipoInteiro;
+                res->valor.i = v2->valor.i;
+                res->tipo = tipoInteiro;
+                //*res = *v1;
             } else if(v1->tipo == tipoInteiro && v2->tipo == tipoReal) {
                 res->valor.r = v2->valor.r;
                 res->tipo = tipoReal;
@@ -2057,9 +2062,28 @@ void operar(Variavel *res, Variavel *v1, int op, Variavel *v2) {
                 res->valor.s = strdup(v2->valor.s);
                 res->tipo = tipoString;
             } else {
-                //erroSemantica();
+                char errmsg[200];
+                sprintf(errmsg,"tipo %s não pode ser atribuido ao tipo %s.", nomeTipo(v1->tipo), nomeTipo(v2->tipo));
+                erroSemantica(TIPOS_DIFERENTES, errmsg);
             }
-            *res=  *v1;
+        break;
+    case LE:
+        if (v1->tipo == tipoInteiro && v2->tipo == tipoInteiro) {
+            res->valor.i = v1->valor.i < v2->valor.i;
+            res->tipo = tipoBooleano;
+        } else if (v1->tipo == tipoReal && v2->tipo == tipoInteiro) {
+            res->valor.r = v1->valor.r < v2->valor.i;
+            res->tipo = tipoBooleano;
+        } else if (v1->tipo == tipoInteiro && v2->tipo == tipoReal) {
+            res->valor.r = v1->valor.i < v2->valor.r;
+            res->tipo = tipoBooleano;
+        } else if (v1->tipo == tipoReal && v2->tipo == tipoReal) {
+            res->valor.r = v1->valor.r < v2->valor.r;
+            res->tipo = tipoBooleano;
+        } 
+        else {
+            //erroSemantica();
+        }
         break;
     default:
         sprintf(stderr,"OPERADOR '%c' NAO DEFINIDO", op);

@@ -10,6 +10,7 @@ enum tipoErro {
 enum tipo{
     tipoInteiro,
     tipoReal,
+    tipoBooleano,
     tipoString,
     tipoDefinido,
     tipoFuncao,
@@ -54,3 +55,5 @@ int getTipo(char *id);
 int setValorId (char *id1, char *id2);
 //int setValor (char *id1, int tipo, ValorVariavel valor);
 int verificadorTipo (simboloEntrada *in1, simboloEntrada *in2);
+Variavel *criarVariavel(char *nome,TipoVariavel tipo, ValorVariavel valor, char *escopo);
+Variavel  *copiarVariavel(Variavel *v);
