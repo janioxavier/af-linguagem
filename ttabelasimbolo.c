@@ -1,8 +1,6 @@
 #include <stdio.h>
 #include "tabelasimbolo.h"
 
-
-
 int main() {
     ValorVariavel v;
     v.i = 10;

@@ -16,12 +16,14 @@ extern char * yytext;
 extern int line_number;
 
 node *pilha;
+
 %}
 
-%union{
+%union {
     int iValor;
     double rValor;
     char * sValor;
+    struct Variavel *v;
 }
 
 %token <iValor> INT 
@@ -36,15 +38,14 @@ node *pilha;
 %token DIVMEQ DICT MAIN END ENDLINE CONTSTMT DIV 
 %token <iValor> DECINT DECREAL DECSTR
 
-%type <rValor> expr
 %left PLUS MINUS AND OR NEQ  EQ  LT LE GT GE PERC
 %left TIMES DIVIDE 
-%right NOT '-'
+%right NOT '-' ASSIGN
 
-//%type <rValor> expr 
+%type <v> expr 
 %type <iValor> decl_data_type
-
-%type <sValor> lhs decl_var var rhs
+%type <sValor> var
+//%type <sValor> lhs decl_var var rhs
 
 
 
@@ -56,12 +57,12 @@ stmt_list : stmt                      {}
           | stmt stmt_list            {}
           ;
           
-stmt : assign end_stmt                  {}
-     | definition end_stmt              {}
+stmt : 
+       definition end_stmt              {}
      | decl_var end_stmt                {}
      | estr_cond end_stmt               {}
      | f_builtin end_stmt               {}
-     | expr end_stmt                    {printf("%lf\n", $1);}
+     | expr end_stmt                    {printValorVariavel(*$1);}
      | estr_while end_stmt              {}
      | estr_for end_stmt                {}
      ;
@@ -69,22 +70,25 @@ stmt : assign end_stmt                  {}
 end_stmt : ENDLINE            {}
          ;
 
-assign : lhs ASSIGN rhs     {}
+/*
+assign : lhs ASSIGN expr     {if (isDeclarado($1)) erroSemantica(JA_DECLARADO, $1);ValorVariavel v; v.r = $3;setValor($1, tipoInteiro, v);}
        ;
 
 lhs : decl_var  {$$ = $1;}
     | var       {$$ = $1;}
     ;
 
-rhs : expr        {}
+rhs : expr        {$$ = $1;}
     ;
+*/
 
 call_func : ID LPAREN RPAREN             {}
           | ID LPAREN data_types RPAREN  {}
           ;
 
 
-decl_var : decl_data_type ID   {addId($2, $1, topo_pilha(pilha)); $$ = $2;}
+decl_var : decl_data_type ID                //{addId($2, $1, topo_pilha(pilha)); $$ = $2;}
+         | decl_data_type ID ASSIGN expr    //{ValorVariavel v; v.r = $4;addIdValor($2, $1, v,topo_pilha(pilha));}
          ;
 
 decl_data_type : DECINT        {$$ = tipoInteiro;}
@@ -151,10 +155,11 @@ func_def :
 
 expr :
        LPAREN expr RPAREN       {$$ = $2;}
-     | expr PLUS expr           {$$ = $1 + $3;}
-     | expr MINUS expr          {$$ = $1 - $3;}
-     | expr TIMES expr          {$$ = $1 * $3;}
-     | expr DIVIDE expr         {$$ = $1 / $3;}
+     | expr PLUS expr           {operar($$, $1, '+', $3);}
+     | expr MINUS expr          {operar($$, $1, '-', $3);}
+     | expr TIMES expr          {operar($$, $1, '*', $3);}
+     | expr DIVIDE expr         {operar($$, $1, '/', $3);}
+     /*| expr ASSIGN expr       {operar($$, $1, '=', $3);}
      | expr LT expr             {$$ = $1 < $3;}
      | expr LE expr             {$$ = $1 <= $3;}
      | expr GE expr             {$$ = $1 >= $3;}
@@ -168,11 +173,14 @@ expr :
      //| PERC expr              {$$ = }
      | MINUS expr               {$$ = - $2;}
      //| expr ADDEQ term        {$$ = $1 += $3);}
-     | REAL                     {$$ = $1;}
-     | INT                      {$$ = (int) $1;}
      | call_func                {}
+     | ID                       {$$ = getValor($1).r;}*/
+     | REAL                     { Variavel *v = (Variavel*) malloc(sizeof(Variavel));
+                                v->tipo = tipoReal; ValorVariavel vv; vv.r = $1; v->valor = vv; $$ = v;}
+     | INT                      { Variavel *v = (Variavel*) malloc(sizeof(Variavel));
+                                v->tipo = tipoInteiro;  ValorVariavel vv; vv.i = $1; v->valor = vv; $$ = v;}
+     | STR                      { Variavel *v = (Variavel*) malloc(sizeof(Variavel)); v->tipo = tipoString;  ValorVariavel vv; vv.s = strdup($1); v->valor = vv; $$ = v;}
      ;
-
 
 f_builtin : f_print     {}
           | f_input     {}
@@ -202,19 +210,126 @@ estr_while : WHILE expr COLON stmt_list END                                     
            
 estr_for : FOR decl_var COMMA var IN var COLON stmt_list END                                                    {printf("for \n");}
          ;
-             
 %%
+
+void operar(Variavel *res, Variavel *v1, char op, Variavel *v2) {
+    
+    switch(op) {
+     case '+':
+        if (v1->tipo == tipoInteiro && v2->tipo == tipoInteiro) {
+            res->valor.i = v1->valor.i + v2->valor.i;
+        } else if (v1->tipo == tipoReal && v2->tipo == tipoInteiro) {
+            res->valor.r = v1->valor.r + v2->valor.i;
+            res->tipo = tipoReal;
+        } else if (v1->tipo == tipoInteiro && v2->tipo == tipoReal) {
+            res->valor.r = v1->valor.i + v2->valor.r;
+            res->tipo = tipoReal;
+        } else if (v1->tipo == tipoReal && v2->tipo == tipoReal) {
+            res->valor.r = v1->valor.r + v2->valor.r;
+            res->tipo = tipoReal;
+        } else if (v1->tipo == tipoString && v2->tipo == tipoString){
+            //char *novastr = strdup(v1->valor.s);
+            int size;
+            size = strlen(v1->valor.s)-1;
+            v1->valor.s[size] = '\0';
+            res->valor.s = strcat(v1->valor.s, v2->valor.s);
+            int size2 = strlen(res->valor.s);
+            while(size < size2) {
+                res->valor.s[size] = res->valor.s[size+1];
+                size+=1;
+            }
+        } else {
+            //erroSemantica();
+        }
+     break;
+     case '-':
+        if (v1->tipo == tipoInteiro && v2->tipo == tipoInteiro) {
+            res->valor.i = v1->valor.i - v2->valor.i;
+        } else if (v1->tipo == tipoReal && v2->tipo == tipoInteiro) {
+            res->valor.r = v1->valor.r - v2->valor.i;
+            res->tipo = tipoReal;
+        } else if (v1->tipo == tipoInteiro && v2->tipo == tipoReal) {
+            res->valor.r = v1->valor.i - v2->valor.r;
+            res->tipo = tipoReal;
+        } else if (v1->tipo == tipoReal && v2->tipo == tipoReal) {
+            res->valor.r = v1->valor.r - v2->valor.r;
+            res->tipo = tipoReal;
+        } 
+        else {
+            //erroSemantica();
+        }
+     break;
+     case '*':
+        if (v1->tipo == tipoInteiro && v2->tipo == tipoInteiro) {
+            res->valor.i = v1->valor.i * v2->valor.i;
+        } else if (v1->tipo == tipoReal && v2->tipo == tipoInteiro) {
+            res->valor.r = v1->valor.r * v2->valor.i;
+            res->tipo = tipoReal;
+        } else if (v1->tipo == tipoInteiro && v2->tipo == tipoReal) {
+            res->valor.r = v1->valor.i * v2->valor.r;
+            res->tipo = tipoReal;
+        } else if (v1->tipo == tipoReal && v2->tipo == tipoReal) {
+            res->valor.r = v1->valor.r * v2->valor.r;
+            res->tipo = tipoReal;
+        } else {
+            //erroSemantica();
+        }
+    break;
+    case '/':
+        if (v1->tipo == tipoInteiro && v2->tipo == tipoInteiro) {
+            res->valor.i = v1->valor.i / v2->valor.i;
+        } else if (v1->tipo == tipoReal && v2->tipo == tipoInteiro) {
+            res->valor.r = v1->valor.r / v2->valor.i;
+            res->tipo = tipoReal;
+        } else if (v1->tipo == tipoInteiro && v2->tipo == tipoReal) {
+            res->valor.r = v1->valor.i / v2->valor.r;
+            res->tipo = tipoReal;
+        } else if (v1->tipo == tipoReal && v2->tipo == tipoReal) {
+            res->valor.r = v1->valor.r / v2->valor.r;
+            res->tipo = tipoReal;
+        } else {
+            //erroSemantica();
+        }
+    break;
+    case '%':
+        if (v1->tipo == tipoInteiro && v2->tipo == tipoInteiro) {
+            res->valor.i = v1->valor.i % v2->valor.i;
+        } else {
+            //erroSemantica();
+        }
+    break;
+    default:
+        sprintf(stderr,"OPERADOR '%c' NAO DEFINIDO", op);
+    }
+    
+    
+}
+
+
+
+void printValorVariavel(Variavel v) {
+    switch(v.tipo) {
+    case tipoInteiro:
+    printf("%i\n", v.valor); break;
+    case tipoReal:
+    printf("%lf\n", v.valor.r); break;
+    case tipoString:
+    printf("%s\n", v.valor); break;
+    default:
+    printf("tipo: %s nao impresso.\n", nomeTipo(v.tipo)); break;
+    }
+}
 
 void printIdValue(char *id) {
     simboloEntrada *in = encontrarEntrada(id);
     if (in != NULL) {
-        switch(in->tipo) {
+        switch(in->var->tipo) {
         case tipoInteiro:
-        printf("%i", in->valor.i);break;
+        printf("%i", in->var->valor);break;
         case tipoReal:
-        printf("%lf", in->valor.r);break;
+        printf("%lf", in->var->valor);break;
         case tipoString:
-        printf("%s", in->valor.s);break;
+        printf("%s", in->var->valor);break;
         default:
         printf("tipo não pode ser escrito\n");
         break;

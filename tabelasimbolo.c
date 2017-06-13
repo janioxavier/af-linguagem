@@ -2,26 +2,34 @@
 #include <stdlib.h>
 #include "tabelasimbolo.h"
 
-
 void erroSemantica (int erroTipo, char *info) {
     char errmsg[200];
     
     switch (erroTipo) {
         case TIPOS_DIFERENTES: sprintf (errmsg, "Tipos diferentes: %s\n", info); break;
+        case JA_DECLARADO: sprintf (errmsg, "Tipo já definido %s\n", info); break;
     }
-    printf("%s\n", errmsg);
+    fprintf (stderr, "Line %d: %s \n", line_number, errmsg);
 }
 
 ValorVariavel getValor(char *id) {
     simboloEntrada *encontrado = encontrarEntrada(id);
     if (encontrado != NULL) {
-        return encontrado->valor;
+        return encontrado->var->valor;
     }
+}
+
+int getTipo(char *id) {
+    simboloEntrada *encontrado = encontrarEntrada(id);
+    if(encontrado != NULL) {
+        return encontrado->var->tipo;
+    }
+    return -1;
 }
 
 simboloEntrada *encontrarEntrada (char *id) {
     simboloEntrada *encontrado = tabelaSimbolo;
-    while (encontrado != NULL && strcmp(id, encontrado->nome)) {
+    while (encontrado != NULL && strcmp(id, encontrado->var->nome)) {
         encontrado = encontrado->proximo;
     }
     return encontrado;
@@ -30,10 +38,13 @@ simboloEntrada *encontrarEntrada (char *id) {
 int isDeclarado(char *id) {
     return (encontrarEntrada(id) != NULL);
 }
-
+/*
 int addId (char *id, int tipo, char *escopo) {
     simboloEntrada *novaEntrada;
-    if (isDeclarado(id)) return 0;
+    if (isDeclarado(id)) {
+        erroSemantica(JA_DECLARADO, id);
+        return 0;
+    }
     novaEntrada = (simboloEntrada*) malloc (sizeof(simboloEntrada));
     novaEntrada->nome = id;
     novaEntrada->tipo = tipo;
@@ -45,7 +56,10 @@ int addId (char *id, int tipo, char *escopo) {
 
 int addIdValor (char *id, int tipo, ValorVariavel valor, char *escopo) {
     simboloEntrada *novaEntrada;
-    if (isDeclarado(id)) return 0;
+    if (isDeclarado(id)) {
+        erroSemantica(JA_DECLARADO, id);
+        return 0;
+    }
     novaEntrada = (simboloEntrada*) malloc (sizeof(simboloEntrada));
     novaEntrada->nome = id;
     novaEntrada->tipo = tipo;
@@ -55,12 +69,12 @@ int addIdValor (char *id, int tipo, ValorVariavel valor, char *escopo) {
     tabelaSimbolo = novaEntrada;
     return 1;
 }
-
+*/
 int verificadorTipo(simboloEntrada *in1, simboloEntrada *in2) {
-    if (!strcmp(in1->tipo, in2->tipo)) return 1;
+    if (!strcmp(in1->var->tipo, in2->var->tipo)) return 1;
     return 0;
 }
-
+/*
 int setValorId (char *id1, char *id2) {
 	simboloEntrada *in1 = encontrarEntrada (id1);
 	simboloEntrada *in2 = encontrarEntrada (id2);
@@ -83,7 +97,7 @@ int setValorId (char *id1, char *id2) {
 		return 0;
 	}
 }
-
+*/
 char* nomeTipo(int tipo) {
     switch(tipo) {
         case tipoInteiro:
@@ -100,9 +114,9 @@ char* nomeTipo(int tipo) {
 }
 
 int verificadorEntradaTipo(simboloEntrada *in, int tipo) {
-    return tipo == in->tipo;
+    return tipo == in->var->tipo || tipo < in->var->tipo;
 }
-
+/*
 int setValor (char *id, int tipo, ValorVariavel valor) {
     simboloEntrada *in = encontrarEntrada(id);
     if (in == NULL) {
@@ -118,4 +132,4 @@ int setValor (char *id, int tipo, ValorVariavel valor) {
         strcat(error, "'");
         erroSemantica(TIPOS_DIFERENTES, error);
     }
-}
+}*/

@@ -182,13 +182,14 @@ extern int yydebug;
 typedef union YYSTYPE YYSTYPE;
 union YYSTYPE
 {
-#line 21 "af.y" /* yacc.c:1909  */
+#line 22 "af.y" /* yacc.c:1909  */
 
     int iValor;
     double rValor;
     char * sValor;
+    struct Variavel *v;
 
-#line 192 "y.tab.h" /* yacc.c:1909  */
+#line 193 "y.tab.h" /* yacc.c:1909  */
 };
 # define YYSTYPE_IS_TRIVIAL 1
 # define YYSTYPE_IS_DECLARED 1

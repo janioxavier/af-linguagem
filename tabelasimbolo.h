@@ -1,3 +1,4 @@
+extern int line_number;
 enum tipoErro {
     NAO_DECLARADO,
     JA_DECLARADO,
@@ -14,21 +15,27 @@ enum tipo{
 };
 typedef enum tipo TipoVariavel;
 
-union valor{
+
+union Valor{
     int i;
     double r;
     char *s;
-    void *qualquerTipo;
+//    void *qualquerTipo;
 };
-typedef union valor ValorVariavel;
+typedef union Valor ValorVariavel;
 
-void erroSemantica(int tipoErro, char*);
-
-struct simboloNode {
+struct Variavel{
     char *nome;
     ValorVariavel valor;
     TipoVariavel tipo;
     char *escopo;
+};
+typedef struct Variavel Variavel;
+
+void erroSemantica(int tipoErro, char*);
+
+struct simboloNode {
+    Variavel *var;
     struct simboloNode *proximo;
 };
 typedef struct simboloNode simboloEntrada;
@@ -37,9 +44,11 @@ simboloEntrada *tabelaSimbolo;
 
 simboloEntrada *encontrarEntrada (char *id);
 int isDeclarado (char *id);
-int addId (char *id, int tipo, char *escopo);
-int addIdValor (char *id, int tipo, ValorVariavel valor, char *escopo);
+int addVar(Variavel var);
+//int addId (char *id, int tipo, char *escopo);
+//int addIdValor (char *id, int tipo, ValorVariavel valor, char *escopo);
 ValorVariavel getValor(char *id);
+int getTipo(char *id);
 int setValorId (char *id1, char *id2);
-int setValor (char *id1, int tipo, ValorVariavel valor);
+//int setValor (char *id1, int tipo, ValorVariavel valor);
 int verificadorTipo (simboloEntrada *in1, simboloEntrada *in2);
