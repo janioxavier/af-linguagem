@@ -1604,31 +1604,31 @@ yyreduce:
 
   case 33:
 #line 158 "af.y" /* yacc.c:1646  */
-    {operar((yyval.v), (yyvsp[-2].v), '+', (yyvsp[0].v));}
+    {operar((yyval.v), (yyvsp[-2].v), PLUS, (yyvsp[0].v));}
 #line 1609 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 34:
 #line 159 "af.y" /* yacc.c:1646  */
-    {operar((yyval.v), (yyvsp[-2].v), '-', (yyvsp[0].v));}
+    {operar((yyval.v), (yyvsp[-2].v), MINUS, (yyvsp[0].v));}
 #line 1615 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 35:
 #line 160 "af.y" /* yacc.c:1646  */
-    {operar((yyval.v), (yyvsp[-2].v), '*', (yyvsp[0].v));}
+    {operar((yyval.v), (yyvsp[-2].v), TIMES, (yyvsp[0].v));}
 #line 1621 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 36:
 #line 161 "af.y" /* yacc.c:1646  */
-    {operar((yyval.v), (yyvsp[-2].v), '/', (yyvsp[0].v));}
+    {operar((yyval.v), (yyvsp[-2].v), DIVIDE, (yyvsp[0].v));}
 #line 1627 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 37:
 #line 162 "af.y" /* yacc.c:1646  */
-    {printf("nome = %s", (yyvsp[-2].v)->nome);operar((yyval.v), (yyvsp[-2].v), '=', (yyvsp[0].v));}
+    {operar((yyval.v), (yyvsp[-2].v), ASSIGN, (yyvsp[0].v));}
 #line 1633 "y.tab.c" /* yacc.c:1646  */
     break;
 
@@ -1950,10 +1950,10 @@ yyreturn:
 #line 213 "af.y" /* yacc.c:1906  */
 
 
-void operar(Variavel *res, Variavel *v1, char op, Variavel *v2) {
+void operar(Variavel *res, Variavel *v1, int op, Variavel *v2) {
     
     switch(op) {
-     case '+':
+     case PLUS:
         if (v1->tipo == tipoInteiro && v2->tipo == tipoInteiro) {
             res->valor.i = v1->valor.i + v2->valor.i;
             res->tipo = tipoInteiro;
@@ -1981,7 +1981,7 @@ void operar(Variavel *res, Variavel *v1, char op, Variavel *v2) {
             //erroSemantica();
         }
         break;
-     case '-':
+     case MINUS:
         if (v1->tipo == tipoInteiro && v2->tipo == tipoInteiro) {
             res->valor.i = v1->valor.i - v2->valor.i;
             res->tipo = tipoInteiro;
@@ -1999,7 +1999,7 @@ void operar(Variavel *res, Variavel *v1, char op, Variavel *v2) {
             //erroSemantica();
         }
         break;
-     case '*':
+     case TIMES:
         if (v1->tipo == tipoInteiro && v2->tipo == tipoInteiro) {
             res->valor.i = v1->valor.i * v2->valor.i;
             res->tipo = tipoInteiro;
@@ -2016,7 +2016,7 @@ void operar(Variavel *res, Variavel *v1, char op, Variavel *v2) {
             //erroSemantica();
         }
         break;
-    case '/':
+    case DIVIDE:
         if (v1->tipo == tipoInteiro && v2->tipo == tipoInteiro) {
             res->valor.i = v1->valor.i / v2->valor.i;
             res->tipo = tipoInteiro;
@@ -2033,14 +2033,14 @@ void operar(Variavel *res, Variavel *v1, char op, Variavel *v2) {
             //erroSemantica();
         }
         break;
-    case '%':
+    case DIVM:
         if (v1->tipo == tipoInteiro && v2->tipo == tipoInteiro) {
             res->valor.i = v1->valor.i % v2->valor.i;
         } else {
             //erroSemantica();
         }
         break;
-    case '=':
+    case ASSIGN:
             if (v1->tipo == tipoInteiro && v2->tipo == tipoInteiro) {
                 v1->valor.i = v2->valor.i;
                 v1->tipo = tipoInteiro;
@@ -2060,7 +2060,6 @@ void operar(Variavel *res, Variavel *v1, char op, Variavel *v2) {
                 //erroSemantica();
             }
             *res=  *v1;
-      
         break;
     default:
         sprintf(stderr,"OPERADOR '%c' NAO DEFINIDO", op);

@@ -155,11 +155,11 @@ func_def :
 
 expr :
        LPAREN expr RPAREN       {$$ = $2;}
-     | expr PLUS expr           {operar($$, $1, '+', $3);}
-     | expr MINUS expr          {operar($$, $1, '-', $3);}
-     | expr TIMES expr          {operar($$, $1, '*', $3);}
-     | expr DIVIDE expr         {operar($$, $1, '/', $3);}
-     | expr ASSIGN expr         {operar($$, $1, '=', $3);}
+     | expr PLUS expr           {operar($$, $1, PLUS, $3);}
+     | expr MINUS expr          {operar($$, $1, MINUS, $3);}
+     | expr TIMES expr          {operar($$, $1, TIMES, $3);}
+     | expr DIVIDE expr         {operar($$, $1, DIVIDE, $3);}
+     | expr ASSIGN expr         {operar($$, $1, ASSIGN, $3);}
      /*| expr LT expr             {$$ = $1 < $3;}
      | expr LE expr             {$$ = $1 <= $3;}
      | expr GE expr             {$$ = $1 >= $3;}
@@ -212,10 +212,10 @@ estr_for : FOR decl_var COMMA var IN var COLON stmt_list END                    
          ;
 %%
 
-void operar(Variavel *res, Variavel *v1, char op, Variavel *v2) {
+void operar(Variavel *res, Variavel *v1, int op, Variavel *v2) {
     
     switch(op) {
-     case '+':
+     case PLUS:
         if (v1->tipo == tipoInteiro && v2->tipo == tipoInteiro) {
             res->valor.i = v1->valor.i + v2->valor.i;
             res->tipo = tipoInteiro;
@@ -243,7 +243,7 @@ void operar(Variavel *res, Variavel *v1, char op, Variavel *v2) {
             //erroSemantica();
         }
         break;
-     case '-':
+     case MINUS:
         if (v1->tipo == tipoInteiro && v2->tipo == tipoInteiro) {
             res->valor.i = v1->valor.i - v2->valor.i;
             res->tipo = tipoInteiro;
@@ -261,7 +261,7 @@ void operar(Variavel *res, Variavel *v1, char op, Variavel *v2) {
             //erroSemantica();
         }
         break;
-     case '*':
+     case TIMES:
         if (v1->tipo == tipoInteiro && v2->tipo == tipoInteiro) {
             res->valor.i = v1->valor.i * v2->valor.i;
             res->tipo = tipoInteiro;
@@ -278,7 +278,7 @@ void operar(Variavel *res, Variavel *v1, char op, Variavel *v2) {
             //erroSemantica();
         }
         break;
-    case '/':
+    case DIVIDE:
         if (v1->tipo == tipoInteiro && v2->tipo == tipoInteiro) {
             res->valor.i = v1->valor.i / v2->valor.i;
             res->tipo = tipoInteiro;
@@ -295,14 +295,14 @@ void operar(Variavel *res, Variavel *v1, char op, Variavel *v2) {
             //erroSemantica();
         }
         break;
-    case '%':
+    case DIVM:
         if (v1->tipo == tipoInteiro && v2->tipo == tipoInteiro) {
             res->valor.i = v1->valor.i % v2->valor.i;
         } else {
             //erroSemantica();
         }
         break;
-    case '=':
+    case ASSIGN:
             if (v1->tipo == tipoInteiro && v2->tipo == tipoInteiro) {
                 v1->valor.i = v2->valor.i;
                 v1->tipo = tipoInteiro;
@@ -322,7 +322,6 @@ void operar(Variavel *res, Variavel *v1, char op, Variavel *v2) {
                 //erroSemantica();
             }
             *res=  *v1;
-      
         break;
     default:
         sprintf(stderr,"OPERADOR '%c' NAO DEFINIDO", op);
