@@ -79,23 +79,46 @@ int addId (char *id, int tipo, char *escopo) {
     tabelaSimbolo = novaEntrada;
     return 1;
 }
-/*
-int addIdValor (char *id, int tipo, ValorVariavel valor, char *escopo) {
+
+int addIdValor (char *id, int tipo, Variavel *v, char *escopo) {
+    
     simboloEntrada *novaEntrada;
     if (isDeclarado(id)) {
-        erroSemantica(JA_DECLARADO, id);
         return 0;
     }
     novaEntrada = (simboloEntrada*) malloc (sizeof(simboloEntrada));
-    novaEntrada->nome = id;
-    novaEntrada->tipo = tipo;
-    novaEntrada->valor = valor;
-    novaEntrada->escopo = escopo;
+    novaEntrada->var = novaVariavel();
+    int tipo1 = tipo;
+    int tipo2 = v->tipo;
+    //printf("addIdValor\n");
+    if (tipo1 == tipoInteiro && tipo2 == tipoInteiro) {
+        novaEntrada->var->tipo = tipoInteiro;
+        novaEntrada->var->valor.i = v->valor.i;
+    } else if (tipo1 == tipoInteiro && tipo2 == tipoReal){
+        novaEntrada->var->tipo = tipoInteiro;
+        novaEntrada->var->valor.i = v->valor.r;
+    } else if (tipo1 == tipoReal && tipo2 == tipoInteiro) {
+        novaEntrada->var->tipo = tipoReal;
+        novaEntrada->var->valor.r = v->valor.i;
+    } else if (tipo1 == tipoReal && tipo2 == tipoReal) {
+        novaEntrada->var->tipo = tipoReal;
+        novaEntrada->var->valor.r = v->valor.r;;
+    } else if (tipo1 == tipoString && tipo2 == tipoString) {
+        novaEntrada->var->tipo = tipoString;
+        novaEntrada->var->valor.s = strdup(v->valor.i);
+    } else if (tipo1 == tipoBooleano && tipo2 == tipoBooleano) {
+        novaEntrada->var->tipo = tipoBooleano;
+        novaEntrada->var->valor.i = v->valor.i;
+    } else {
+        return -1;
+    }
+    novaEntrada->var->nome = id;
+    novaEntrada->var->escopo = escopo;
     novaEntrada->proximo = tabelaSimbolo;
     tabelaSimbolo = novaEntrada;
     return 1;
 }
-*/
+
 int verificadorTipo(simboloEntrada *in1, simboloEntrada *in2) {
     if (!strcmp(in1->var->tipo, in2->var->tipo)) return 1;
     return 0;

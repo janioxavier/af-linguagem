@@ -88,13 +88,21 @@ call_func : ID LPAREN RPAREN             {}
 
 
 decl_var : decl_data_type ID                {if (!addId($2, $1, topo_pilha(pilha))) erroSemantica(JA_DECLARADO, $2);}
-         | decl_data_type ID ASSIGN expr    //{ValorVariavel v; v.r = $4;addIdValor($2, $1, v,topo_pilha(pilha));}
+         | decl_data_type ID ASSIGN expr    { 
+                                            int r = addIdValor($2, $1, $4, topo_pilha(pilha));
+                                                if (r == 0) erroSemantica(JA_DECLARADO, $2);
+                                                else if (r == -1) {
+                                                    char err[200];
+                                                    sprintf(err, "Nao é possivel conveter tipo %s com o tipo %s.\n", nomeTipo($1), nomeTipo($4->tipo));
+                                                    erroSemantica(TIPO_DECLARADO_DIFERENTE, err);
+                                                }
+                                            }
          ;
 
 decl_data_type : DECINT        {$$ = tipoInteiro;}
                | DECREAL       {$$ = tipoReal;}
                | DECSTR        {$$ = tipoString;}
-               | ID            {$$ = tipoDefinido;}
+               //| ID            {$$ = tipoDefinido;}
                ;
 
 var : ID   {$$ = $1;}
@@ -311,15 +319,23 @@ void operar(Variavel *res, Variavel *v1, int op, Variavel *v2) {
                 res->tipo = tipoInteiro;
                 //*res = *v1;
             } else if(v1->tipo == tipoInteiro && v2->tipo == tipoReal) {
-                res->valor.r = v2->valor.r;
-                res->tipo = tipoReal;
-            } else if (v1->tipo == tipoReal && v2->tipo == tipoInteiro) {
                 res->valor.i = v2->valor.r;
                 res->tipo = tipoInteiro;
+                res->valor.i = v2->valor.i;
+                res->tipo = tipoInteiro;
+            } else if (v1->tipo == tipoReal && v2->tipo == tipoInteiro) {
+                res->valor.r = v2->valor.i;
+                res->tipo = tipoReal;
+                res->valor.r = v2->valor.i;
+                res->tipo = tipoReal;
             } else if (v1->tipo == tipoReal && v2->tipo == tipoReal) {
                 res->valor.r = v2->valor.r;
                 res->tipo = tipoReal;
+                res->valor.i = v2->valor.i;
+                res->tipo = tipoReal;
             } else if(v1->tipo == tipoString && v2->tipo == tipoString){
+                res->valor.s = strdup(v2->valor.s);
+                res->tipo = tipoString;
                 res->valor.s = strdup(v2->valor.s);
                 res->tipo = tipoString;
             } else {
