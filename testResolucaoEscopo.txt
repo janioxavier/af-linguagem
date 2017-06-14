@@ -1,0 +1,4 @@
+int a
+def abc():
+    int a
+end

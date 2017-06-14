@@ -48,12 +48,15 @@
 # define DIVEQ 312      //div r '/='
 # define MULTEQ 313     //mult r '*='
 # define DIVMEQ 314     //mod r '%='
-# define DICT 		//dicionario 'dict'
-# define MAIN           //referência ao programa principal
-# define END            // fim da estruturação de um bloco
-# define ENDLINE        // determina o fim do documento
-# define DECINT         // palavra chave para int
-# define DECREAL         // palavra chava para real
-# define DECSTR          // palavra chave para str
-# define CONTSTMT        // define o continuamento de uma sentença
-# define RETURN         // define o retorno de uma funcao
+# define DICT 315		//dicionario 'dict'
+# define MAIN 316          //referência ao programa principal
+# define END 317        // fim da estruturação de um bloco
+# define ENDLINE 318        // determina o fim do documento
+# define DECINT 319        // palavra chave para int
+# define DECREAL  320       // palavra chava para real
+# define DECSTR 321         // palavra chave para str
+# define CONTSTMT  322      // define o continuamento de uma sentença
+# define RETURN 323        // define o retorno de uma funcao
+# define PRINT   324       // funcao de escrita
+# define PRINTLN 325        // funcao que imprime e pula linha
+# define INPUT  326         // funcao de leitura

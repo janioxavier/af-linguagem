@@ -1,0 +1,12 @@
+if 1 > 2:
+    while 1:
+        int a
+        int b
+        real c
+    end
+end
+
+
+for int sum,i in j:
+    sum += i
+end

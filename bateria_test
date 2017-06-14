@@ -1,0 +1,27 @@
+echo "---COMPILANDO---"
+echo ""
+./Makefile
+echo "---TEST TABELA SIMBOLO---\n\n"
+echo ""
+./parse < testTabelaSimbolo.txt
+echo "---TEST DEC FUNCAO---\n\n"
+echo ""
+./parse < testDecFunc.txt
+echo "---TEST DEC VAR---\n\n"
+echo ""
+./parse < testDecVar.txt
+echo "---TEST DEC TIPO---\n\n"
+echo ""
+./parse < testDecTipo.txt
+echo "---TEST ESTRUTURA CONDICIONAL---\n\n"
+echo ""
+./parse < testEstCond.txt
+echo "---TEST ESTRUTURA REPETICAO---\n\n"
+echo ""
+./parse < testEstRepet.txt
+echo "---TEST EXPR---\n\n"
+echo ""
+./parse < testExpr.txt
+echo "---TEST RESOLUCAO ESCOPO---\n\n"
+echo ""
+./parse < testResolucaoEscopo.txt
