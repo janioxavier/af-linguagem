@@ -573,16 +573,17 @@ void printValorVariavel(Variavel v) {
 void printlnValorVariavel(Variavel v) {
     switch(v.tipo) {
     case tipoInteiro:
-    fprintf(compilado, "printf(\"%i\n\");\n", v.valor);
+    fprintf(compilado, "printf(\"%i\\n\");\n", v.valor);
     printf("%i\n", v.valor); break;
     case tipoReal:
-    fprintf(compilado, "printf(\"%lf\n\");\n", v.valor.r);
+    fprintf(compilado, "printf(\"%lf\\n\");\n", v.valor.r);
     printf("%lf\n", v.valor.r); break;
     case tipoString:
-    fprintf(compilado, "printf(\"%s\n\");\n", v.valor.s);
+    fprintf(compilado, "printf(%s);\n", v.valor.s);
+    fprintf(compilado, "printf(\"\\n\");\n");
     printf("%s\n", v.valor); break;
     case tipoBooleano:
-        fprintf(compilado, "printf(\"%s\n\");\n", v.valor.i ? "True" : "False");
+        fprintf(compilado, "printf(\"%s\\n\");\n", v.valor.i ? "True" : "False");
         printf("%s\n", v.valor.i ? "True" : "False"); break;
     default:
     printf("tipo: %s nao impresso.\n", nomeTipo(v.tipo)); break;

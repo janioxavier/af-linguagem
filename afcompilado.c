@@ -1,6 +1,8 @@
 #include <stdio.h>
 int main() {
-int a = 2;
-printf("2");
+char *c = "123"
+;
+printf("123");
+printf("\n");
 
 }
