@@ -52,7 +52,7 @@ node *pilha;
 prog : stmt_list                      {}
      ;
      
-stmt_list : stmt                      {sprintf(compilado, "%s", $1);}
+stmt_list : stmt                      {}
           | stmt stmt_list            {}
           ;
           
@@ -63,9 +63,7 @@ stmt :
      | f_builtin end_stmt               {}
      | ID ASSIGN expr end_stmt          { if (!isDeclarado($1)) erroSemantica(NAO_DECLARADO_EM_NENHUM_ESCOPO, $1);
                                           else {
-                                          printf("tiposing\n");
                                             Variavel *v = encontra_variavel($1);
-                                            
                                             operar(novaVariavel(), v, ASSIGN, $3);
                                             if (v->tipo == tipoInteiro || v->tipo == tipoBooleano) {
                                                 fprintf(compilado, "%s = %i;\n", v->nome, v->valor.i);
@@ -111,9 +109,7 @@ decl_var : decl_data_type ID                {if (!addId($2, $1, topo_pilha(pilha
                                                     erroSemantica(TIPO_DECLARADO_DIFERENTE, err);
                                                 } else if (r == 1) {
                                                     if ($1 == tipoInteiro || $1 == tipoBooleano) {
-                                                    printf("%p - %s - %i\n",compilado, $2, $4->valor.i);
-                                                    
-                                                        //fprintf(compilado,"int %s = %i;\n", $2, $4->valor.i);
+                                                        fprintf(compilado,"int %s = %i;\n", $2, $4->valor.i);
                                                     } else if ($1 == tipoReal) {
                                                         fprintf(compilado, "double %s = %lf;\n", $2, $4->valor.r);
                                                     } else if ($1 == tipoString) {
@@ -228,7 +224,7 @@ f_input : INPUT ID      {}
         ;
         
 estr_cond : 
-          IF expr COLON ENDLINE stmt_list END             {printf("if\n");}
+          IF expr COLON ENDLINE stmt_list END             {}
           | IF expr COLON ENDLINE stmt_list cond_else       {printf("if..else \n");}
           | IF expr COLON ENDLINE stmt_list cond_elif       {printf("if..elif..else \n");}
           ;
@@ -558,12 +554,16 @@ void opera_unario(Variavel *res, int op, Variavel *v1) {
 void printValorVariavel(Variavel v) {
     switch(v.tipo) {
     case tipoInteiro:
+    fprintf(compilado, "printf(\"%i\");\n", v.valor);
     printf("%i", v.valor); break;
     case tipoReal:
+    fprintf(compilado, "printf(\"%lf\");\n", v.valor.r);
     printf("%lf", v.valor.r); break;
     case tipoString:
+    fprintf(compilado, "printf(\"%s\");\n", v.valor.s);
     printf("%s", v.valor); break;
     case tipoBooleano:
+        fprintf(compilado, "printf(\"%s\");\n", v.valor.i ? "True" : "False");
         printf("%s", v.valor.i ? "True" : "False"); break;
     default:
     printf("tipo: %s nao impresso.\n", nomeTipo(v.tipo)); break;
@@ -573,12 +573,16 @@ void printValorVariavel(Variavel v) {
 void printlnValorVariavel(Variavel v) {
     switch(v.tipo) {
     case tipoInteiro:
+    fprintf(compilado, "printf(\"%i\n\");\n", v.valor);
     printf("%i\n", v.valor); break;
     case tipoReal:
+    fprintf(compilado, "printf(\"%lf\n\");\n", v.valor.r);
     printf("%lf\n", v.valor.r); break;
     case tipoString:
+    fprintf(compilado, "printf(\"%s\n\");\n", v.valor.s);
     printf("%s\n", v.valor); break;
     case tipoBooleano:
+        fprintf(compilado, "printf(\"%s\n\");\n", v.valor.i ? "True" : "False");
         printf("%s\n", v.valor.i ? "True" : "False"); break;
     default:
     printf("tipo: %s nao impresso.\n", nomeTipo(v.tipo)); break;

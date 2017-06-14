@@ -583,12 +583,12 @@ static const yytype_uint8 yytranslate[] =
 static const yytype_uint8 yyrline[] =
 {
        0,    52,    52,    55,    56,    60,    61,    62,    63,    64,
-      80,    81,    85,    93,   105,   128,   129,   130,   134,   168,
-     169,   172,   173,   176,   179,   180,   183,   184,   185,   186,
-     187,   191,   192,   193,   194,   195,   196,   197,   198,   199,
-     200,   201,   202,   203,   204,   205,   208,   211,   212,   214,
-     216,   219,   220,   223,   224,   227,   231,   232,   233,   236,
-     237,   240,   243,   246
+      79,    80,    84,    92,   104,   125,   126,   127,   131,   165,
+     166,   169,   170,   173,   176,   177,   180,   181,   182,   183,
+     184,   188,   189,   190,   191,   192,   193,   194,   195,   196,
+     197,   198,   199,   200,   201,   202,   205,   208,   209,   211,
+     213,   216,   217,   220,   221,   224,   228,   229,   230,   233,
+     234,   237,   240,   243
 };
 #endif
 
@@ -1488,7 +1488,7 @@ yyreduce:
 
   case 3:
 #line 55 "af.y" /* yacc.c:1646  */
-    {sprintf(compilado, "%s", (yyvsp[0].sValor));}
+    {}
 #line 1493 "y.tab.c" /* yacc.c:1646  */
     break;
 
@@ -1526,7 +1526,6 @@ yyreduce:
 #line 64 "af.y" /* yacc.c:1646  */
     { if (!isDeclarado((yyvsp[-3].sValor))) erroSemantica(NAO_DECLARADO_EM_NENHUM_ESCOPO, (yyvsp[-3].sValor));
                                           else {
-                                          printf("tiposing\n");
                                             Variavel *v = encontra_variavel((yyvsp[-3].sValor));
                                             
                                             operar(novaVariavel(), v, ASSIGN, (yyvsp[-1].v));
@@ -1539,29 +1538,29 @@ yyreduce:
                                             }
                                           }
                                         }
-#line 1543 "y.tab.c" /* yacc.c:1646  */
+#line 1542 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 10:
-#line 80 "af.y" /* yacc.c:1646  */
+#line 79 "af.y" /* yacc.c:1646  */
     {}
-#line 1549 "y.tab.c" /* yacc.c:1646  */
+#line 1548 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 11:
-#line 81 "af.y" /* yacc.c:1646  */
+#line 80 "af.y" /* yacc.c:1646  */
     {}
-#line 1555 "y.tab.c" /* yacc.c:1646  */
+#line 1554 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 12:
-#line 85 "af.y" /* yacc.c:1646  */
+#line 84 "af.y" /* yacc.c:1646  */
     {}
-#line 1561 "y.tab.c" /* yacc.c:1646  */
+#line 1560 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 13:
-#line 93 "af.y" /* yacc.c:1646  */
+#line 92 "af.y" /* yacc.c:1646  */
     {if (!addId((yyvsp[0].sValor), (yyvsp[-1].iValor), topo_pilha(pilha))) erroSemantica(JA_DECLARADO, (yyvsp[0].sValor)); else {
                                                 if ((yyvsp[-1].iValor) == tipoInteiro || (yyvsp[-1].iValor) == tipoBooleano) {
                                                     fprintf(compilado,"int %s;\n", (yyvsp[0].sValor));
@@ -1574,11 +1573,11 @@ yyreduce:
                                                 }
                                                 
                                             }}
-#line 1578 "y.tab.c" /* yacc.c:1646  */
+#line 1577 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 14:
-#line 105 "af.y" /* yacc.c:1646  */
+#line 104 "af.y" /* yacc.c:1646  */
     { 
                                             int r = addIdValor((yyvsp[-2].sValor), (yyvsp[-3].iValor), (yyvsp[0].v), topo_pilha(pilha));
                                                 if (r == 0) erroSemantica(JA_DECLARADO, (yyvsp[-2].sValor));
@@ -1588,9 +1587,7 @@ yyreduce:
                                                     erroSemantica(TIPO_DECLARADO_DIFERENTE, err);
                                                 } else if (r == 1) {
                                                     if ((yyvsp[-3].iValor) == tipoInteiro || (yyvsp[-3].iValor) == tipoBooleano) {
-                                                    printf("%p - %s - %i\n",compilado, (yyvsp[-2].sValor), (yyvsp[0].v)->valor.i);
-                                                    
-                                                        //fprintf(compilado,"int %s = %i;\n", $2, $4->valor.i);
+                                                        fprintf(compilado,"int %s = %i;\n", (yyvsp[-2].sValor), (yyvsp[0].v)->valor.i);
                                                     } else if ((yyvsp[-3].iValor) == tipoReal) {
                                                         fprintf(compilado, "double %s = %lf;\n", (yyvsp[-2].sValor), (yyvsp[0].v)->valor.r);
                                                     } else if ((yyvsp[-3].iValor) == tipoString) {
@@ -1600,265 +1597,265 @@ yyreduce:
                                                     }
                                                 }
                                             }
-#line 1604 "y.tab.c" /* yacc.c:1646  */
+#line 1601 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 15:
-#line 128 "af.y" /* yacc.c:1646  */
+#line 125 "af.y" /* yacc.c:1646  */
     {(yyval.iValor) = tipoInteiro;}
-#line 1610 "y.tab.c" /* yacc.c:1646  */
+#line 1607 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 16:
-#line 129 "af.y" /* yacc.c:1646  */
+#line 126 "af.y" /* yacc.c:1646  */
     {(yyval.iValor) = tipoReal;}
-#line 1616 "y.tab.c" /* yacc.c:1646  */
+#line 1613 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 17:
-#line 130 "af.y" /* yacc.c:1646  */
+#line 127 "af.y" /* yacc.c:1646  */
     {(yyval.iValor) = tipoString;}
-#line 1622 "y.tab.c" /* yacc.c:1646  */
+#line 1619 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 18:
-#line 134 "af.y" /* yacc.c:1646  */
+#line 131 "af.y" /* yacc.c:1646  */
     {(yyval.sValor) = (yyvsp[0].sValor);}
-#line 1628 "y.tab.c" /* yacc.c:1646  */
+#line 1625 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 19:
-#line 168 "af.y" /* yacc.c:1646  */
+#line 165 "af.y" /* yacc.c:1646  */
     {}
-#line 1634 "y.tab.c" /* yacc.c:1646  */
+#line 1631 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 20:
-#line 169 "af.y" /* yacc.c:1646  */
+#line 166 "af.y" /* yacc.c:1646  */
     {}
-#line 1640 "y.tab.c" /* yacc.c:1646  */
+#line 1637 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 23:
-#line 176 "af.y" /* yacc.c:1646  */
+#line 173 "af.y" /* yacc.c:1646  */
     {printf("definiu tipo\n");}
-#line 1646 "y.tab.c" /* yacc.c:1646  */
+#line 1643 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 27:
-#line 184 "af.y" /* yacc.c:1646  */
+#line 181 "af.y" /* yacc.c:1646  */
     {printf("função sem retorno e sem parametro\n");}
-#line 1652 "y.tab.c" /* yacc.c:1646  */
+#line 1649 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 28:
-#line 185 "af.y" /* yacc.c:1646  */
+#line 182 "af.y" /* yacc.c:1646  */
     {printf("função com retorno e sem parametro\n");}
-#line 1658 "y.tab.c" /* yacc.c:1646  */
+#line 1655 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 29:
-#line 186 "af.y" /* yacc.c:1646  */
+#line 183 "af.y" /* yacc.c:1646  */
     {printf("função com retorno e com parametro\n");}
-#line 1664 "y.tab.c" /* yacc.c:1646  */
+#line 1661 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 30:
-#line 187 "af.y" /* yacc.c:1646  */
+#line 184 "af.y" /* yacc.c:1646  */
     {printf("função sem retorno e com parametro\n");}
-#line 1670 "y.tab.c" /* yacc.c:1646  */
+#line 1667 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 31:
-#line 191 "af.y" /* yacc.c:1646  */
+#line 188 "af.y" /* yacc.c:1646  */
     {(yyval.v) = (yyvsp[-1].v);}
-#line 1676 "y.tab.c" /* yacc.c:1646  */
+#line 1673 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 32:
-#line 192 "af.y" /* yacc.c:1646  */
+#line 189 "af.y" /* yacc.c:1646  */
     {operar((yyval.v), (yyvsp[-2].v), PLUS, (yyvsp[0].v));}
-#line 1682 "y.tab.c" /* yacc.c:1646  */
+#line 1679 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 33:
-#line 193 "af.y" /* yacc.c:1646  */
+#line 190 "af.y" /* yacc.c:1646  */
     {operar((yyval.v), (yyvsp[-2].v), MINUS, (yyvsp[0].v));}
-#line 1688 "y.tab.c" /* yacc.c:1646  */
+#line 1685 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 34:
-#line 194 "af.y" /* yacc.c:1646  */
+#line 191 "af.y" /* yacc.c:1646  */
     {operar((yyval.v), (yyvsp[-2].v), TIMES, (yyvsp[0].v));}
-#line 1694 "y.tab.c" /* yacc.c:1646  */
+#line 1691 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 35:
-#line 195 "af.y" /* yacc.c:1646  */
+#line 192 "af.y" /* yacc.c:1646  */
     {operar((yyval.v), (yyvsp[-2].v), DIVIDE, (yyvsp[0].v));}
-#line 1700 "y.tab.c" /* yacc.c:1646  */
+#line 1697 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 36:
-#line 196 "af.y" /* yacc.c:1646  */
+#line 193 "af.y" /* yacc.c:1646  */
     {operar((yyval.v), (yyvsp[-2].v), ASSIGN, (yyvsp[0].v));}
-#line 1706 "y.tab.c" /* yacc.c:1646  */
+#line 1703 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 37:
-#line 197 "af.y" /* yacc.c:1646  */
+#line 194 "af.y" /* yacc.c:1646  */
     {operar((yyval.v), (yyvsp[-2].v), LT, (yyvsp[0].v));}
-#line 1712 "y.tab.c" /* yacc.c:1646  */
+#line 1709 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 38:
-#line 198 "af.y" /* yacc.c:1646  */
+#line 195 "af.y" /* yacc.c:1646  */
     {operar((yyval.v), (yyvsp[-2].v), LE, (yyvsp[0].v));}
-#line 1718 "y.tab.c" /* yacc.c:1646  */
+#line 1715 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 39:
-#line 199 "af.y" /* yacc.c:1646  */
+#line 196 "af.y" /* yacc.c:1646  */
     {operar((yyval.v), (yyvsp[-2].v), GE, (yyvsp[0].v));}
-#line 1724 "y.tab.c" /* yacc.c:1646  */
+#line 1721 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 40:
-#line 200 "af.y" /* yacc.c:1646  */
+#line 197 "af.y" /* yacc.c:1646  */
     {operar((yyval.v), (yyvsp[-2].v), GT, (yyvsp[0].v));}
-#line 1730 "y.tab.c" /* yacc.c:1646  */
+#line 1727 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 41:
-#line 201 "af.y" /* yacc.c:1646  */
+#line 198 "af.y" /* yacc.c:1646  */
     {operar((yyval.v), (yyvsp[-2].v), EQ, (yyvsp[0].v));}
-#line 1736 "y.tab.c" /* yacc.c:1646  */
+#line 1733 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 42:
-#line 202 "af.y" /* yacc.c:1646  */
+#line 199 "af.y" /* yacc.c:1646  */
     {operar((yyval.v), (yyvsp[-2].v), AND, (yyvsp[0].v));}
-#line 1742 "y.tab.c" /* yacc.c:1646  */
+#line 1739 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 43:
-#line 203 "af.y" /* yacc.c:1646  */
+#line 200 "af.y" /* yacc.c:1646  */
     {operar((yyval.v), (yyvsp[-2].v), OR, (yyvsp[0].v));}
-#line 1748 "y.tab.c" /* yacc.c:1646  */
+#line 1745 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 44:
-#line 204 "af.y" /* yacc.c:1646  */
+#line 201 "af.y" /* yacc.c:1646  */
     {operar((yyval.v), (yyvsp[-2].v), DIVM, (yyvsp[0].v));}
-#line 1754 "y.tab.c" /* yacc.c:1646  */
+#line 1751 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 45:
-#line 205 "af.y" /* yacc.c:1646  */
+#line 202 "af.y" /* yacc.c:1646  */
     {operar((yyval.v), (yyvsp[-2].v), NEQ, (yyvsp[0].v));}
-#line 1760 "y.tab.c" /* yacc.c:1646  */
+#line 1757 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 46:
-#line 208 "af.y" /* yacc.c:1646  */
+#line 205 "af.y" /* yacc.c:1646  */
     {opera_unario((yyval.v), NOT, (yyvsp[0].v));}
-#line 1766 "y.tab.c" /* yacc.c:1646  */
+#line 1763 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 47:
-#line 211 "af.y" /* yacc.c:1646  */
+#line 208 "af.y" /* yacc.c:1646  */
     {(yyval.v) = copiarVariavel(encontra_variavel((yyvsp[0].sValor))); if ((yyval.v) == NULL) erroSemantica(NAO_DECLARADO_EM_NENHUM_ESCOPO, (yyvsp[0].sValor));}
-#line 1772 "y.tab.c" /* yacc.c:1646  */
+#line 1769 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 48:
-#line 212 "af.y" /* yacc.c:1646  */
+#line 209 "af.y" /* yacc.c:1646  */
     { Variavel *v = (Variavel*) malloc(sizeof(Variavel));
                                 v->tipo = tipoReal; ValorVariavel vv; vv.r = (yyvsp[0].rValor); v->valor = vv; (yyval.v) = v;}
-#line 1779 "y.tab.c" /* yacc.c:1646  */
+#line 1776 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 49:
-#line 214 "af.y" /* yacc.c:1646  */
+#line 211 "af.y" /* yacc.c:1646  */
     { Variavel *v = (Variavel*) malloc(sizeof(Variavel));
                                 v->tipo = tipoInteiro;  ValorVariavel vv; vv.i = (yyvsp[0].iValor); v->valor = vv; (yyval.v) = v;}
-#line 1786 "y.tab.c" /* yacc.c:1646  */
+#line 1783 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 50:
-#line 216 "af.y" /* yacc.c:1646  */
+#line 213 "af.y" /* yacc.c:1646  */
     { Variavel *v = (Variavel*) malloc(sizeof(Variavel)); v->tipo = tipoString;  ValorVariavel vv; vv.s = strdup((yyvsp[0].sValor)); v->valor = vv; (yyval.v) = v;}
-#line 1792 "y.tab.c" /* yacc.c:1646  */
+#line 1789 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 51:
-#line 219 "af.y" /* yacc.c:1646  */
+#line 216 "af.y" /* yacc.c:1646  */
     {}
-#line 1798 "y.tab.c" /* yacc.c:1646  */
+#line 1795 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 52:
-#line 220 "af.y" /* yacc.c:1646  */
+#line 217 "af.y" /* yacc.c:1646  */
     {}
-#line 1804 "y.tab.c" /* yacc.c:1646  */
+#line 1801 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 53:
-#line 223 "af.y" /* yacc.c:1646  */
+#line 220 "af.y" /* yacc.c:1646  */
     {printValorVariavel(*(yyvsp[0].v));}
-#line 1810 "y.tab.c" /* yacc.c:1646  */
+#line 1807 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 54:
-#line 224 "af.y" /* yacc.c:1646  */
+#line 221 "af.y" /* yacc.c:1646  */
     {printlnValorVariavel(*(yyvsp[0].v));}
-#line 1816 "y.tab.c" /* yacc.c:1646  */
+#line 1813 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 55:
-#line 227 "af.y" /* yacc.c:1646  */
+#line 224 "af.y" /* yacc.c:1646  */
     {}
-#line 1822 "y.tab.c" /* yacc.c:1646  */
+#line 1819 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 56:
-#line 231 "af.y" /* yacc.c:1646  */
+#line 228 "af.y" /* yacc.c:1646  */
     {printf("if\n");}
-#line 1828 "y.tab.c" /* yacc.c:1646  */
+#line 1825 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 57:
-#line 232 "af.y" /* yacc.c:1646  */
+#line 229 "af.y" /* yacc.c:1646  */
     {printf("if..else \n");}
-#line 1834 "y.tab.c" /* yacc.c:1646  */
+#line 1831 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 58:
-#line 233 "af.y" /* yacc.c:1646  */
+#line 230 "af.y" /* yacc.c:1646  */
     {printf("if..elif..else \n");}
-#line 1840 "y.tab.c" /* yacc.c:1646  */
+#line 1837 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 61:
-#line 240 "af.y" /* yacc.c:1646  */
+#line 237 "af.y" /* yacc.c:1646  */
     {}
-#line 1846 "y.tab.c" /* yacc.c:1646  */
+#line 1843 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 62:
-#line 243 "af.y" /* yacc.c:1646  */
+#line 240 "af.y" /* yacc.c:1646  */
     {printf("while \n");}
-#line 1852 "y.tab.c" /* yacc.c:1646  */
+#line 1849 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 63:
-#line 246 "af.y" /* yacc.c:1646  */
+#line 243 "af.y" /* yacc.c:1646  */
     {printf("for \n");}
-#line 1858 "y.tab.c" /* yacc.c:1646  */
+#line 1855 "y.tab.c" /* yacc.c:1646  */
     break;
 
 
-#line 1862 "y.tab.c" /* yacc.c:1646  */
+#line 1859 "y.tab.c" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -2086,7 +2083,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 248 "af.y" /* yacc.c:1906  */
+#line 245 "af.y" /* yacc.c:1906  */
 
 
 void operar(Variavel *res, Variavel *v1, int op, Variavel *v2) {
@@ -2415,6 +2412,7 @@ void printValorVariavel(Variavel v) {
 void printlnValorVariavel(Variavel v) {
     switch(v.tipo) {
     case tipoInteiro:
+    fprintf(compilado, "printf(\"%i\");\n", v.valor);
     printf("%i\n", v.valor); break;
     case tipoReal:
     printf("%lf\n", v.valor.r); break;
