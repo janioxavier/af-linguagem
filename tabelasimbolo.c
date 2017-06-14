@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include "tabelasimbolo.h"
 
+
 void erroSemantica (int erroTipo, char *info) {
     char errmsg[200];
     
@@ -69,6 +70,7 @@ Variavel *copiarVariavel(Variavel *orig) {
 int addId (char *id, int tipo, char *escopo) {
     simboloEntrada *novaEntrada;
     if (isDeclarado(id)) {
+
         return 0;
     }
     novaEntrada = (simboloEntrada*) malloc (sizeof(simboloEntrada));
@@ -84,6 +86,7 @@ int addIdValor (char *id, int tipo, Variavel *v, char *escopo) {
     
     simboloEntrada *novaEntrada;
     if (isDeclarado(id)) {
+
         return 0;
     }
     novaEntrada = (simboloEntrada*) malloc (sizeof(simboloEntrada));

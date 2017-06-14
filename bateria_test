@@ -22,3 +22,6 @@ echo ""
 echo "---TEST EXPR---\n\n"
 echo ""
 ./parse < testExpr.txt
+echo "---TEST RESOLUCAO ESCOPO---\n\n"
+echo ""
+./parse < testResolucaoEscopo.txt

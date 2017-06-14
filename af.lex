@@ -30,8 +30,9 @@ return                   return RETURN;
 end                      return END;
 print                    return PRINT;
 input                    return INPUT;
-
+println return PRINTLN;
 "\\"                     return CONTSTMT;
+
 "\n"                     line_number++;return ENDLINE;
 ","	                     return COMMA;
 ":"	                     return COLON;

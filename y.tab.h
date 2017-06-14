@@ -91,24 +91,25 @@ extern int yydebug;
     ENDLINE = 301,
     CONTSTMT = 302,
     DIV = 303,
-    DECINT = 304,
-    DECREAL = 305,
-    DECSTR = 306,
-    PLUS = 307,
-    MINUS = 308,
-    AND = 309,
-    OR = 310,
-    NEQ = 311,
-    EQ = 312,
-    LT = 313,
-    LE = 314,
-    GT = 315,
-    GE = 316,
-    PERC = 317,
-    DIVM = 318,
-    TIMES = 319,
-    DIVIDE = 320,
-    NOT = 321
+    PRINTLN = 304,
+    DECINT = 305,
+    DECREAL = 306,
+    DECSTR = 307,
+    PLUS = 308,
+    MINUS = 309,
+    AND = 310,
+    OR = 311,
+    NEQ = 312,
+    EQ = 313,
+    LT = 314,
+    LE = 315,
+    GT = 316,
+    GE = 317,
+    PERC = 318,
+    DIVM = 319,
+    TIMES = 320,
+    DIVIDE = 321,
+    NOT = 322
   };
 #endif
 /* Tokens.  */
@@ -158,24 +159,25 @@ extern int yydebug;
 #define ENDLINE 301
 #define CONTSTMT 302
 #define DIV 303
-#define DECINT 304
-#define DECREAL 305
-#define DECSTR 306
-#define PLUS 307
-#define MINUS 308
-#define AND 309
-#define OR 310
-#define NEQ 311
-#define EQ 312
-#define LT 313
-#define LE 314
-#define GT 315
-#define GE 316
-#define PERC 317
-#define DIVM 318
-#define TIMES 319
-#define DIVIDE 320
-#define NOT 321
+#define PRINTLN 304
+#define DECINT 305
+#define DECREAL 306
+#define DECSTR 307
+#define PLUS 308
+#define MINUS 309
+#define AND 310
+#define OR 311
+#define NEQ 312
+#define EQ 313
+#define LT 314
+#define LE 315
+#define GT 316
+#define GE 317
+#define PERC 318
+#define DIVM 319
+#define TIMES 320
+#define DIVIDE 321
+#define NOT 322
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
@@ -189,7 +191,7 @@ union YYSTYPE
     char * sValor;
     struct Variavel *v;
 
-#line 193 "y.tab.h" /* yacc.c:1909  */
+#line 195 "y.tab.h" /* yacc.c:1909  */
 };
 # define YYSTYPE_IS_TRIVIAL 1
 # define YYSTYPE_IS_DECLARED 1

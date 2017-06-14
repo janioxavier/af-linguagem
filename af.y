@@ -35,7 +35,7 @@ node *pilha;
 %token DOT ASSIGN ELIF IF ELSE RETURN
 %token WHILE FOR SKIP IN  NIL DEF TRUE FALSE
 %token BREAK SET LIST  ADDPERC SUBPERC ADDEQ SUBEQ DIVEQ MULTEQ 
-%token DIVMEQ DICT MAIN END ENDLINE CONTSTMT DIV 
+%token DIVMEQ DICT MAIN END ENDLINE CONTSTMT DIV PRINTLN
 %token <iValor> DECINT DECREAL DECSTR
 
 %left PLUS MINUS AND OR NEQ  EQ  LT LE GT GE PERC DIVM 
@@ -127,7 +127,7 @@ prim_type : INT                 {printf("%i\n", $1);}
           | NIL                 {}
           ;
           
-abs_type : ID                   {printf("%s\n", $1);}
+abs_type : ID                   {}
          ;
 /*
 dict : LBRACK key_value RBRACK                                                                          {}
@@ -154,7 +154,7 @@ decl_field_type : decl_var ENDLINE
                 | decl_var ENDLINE decl_field_type 
                  ;
            
-type_def : TYPE ID COLON ENDLINE decl_field_type END                                                    {printf("definiu tipo\n");}
+type_def : TYPE ID COLON ENDLINE decl_field_type END   {printf("definiu tipo\n");}
          ;
 
 param_func : decl_var
@@ -186,7 +186,7 @@ expr :
      | expr NEQ expr            {operar($$, $1, NEQ, $3);}    
      //| PERC expr              {$$ = }
      //| MINUS expr               {opera_unario($$, MINUS, $2);}
-     //| NOT expr                 {$$ = novaVariavel();opera_unario(novaVariavel(), NOT, $2);}
+     | NOT expr                 {opera_unario($$, NOT, $2);}
      //| expr ADDEQ term        {$$ = $1 += $3);}
      //| call_func                {}
      | ID                       {$$ = copiarVariavel(encontra_variavel($1)); if ($$ == NULL) erroSemantica(NAO_DECLARADO_EM_NENHUM_ESCOPO, $1);}
@@ -202,6 +202,7 @@ f_builtin : f_print     {}
           ;
 
 f_print : PRINT expr    {printValorVariavel(*$2);}
+        | PRINTLN expr  {printlnValorVariavel(*$2);}
         ;
 
 f_input : INPUT ID      {}
@@ -501,6 +502,7 @@ void operar(Variavel *res, Variavel *v1, int op, Variavel *v2) {
 }
 
 void opera_unario(Variavel *res, int op, Variavel *v1) {
+    res = v1;
     switch(op) {
     case NOT:
     if (v1->tipo == tipoBooleano) {
@@ -537,6 +539,21 @@ void opera_unario(Variavel *res, int op, Variavel *v1) {
 void printValorVariavel(Variavel v) {
     switch(v.tipo) {
     case tipoInteiro:
+    printf("%i", v.valor); break;
+    case tipoReal:
+    printf("%lf", v.valor.r); break;
+    case tipoString:
+    printf("%s", v.valor); break;
+    case tipoBooleano:
+        printf("%s", v.valor.i ? "True" : "False"); break;
+    default:
+    printf("tipo: %s nao impresso.\n", nomeTipo(v.tipo)); break;
+    }
+}
+
+void printlnValorVariavel(Variavel v) {
+    switch(v.tipo) {
+    case tipoInteiro:
     printf("%i\n", v.valor); break;
     case tipoReal:
     printf("%lf\n", v.valor.r); break;
@@ -567,7 +584,6 @@ void printIdValue(char *id) {
         }
     }
 }
-
 
 int yyerror (char *msg) {
 	fprintf (stderr, "Line %d: %s at '%s'\n", line_number, msg, yytext);
