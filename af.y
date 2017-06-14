@@ -14,9 +14,8 @@ int yyerror(char *s);
 extern int yylineno;
 extern char * yytext;
 extern int line_number;
-
+FILE *compilado;
 node *pilha;
-
 %}
 
 %union {
@@ -47,13 +46,13 @@ node *pilha;
 %type <sValor> var
 //%type <sValor> lhs decl_var var rhs
 
-
+%type <sValor> stmt
 
 %%
 prog : stmt_list                      {}
      ;
      
-stmt_list : stmt                      {}
+stmt_list : stmt                      {sprintf(compilado, "%s", $1);}
           | stmt stmt_list            {}
           ;
           
@@ -64,8 +63,17 @@ stmt :
      | f_builtin end_stmt               {}
      | ID ASSIGN expr end_stmt          { if (!isDeclarado($1)) erroSemantica(NAO_DECLARADO_EM_NENHUM_ESCOPO, $1);
                                           else {
+                                          printf("tiposing\n");
                                             Variavel *v = encontra_variavel($1);
+                                            
                                             operar(novaVariavel(), v, ASSIGN, $3);
+                                            if (v->tipo == tipoInteiro || v->tipo == tipoBooleano) {
+                                                fprintf(compilado, "%s = %i;\n", v->nome, v->valor.i);
+                                            } else if (v->tipo == tipoReal) {
+                                                fprintf(compilado, "%s = %lf;\n", v->nome, v->valor.r);
+                                            } else if (v->tipo == tipoString){
+                                                fprintf(compilado, "%s = strdup(%s);\n", v->nome, v->valor.s);
+                                            }
                                           }
                                         }
      // adicionar call_func
@@ -77,24 +85,23 @@ stmt :
 end_stmt : ENDLINE            {}
          ;
 
-/*
-assign : lhs ASSIGN expr     {if (isDeclarado($1)) erroSemantica(JA_DECLARADO, $1);ValorVariavel v; v.r = $3;setValor($1, tipoInteiro, v);}
-       ;
-
-lhs : decl_var  {$$ = $1;}
-    | var       {$$ = $1;}
-    ;
-
-rhs : expr        {$$ = $1;}
-    ;
-*/
-
 call_func : ID LPAREN RPAREN             {}
           | ID LPAREN data_types RPAREN  {}
           ;
 
 
-decl_var : decl_data_type ID                {if (!addId($2, $1, topo_pilha(pilha))) erroSemantica(JA_DECLARADO, $2);}
+decl_var : decl_data_type ID                {if (!addId($2, $1, topo_pilha(pilha))) erroSemantica(JA_DECLARADO, $2); else {
+                                                if ($1 == tipoInteiro || $1 == tipoBooleano) {
+                                                    fprintf(compilado,"int %s;\n", $2);
+                                                } else if ($1 == tipoReal) {
+                                                    fprintf(compilado, "double %s;\n", $2);
+                                                } else if ($1 == tipoString) {
+                                                    fprintf(compilado, "char *%s;\n", $2);
+                                                } else {
+                                                    //outros tipos
+                                                }
+                                                
+                                            }}
          | decl_data_type ID ASSIGN expr    { 
                                             int r = addIdValor($2, $1, $4, topo_pilha(pilha));
                                                 if (r == 0) erroSemantica(JA_DECLARADO, $2);
@@ -102,6 +109,18 @@ decl_var : decl_data_type ID                {if (!addId($2, $1, topo_pilha(pilha
                                                     char err[200];
                                                     sprintf(err, "Nao é possivel conveter tipo %s com o tipo %s.\n", nomeTipo($1), nomeTipo($4->tipo));
                                                     erroSemantica(TIPO_DECLARADO_DIFERENTE, err);
+                                                } else if (r == 1) {
+                                                    if ($1 == tipoInteiro || $1 == tipoBooleano) {
+                                                    printf("%p - %s - %i\n",compilado, $2, $4->valor.i);
+                                                    
+                                                        //fprintf(compilado,"int %s = %i;\n", $2, $4->valor.i);
+                                                    } else if ($1 == tipoReal) {
+                                                        fprintf(compilado, "double %s = %lf;\n", $2, $4->valor.r);
+                                                    } else if ($1 == tipoString) {
+                                                        fprintf(compilado, "char *%s = %s\n;\n", $2, $4->valor.s);
+                                                    } else {
+                                                        //outros tipos
+                                                    }
                                                 }
                                             }
          ;
@@ -592,8 +611,12 @@ int yyerror (char *msg) {
 
 
 int main() {
+    compilado = fopen("afcompilado.c", "w");
+    fprintf(compilado, "#include <stdio.h>\nint main() {\n");
     pilha = nova_pilha();
     push(pilha, "global");
     yyparse();
+    fprintf(compilado, "\n}");
+    fclose(compilado);
     return 0;
 }

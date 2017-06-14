@@ -1,4 +1,4 @@
 int v
-real v
-str v
-pessoa hh
+real a
+str b
+
